@@ -1,0 +1,24 @@
+.misionAgape {
+  padding: clamp(92px, 12vw, 150px) 0 0;
+  border-top: 1px solid var(--colorBorde);
+  font-family: var(--fuenteCuerpo);
+}
+
+.misionAgapeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--espacioTarjetas);
+}
+
+@media (max-width: 850px) {
+  .misionAgapeGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .misionAgape {
+    padding: 86px 0 0;
+  }
+}

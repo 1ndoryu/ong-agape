@@ -1,0 +1,23 @@
+.tarjetasAlianzas {
+  padding: var(--espacioTarjetas) 0;
+  font-family: var(--fuenteCuerpo);
+}
+
+.tarjetasAlianzasGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--espacioTarjetas);
+}
+
+.tarjetasAlianzasGrid .tarjetaAgape--texto { order: 2; }
+.tarjetasAlianzasGrid .tarjetaAgape--imagen { order: 1; }
+
+@media (max-width: 850px) {
+  .tarjetasAlianzasGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjetasAlianzasGrid .tarjetaAgape--texto { order: 1; }
+  .tarjetasAlianzasGrid .tarjetaAgape--imagen { order: 2; }
+}

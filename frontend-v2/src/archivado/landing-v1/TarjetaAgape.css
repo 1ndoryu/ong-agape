@@ -1,0 +1,35 @@
+.tarjetaAgape {
+  min-height: 430px;
+  border: 2px solid var(--colorTinta);
+  border-radius: var(--radioTarjeta);
+  color: var(--colorTinta);
+}
+
+.tarjetaAgape--texto { display: flex; flex-direction: column; justify-content: center; padding: 48px; }
+.tarjetaAgape--crema { background: var(--colorMisionFondo); }
+.tarjetaAgape--azul { background: var(--colorAzulSuave); }
+.tarjetaAgape--amarillo { background: var(--colorAmarilloSuave); }
+.tarjetaAgape--imagen { overflow: hidden; }
+.tarjetaAgape--imagen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.tarjetaAgape--llamado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  text-align: center;
+}
+.tarjetaAgape--llamado h2 { max-width: 760px; }
+.tarjetaAgape--llamado .tarjetaAgapeTexto { max-width: 620px; }
+.tarjetaAgape--llamado .botonEnlace { margin-top: 20px; }
+.llamadoDonacion { padding: 0; }
+.tarjetaAgape .etiquetaSeccion { margin: 0 0 24px; color: var(--colorCarbon); font-size: var(--textoEtiqueta); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
+.tarjetaAgape h2 { max-width: 520px; margin: 0; font-family: var(--fuenteCuerpo); font-size: var(--tituloTarjeta); font-weight: 500; letter-spacing: -0.04em; line-height: 1.08; }
+.tarjetaAgape h2 span { display: block; }
+.tarjetaAgapeTexto { max-width: 490px; margin: 30px 0 0; color: var(--colorCarbon); font-size: var(--textoCuerpo); line-height: 1.65; text-wrap: pretty; }
+
+@media (max-width: 600px) {
+  .tarjetaAgape { min-height: 380px; }
+  .tarjetaAgape--texto { padding: 40px; }
+  .tarjetaAgape--llamado { padding: 40px; }
+}
