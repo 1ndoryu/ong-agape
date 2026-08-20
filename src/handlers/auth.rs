@@ -27,7 +27,8 @@ pub async fn register(
     req.validate()
         .map_err(|e| AppError::Validation(e.to_string()))?;
 
-    let response = AuthService::register(&state.pool, req, &state.jwt_secret).await?;
+    let response =
+        AuthService::register(&state.pool, req, &state.jwt_secret, &state.admin_emails).await?;
     Ok((StatusCode::CREATED, Json(response)))
 }
 

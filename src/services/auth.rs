@@ -24,9 +24,11 @@ impl AuthService {
     /// Registra un nuevo usuario: valida unicidad, hashea contraseña, genera JWT
     pub async fn register(
         pool: &PgPool,
-        req: RegisterRequest,
+        mut req: RegisterRequest,
         jwt_secret: &str,
+        admin_emails: &[String],
     ) -> Result<AuthResponse, AppError> {
+        req.email = req.email.trim().to_ascii_lowercase();
         if UserRepository::find_by_email(pool, &req.email)
             .await?
             .is_some()
@@ -40,7 +42,14 @@ impl AuthService {
             .map_err(|e| AppError::Internal(format!("Error al hashear contraseña: {e}")))?
             .to_string();
 
-        let user = UserRepository::create(pool, &req.email, &password_hash).await?;
+        let mut user = UserRepository::create(pool, &req.email, &password_hash).await?;
+        if admin_emails
+            .iter()
+            .any(|email| email == &req.email.to_ascii_lowercase())
+        {
+            UserRepository::set_role(pool, user.id, "owner").await?;
+            user.role = "owner".to_string();
+        }
         let token = Self::generate_token(user.id, jwt_secret)?;
 
         Ok(AuthResponse {
@@ -52,12 +61,16 @@ impl AuthService {
     /// Inicia sesión: verifica credenciales y genera JWT
     pub async fn login(
         pool: &PgPool,
-        req: LoginRequest,
+        mut req: LoginRequest,
         jwt_secret: &str,
     ) -> Result<AuthResponse, AppError> {
+        req.email = req.email.trim().to_ascii_lowercase();
         let user = UserRepository::find_by_email(pool, &req.email)
             .await?
             .ok_or(AppError::Unauthorized)?;
+        if user.status != "active" {
+            return Err(AppError::Unauthorized);
+        }
 
         let parsed_hash = PasswordHash::new(&user.password_hash)
             .map_err(|e| AppError::Internal(format!("Hash almacenado inválido: {e}")))?;

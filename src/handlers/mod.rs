@@ -1,11 +1,16 @@
 #![allow(clippy::needless_for_each)] // Generado por utoipa OpenApi derive
 
+mod admin;
 mod auth;
+mod blog;
+mod campaign;
 mod health;
 mod notes;
+mod transparency;
 
+use axum::http::HeaderValue;
 use axum::Router;
-use tower_http::cors::{Any, CorsLayer};
+use tower_http::cors::{AllowOrigin, CorsLayer};
 use tower_http::trace::TraceLayer;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
@@ -37,11 +42,38 @@ impl utoipa::Modify for SecurityAddon {
         health::health_check,
         auth::register,
         auth::login,
+        admin::me,
+        admin::list_entries,
+        admin::create_entry,
+        admin::update_entry_status,
+        admin::get_content,
+        admin::upsert_content,
+        admin::publish_content,
+        admin::list_payment_methods,
+        admin::update_payment_method,
+        admin::list_payment_receipts,
+        admin::create_manual_receipt,
+        admin::review_payment_receipt,
+        admin::list_audit_events,
+        blog::list_public,
+        blog::get_public,
+        blog::list_admin,
+        blog::create_admin,
+        blog::update_admin,
+        blog::update_status,
+        campaign::list_public,
+        campaign::list_admin,
+        campaign::create_admin,
+        campaign::update_admin,
+        campaign::update_status,
         notes::create_note,
         notes::get_note,
         notes::list_notes,
         notes::update_note,
         notes::delete_note,
+        transparency::get_summary,
+        transparency::get_content,
+        transparency::list_public_payment_methods,
     ),
     components(schemas(
         health::HealthResponse,
@@ -52,6 +84,30 @@ impl utoipa::Modify for SecurityAddon {
         crate::models::CreateNoteRequest,
         crate::models::UpdateNoteRequest,
         crate::models::PaginatedNotes,
+        crate::models::PublicFundEntry,
+        crate::models::TransparencySummary,
+        crate::models::AdminProfile,
+        crate::models::AdminFundEntry,
+        crate::models::TransparencyContent,
+        crate::models::PublicTransparencyContent,
+        crate::models::PaymentMethodRecord,
+        crate::models::PublicPaymentMethod,
+        crate::models::PaymentReceiptRecord,
+        crate::models::AuditEventRecord,
+        crate::models::CreateFundEntryRequest,
+        crate::models::UpdateFundEntryStatusRequest,
+        crate::models::TransparencyContentRequest,
+        crate::models::UpdatePaymentMethodRequest,
+        crate::models::CreateManualReceiptRequest,
+        crate::models::ReviewReceiptRequest,
+        crate::models::BlogPost,
+        crate::models::PublicBlogPost,
+        crate::models::BlogPostRequest,
+        crate::models::BlogPostStatusRequest,
+        crate::models::Campaign,
+        crate::models::CampaignRequest,
+        crate::models::CampaignStatusRequest,
+        crate::models::PublicCampaign,
         crate::errors::ErrorResponse,
     )),
     modifiers(&SecurityAddon),
@@ -66,16 +122,43 @@ pub struct ApiDoc;
 
 /// Crea el router principal con CORS, tracing, Swagger UI y todas las rutas
 pub fn create_router(pool: sqlx::PgPool, config: crate::config::AppConfig) -> Router {
+    let cors_origins = if config.cors_origins.is_empty() {
+        vec![
+            HeaderValue::from_static("http://localhost:5173"),
+            HeaderValue::from_static("http://localhost:5174"),
+            HeaderValue::from_static("http://localhost:5175"),
+            HeaderValue::from_static("http://127.0.0.1:5173"),
+            HeaderValue::from_static("http://127.0.0.1:5174"),
+            HeaderValue::from_static("http://127.0.0.1:5175"),
+        ]
+    } else {
+        config
+            .cors_origins
+            .iter()
+            .filter_map(|origin| origin.parse::<HeaderValue>().ok())
+            .collect()
+    };
+
     let state = AppState {
         pool,
         jwt_secret: config.jwt_secret,
+        admin_emails: config.admin_emails,
     };
 
-    /* CORS: en desarrollo se permite todo. En producción, restringir orígenes */
+    /* CORS: lista explícita; no se acepta cualquier origen. */
     let cors = CorsLayer::new()
-        .allow_origin(Any)
-        .allow_methods(Any)
-        .allow_headers(Any);
+        .allow_origin(AllowOrigin::list(cors_origins))
+        .allow_methods([
+            axum::http::Method::GET,
+            axum::http::Method::POST,
+            axum::http::Method::PUT,
+            axum::http::Method::DELETE,
+            axum::http::Method::OPTIONS,
+        ])
+        .allow_headers([
+            axum::http::header::AUTHORIZATION,
+            axum::http::header::CONTENT_TYPE,
+        ]);
 
     Router::new()
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()))
@@ -89,5 +172,9 @@ fn api_routes() -> Router<AppState> {
     Router::new()
         .merge(health::routes())
         .merge(auth::routes())
+        .merge(admin::routes())
+        .merge(blog::routes())
+        .merge(campaign::routes())
         .merge(notes::routes())
+        .merge(transparency::routes())
 }

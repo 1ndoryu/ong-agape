@@ -1,8 +1,8 @@
 [package]
-name = "glory-backend"
+name = "ong-agame-backend"
 version = "0.1.0"
 edition = "2021"
-description = "Glory RS — Template para sitios web con Rust + React + OpenAPI"
+description = "El Proyecto Ágape — Rust + React + transparencia de donaciones"
 license = "MIT"
 authors = ["1ndoryu"]
 

@@ -1,5 +1,5 @@
-use glory_backend::config::AppConfig;
-use glory_backend::handlers;
+use ong_agame_backend::config::AppConfig;
+use ong_agame_backend::handlers;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

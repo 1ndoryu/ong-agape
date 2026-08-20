@@ -16,7 +16,7 @@ impl UserRepository {
         sqlx::query_as::<_, User>(
             "INSERT INTO users (id, email, password_hash) \
              VALUES ($1, $2, $3) \
-             RETURNING id, email, password_hash, created_at",
+             RETURNING id, email, password_hash, role, status, created_at",
         )
         .bind(id)
         .bind(email)
@@ -28,7 +28,7 @@ impl UserRepository {
     /// Busca un usuario por email
     pub async fn find_by_email(pool: &PgPool, email: &str) -> Result<Option<User>, sqlx::Error> {
         sqlx::query_as::<_, User>(
-            "SELECT id, email, password_hash, created_at FROM users WHERE email = $1",
+            "SELECT id, email, password_hash, role, status, created_at FROM users WHERE email = $1",
         )
         .bind(email)
         .fetch_optional(pool)
@@ -38,10 +38,19 @@ impl UserRepository {
     /// Busca un usuario por ID
     pub async fn find_by_id(pool: &PgPool, id: Uuid) -> Result<Option<User>, sqlx::Error> {
         sqlx::query_as::<_, User>(
-            "SELECT id, email, password_hash, created_at FROM users WHERE id = $1",
+            "SELECT id, email, password_hash, role, status, created_at FROM users WHERE id = $1",
         )
         .bind(id)
         .fetch_optional(pool)
         .await
+    }
+
+    pub async fn set_role(pool: &PgPool, user_id: Uuid, role: &str) -> Result<(), sqlx::Error> {
+        sqlx::query("UPDATE users SET role = $1 WHERE id = $2")
+            .bind(role)
+            .bind(user_id)
+            .execute(pool)
+            .await?;
+        Ok(())
     }
 }

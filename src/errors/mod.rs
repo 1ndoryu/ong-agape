@@ -16,6 +16,9 @@ pub enum AppError {
     #[error("No autorizado")]
     Unauthorized,
 
+    #[error("No tienes permisos para esta operación")]
+    Forbidden,
+
     #[error("Conflicto: {0}")]
     Conflict(String),
 
@@ -47,6 +50,11 @@ impl IntoResponse for AppError {
                 StatusCode::UNAUTHORIZED,
                 "unauthorized",
                 "Credenciales inválidas o ausentes".to_string(),
+            ),
+            Self::Forbidden => (
+                StatusCode::FORBIDDEN,
+                "forbidden",
+                "No tienes permisos para esta operación".to_string(),
             ),
             Self::Conflict(msg) => (StatusCode::CONFLICT, "conflict", msg.clone()),
             Self::Internal(msg) => {

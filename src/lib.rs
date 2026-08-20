@@ -5,6 +5,7 @@
 #![allow(clippy::missing_panics_doc)]
 
 pub mod config;
+pub mod domain;
 pub mod errors;
 pub mod handlers;
 pub mod middleware;
@@ -19,4 +20,5 @@ use sqlx::PgPool;
 pub struct AppState {
     pub pool: PgPool,
     pub jwt_secret: String,
+    pub admin_emails: Vec<String>,
 }
