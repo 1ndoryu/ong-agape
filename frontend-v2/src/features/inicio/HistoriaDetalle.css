@@ -8,8 +8,8 @@
 }
 
 /* Volver: enlace de navegación simple, con el mismo patrón del enlace "Leer
- * historia" (botón outline en negro, sin fondo de hover, radio redondeado)
- * para no introducir un botón ajeno al sistema de diseño. */
+ * historia" (botón outline en negro, sin fondo ni cambio de color al hover,
+ * radio redondeado) para no introducir un botón ajeno al sistema de diseño. */
 .historiaDetalle .volverHistoria {
   display: inline-flex;
   align-items: center;
@@ -23,13 +23,12 @@
   font: inherit;
   font-size: calc(var(--textoBoton) * 0.92);
   text-decoration: none;
-  transition: color 0.25s ease, background 0.25s ease;
 }
 
 .historiaDetalle .volverHistoria:hover,
 .historiaDetalle .volverHistoria:focus-visible {
   background: transparent;
-  color: var(--colorRojo);
+  color: var(--colorTinta);
 }
 
 .portadaDetalle {

@@ -36,17 +36,21 @@
   letter-spacing: 0.01em;
 }
 
-/* La lista horizontal deja asomar parcialmente la siguiente tarjeta (peek)
- * para invitar a arrastrar; el padding derecho extra compensa el hueco y
- * mantiene el centrado visual de la sección. */
+/* La lista horizontal se extiende hasta el borde derecho de la ventana: el
+ * contenedor centrado (clase .contenedor de la sección) recortaría la tercera
+ * tarjeta antes de llegar al final de la pantalla. Con align-self: stretch la
+ * lista ocupa todo el ancho del contenedor y el margen derecho negativo (la
+ * mitad del espacio sobrante a cada lado) la empuja hasta el borde derecho del
+ * viewport. Así la primera tarjeta queda alineada con el contenido y la
+ * tercera se recorta al final de la ventana, no antes. */
 .listaBlog {
   display: flex;
   gap: 24px;
+  align-self: stretch;
+  margin-right: calc((min(100vw - var(--espacioLateral) * 2, var(--anchoContenido)) - 100vw) / 2);
   overflow-x: auto;
-  width: 100%;
   margin-top: 40px;
   padding: 4px 4px 28px;
-  padding-right: max(calc(100% - var(--anchoContenido)), 0px);
   cursor: grab;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
@@ -74,7 +78,8 @@
  * (la tercera tarjeta asoma por el borde derecho). La altura la iguala el
  * flex stretch de la lista: todas las tarjetas de la fila miden lo mismo
  * (la más alta), sin un mínimo exagerado que abra un hueco en blanco cuando
- * el contenido es corto. */
+ * el contenido es corto. Sin hover de movimiento: al pasar el mouse la
+ * tarjeta permanece quieta (solo se mantiene el cursor de arrastre). */
 .tarjetaBlog {
   flex: 0 0 auto;
   width: min(92vw, 440px);
@@ -87,16 +92,10 @@
   border-radius: 14px;
   text-align: left;
   scroll-snap-align: start;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .tarjetaBlog:last-child {
   margin-right: 4px;
-}
-
-.tarjetaBlog:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 30px rgb(0 0 0 / 10%);
 }
 
 .portadaBlog {
@@ -132,10 +131,10 @@
 }
 
 /* Enlace "Leer historia": botón outline en negro (borde suave + texto tinta),
- * sin relleno ni fondo de hover, para que las tarjetas del blog se lean
- * ligeras. El hover solo cambia el color del texto. */
+ * sin relleno ni cambio de color al hover. Se separa del extracto con un
+ * margen superior para que no quede pegado al texto. */
 .enlaceLeer {
-  margin-top: auto;
+  margin-top: 14px;
   align-self: flex-start;
   padding: 6px 14px;
   border: 1px solid var(--colorCarbon);
@@ -144,13 +143,12 @@
   font-size: calc(var(--textoBoton) * 0.92);
   text-decoration: none;
   border-radius: var(--radioBoton);
-  transition: color 0.25s ease, background 0.25s ease;
 }
 
 .enlaceLeer:hover,
 .enlaceLeer:focus-visible {
   background: transparent;
-  color: var(--colorRojo);
+  color: var(--colorTinta);
 }
 
 .estadoBlog {
