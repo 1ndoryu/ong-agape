@@ -1,0 +1,15 @@
+:root {
+  --colorTinta: #153e6a;
+  --colorTintaProfunda: #0d2f54;
+  --colorAzul: #1d5689;
+  --colorAmarillo: #f8bf32;
+  --colorAmarilloSuave: #fff4ce;
+  --colorRojo: #e33139;
+  --colorLavanda: #8b94d5;
+  --colorPapel: #fffdf8;
+  --colorCrema: #f8f5ec;
+  --colorMutado: #6f7d8e;
+  --colorLinea: #dfe7e7;
+  --fuenteTexto: Arial, Helvetica, sans-serif;
+  --fuenteDisplay: Georgia, 'Times New Roman', serif;
+}
