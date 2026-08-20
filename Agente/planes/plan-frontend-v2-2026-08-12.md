@@ -1,8 +1,9 @@
 # Plan: frontend v2 de El Proyecto Ágape (128A-1)
 
 - **Fecha:** 2026-08-12
-- **Estado:** activo — bloque de landing archivado como referencia (2026-08-19); próxima
-  sesión define qué se construye en la página limpia.
+- **Estado:** activo — sesión 5 (2026-08-20): página individual `/blog/:slug` como ruta
+  real con react-router (URL propia, compartible y recargable), anclas corregidas a
+  `/#nosotros`. Próxima: decidir cuándo `frontend-v2` reemplaza a `frontend/`.
 - **Objetivo:** tener un frontend nuevo desde cero para El Proyecto Ágape, sin borrar
   el frontend actual (`frontend/`), que queda intacto como referencia.
 
@@ -56,10 +57,9 @@
 
 ## Próximos pasos por sesión
 
-1. Revisar y aprobar/corregir la sección Nuestra misión de la sesión 2.
-2. Revisar el peso y el encuadre de la imagen cuando se confirme el recurso definitivo.
-3. Construir la siguiente sección solo después de esa revisión.
-4. Añadir dependencias según necesidad (router, react-query, clientes API…).
-5. Conectar el backend (proxy ya configurado; backend local de referencia en
-   `http://127.0.0.1:3010` con `PORT=3010 node scripts/run-with-db.mjs run`).
-6. Decidir cuándo `frontend-v2` reemplaza a `frontend/` (rename + apuntar el launcher).
+1. ✅ Sesión 5 (2026-08-20): página individual `/blog/:slug` con react-router
+   (URL propia, compartible, recargable; carga por slug desde la API). Commit `ecd9a00`.
+2. ✅ Anclas de nav/pie/hero corregidas a `/#nosotros` (la sección real es
+   `AcercaDeNosotros`; `#mision` solo existía en `archivado/landing-v1/`).
+3. Pendiente: decidir cuándo `frontend-v2` reemplaza a `frontend/` (rename + apuntar
+   el launcher) y definir el hosting/producción del frontend.

@@ -37,7 +37,7 @@ Plan: `Agente/planes/plan-frontend-v2-2026-08-12.md`.
   - [x] Sesión 2: bloque de misión verde pastel, tarjetas 50/50 de igual altura, gap compacto y hero centrado.
   - [x] Sesión 3: "Nuestra historia" + galería.
   - [x] Sesión 4 (2026-08-20): sección de blog con 3 posts de ejemplo (seed en BD, consumido vía `/api/blog`), tarjetas con portada/fecha/extracto y CTA Instagram; responsive 3→1 columna.
-- [ ] Página individual de historia (`/blog/:slug`) en frontend-v2 (los enlaces "Leer historia" aún apuntan a rutas no construidas).
+  - [x] Sesión 5 (2026-08-20): página individual de historia como ruta real `/blog/:slug` con react-router (URL propia, compartible y recargable; commit `ecd9a00`). Anclas de nav/pie corregidas a `/#nosotros`.
 - [ ] Decidir cuándo `frontend-v2` reemplaza a `frontend/`.
 
 ### 118A-1 — Donaciones, transparencia y panel administrativo
