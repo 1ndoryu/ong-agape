@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { PointerEvent as EventoPuntero } from 'react';
 import './BlogInicio.css';
 
 type EntradaBlog = {
@@ -28,9 +29,45 @@ function formatearFecha(valor: string | null): string {
 }
 
 /* El blog consume la API pública del backend; si aún no hay entradas publicadas,
- * muestra un estado vacío con CTA a Instagram en lugar de contenido falso. */
+ * muestra un estado vacío en lugar de contenido falso. */
 function BlogInicio() {
   const [estado, setEstado] = useState<EstadoBlog>({ tipo: 'cargando' });
+  const listaRef = useRef<HTMLDivElement>(null);
+  const [arrastrando, setArrastrando] = useState(false);
+  const arrastreRef = useRef({ inicioScroll: 0, inicioX: 0, activo: false });
+
+  /* Arrastre con puntero (ratón y táctil): mueve el scroll horizontal de la lista.
+   * El scroll nativo con scroll-snap sigue disponible para arrastrar en táctil;
+   * con el ratón, arrastrar la lista desplaza el carrusel en lugar de seleccionar. */
+  function iniciarArrastre(evento: EventoPuntero<HTMLDivElement>) {
+    const lista = listaRef.current;
+    if (!lista) return;
+    if (evento.pointerType === 'mouse' && evento.button !== 0) return;
+    arrastreRef.current = {
+      inicioScroll: lista.scrollLeft,
+      inicioX: evento.clientX,
+      activo: true,
+    };
+    setArrastrando(true);
+    lista.setPointerCapture(evento.pointerId);
+  }
+
+  function moverArrastre(evento: EventoPuntero<HTMLDivElement>) {
+    const lista = listaRef.current;
+    if (!lista || !arrastreRef.current.activo) return;
+    lista.scrollLeft =
+      arrastreRef.current.inicioScroll - (evento.clientX - arrastreRef.current.inicioX);
+  }
+
+  function terminarArrastre(evento: EventoPuntero<HTMLDivElement>) {
+    const lista = listaRef.current;
+    if (!lista || !arrastreRef.current.activo) return;
+    arrastreRef.current.activo = false;
+    setArrastrando(false);
+    if (lista.hasPointerCapture(evento.pointerId)) {
+      lista.releasePointerCapture(evento.pointerId);
+    }
+  }
 
   useEffect(() => {
     const controlador = new AbortController();
@@ -50,7 +87,6 @@ function BlogInicio() {
   return (
     <section className="blogInicio contenedor" id="blog">
       <p className="etiquetaBlog">Nuestras historias</p>
-      <h2 className="tituloBlog">Noticias desde Ágape</h2>
       <p className="textoBlog">
         Compartimos avances, aprendizajes y las historias de una comunidad que se
         organiza para cuidar.
@@ -61,17 +97,7 @@ function BlogInicio() {
       {estado.tipo === 'error' && (
         <div className="estadoBlog" role="status">
           <strong>El blog está en actualización.</strong>
-          <p>
-            Mientras tanto, síguenos en Instagram para ver la actividad más reciente.
-          </p>
-          <a
-            className="enlaceInstagram"
-            href="https://www.instagram.com/elproyectoagape/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Ver en Instagram ↗
-          </a>
+          <p>Pronto volverán a estar disponibles nuestras historias.</p>
         </div>
       )}
 
@@ -82,50 +108,39 @@ function BlogInicio() {
             El equipo de Ágape podrá compartir aquí actividades, avances y aprendizajes
             con transparencia.
           </p>
-          <a
-            className="enlaceInstagram"
-            href="https://www.instagram.com/elproyectoagape/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Ver en Instagram ↗
-          </a>
         </div>
       )}
 
       {estado.tipo === 'lista' && (
-        <>
-          <div className="cuadriculaBlog">
-            {estado.entradas.slice(0, 3).map((entrada) => (
-              <article className="tarjetaBlog" key={entrada.slug}>
-                {entrada.cover_image_url && (
-                  <img
-                    className="portadaBlog"
-                    src={entrada.cover_image_url}
-                    alt=""
-                    loading="lazy"
-                  />
-                )}
-                <div className="contenidoBlog">
-                  <p className="fechaBlog">{formatearFecha(entrada.published_at)}</p>
-                  <h3 className="tituloTarjetaBlog">{entrada.title}</h3>
-                  <p className="extractoBlog">{entrada.excerpt}</p>
-                  <a className="enlaceLeer" href={`/blog/${entrada.slug}`}>
-                    Leer historia ↗
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
-          <a
-            className="enlaceInstagram"
-            href="https://www.instagram.com/elproyectoagape/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Ver más en Instagram ↗
-          </a>
-        </>
+        <div
+          ref={listaRef}
+          className={`listaBlog${arrastrando ? ' arrastrando' : ''}`}
+          onPointerDown={iniciarArrastre}
+          onPointerMove={moverArrastre}
+          onPointerUp={terminarArrastre}
+          onPointerCancel={terminarArrastre}
+        >
+          {estado.entradas.slice(0, 3).map((entrada) => (
+            <article className="tarjetaBlog" key={entrada.slug}>
+              {entrada.cover_image_url && (
+                <img
+                  className="portadaBlog"
+                  src={entrada.cover_image_url}
+                  alt=""
+                  loading="lazy"
+                />
+              )}
+              <div className="contenidoBlog">
+                <p className="fechaBlog">{formatearFecha(entrada.published_at)}</p>
+                <h3 className="tituloTarjetaBlog">{entrada.title}</h3>
+                <p className="extractoBlog">{entrada.excerpt}</p>
+                <a className="enlaceLeer" href={`/blog/${entrada.slug}`}>
+                  Leer historia
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
       )}
     </section>
   );
