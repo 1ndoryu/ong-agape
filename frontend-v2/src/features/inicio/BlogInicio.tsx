@@ -22,7 +22,12 @@ function BlogInicio() {
   const [estado, setEstado] = useState<EstadoBlog>({ tipo: 'cargando' });
   const listaRef = useRef<HTMLDivElement>(null);
   const [arrastrando, setArrastrando] = useState(false);
-  const arrastreRef = useRef({ inicioScroll: 0, inicioX: 0, activo: false });
+  const arrastreRef = useRef({
+    inicioScroll: 0,
+    inicioX: 0,
+    activo: false,
+    botonPresionado: false,
+  });
 
   /* Arrastre con puntero (ratón y táctil): mueve el scroll horizontal de la lista.
    * El scroll nativo con scroll-snap sigue disponible para arrastrar en táctil.
@@ -41,6 +46,7 @@ function BlogInicio() {
       inicioScroll: lista.scrollLeft,
       inicioX: evento.clientX,
       activo: false,
+      botonPresionado: true,
     };
   }
 
@@ -48,6 +54,10 @@ function BlogInicio() {
     const lista = listaRef.current;
     const arrastre = arrastreRef.current;
     if (!lista || !arrastre) return;
+    // El arrastre solo puede activarse si hubo un pointerdown en la lista: al
+    // pasar el mouse sin pulsar, pointermove se dispara igual y no debe marcar
+    // arrastre (bug: moverse sobre la lista activaba el arrastre sin clic).
+    if (!arrastre.botonPresionado) return;
     if (!arrastre.activo) {
       if (Math.abs(evento.clientX - arrastre.inicioX) < UMBRAL_ARRASTRE) return;
       arrastre.activo = true;
@@ -63,6 +73,7 @@ function BlogInicio() {
     if (!lista || !arrastre) return;
     const huboArrastre = arrastre.activo;
     arrastre.activo = false;
+    arrastre.botonPresionado = false;
     setArrastrando(false);
     if (huboArrastre && lista.hasPointerCapture(evento.pointerId)) {
       lista.releasePointerCapture(evento.pointerId);
