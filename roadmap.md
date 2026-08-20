@@ -67,5 +67,9 @@ Plan detallado: `Agente/planes/plan-donaciones-transparencia-2026-08-11.md`.
 - Configurar coolify-manager-rs para desplegar proyectos Rust (repo separado)
 - La referencia visual/funcional de transparencia es [dona.yummyrides.com/transparency](https://dona.yummyrides.com/transparency).
 - No conectar pagos reales ni escribir en proveedores externos hasta tener confirmación explícita de proveedor, cuenta y contrato.
+- **Gate de Sentinel operativo (2026-08-20, commit `71a13e8`):** `sentinel.config.json`
+  (`schemaVersion: 2`, `mode: enforce`, `primaryBranch: ong-agape`) + `sentinel.lock.json`
+  bootstrap con `sentinel init --preset mixed`. `sentinel doctor` → `readyForGate: true`.
+  Autoridad de cierre: `npm run quality:doctor` / `sentinel check <TareaId>`.
 - Prioridades: 1. Velocidad desarrollo, 2. Decisiones futuras, 3. Rendimiento, 4. Seguridad, 5. Popularidad, 6. Facilidad, 7. Docs, 8. Compatibilidad, 9. Flexibilidad, 10. Escalabilidad
 
