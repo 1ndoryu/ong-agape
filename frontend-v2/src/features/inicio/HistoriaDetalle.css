@@ -1,0 +1,57 @@
+/* Página individual de historia: columna de lectura centrada sobre el fondo
+ * de la landing, con portada y cuerpo tipográfico heredados de los tokens. */
+.historiaDetalle {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  text-align: left;
+}
+
+.historiaDetalle .volverHistoria {
+  margin-bottom: 28px;
+}
+
+.portadaDetalle {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid var(--colorBorde);
+  border-radius: 14px;
+}
+
+.cabeceraDetalle {
+  margin-top: 28px;
+}
+
+.tituloDetalle {
+  margin: 0;
+  font-family: var(--fuenteEditorial);
+  font-size: clamp(1.6rem, 1vw + 1.3rem, 2.4rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--colorTinta);
+}
+
+.fechaDetalle {
+  margin: 12px 0 0;
+  color: var(--colorCarbon);
+  font-size: calc(var(--textoCuerpo) * 0.9);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cuerpoDetalle {
+  margin-top: 26px;
+  color: var(--colorCarbon);
+  font-size: var(--textoCuerpo);
+  line-height: 1.75;
+}
+
+.cuerpoDetalle p {
+  margin: 0 0 18px;
+}
+
+.cuerpoDetalle p:last-child {
+  margin-bottom: 0;
+}

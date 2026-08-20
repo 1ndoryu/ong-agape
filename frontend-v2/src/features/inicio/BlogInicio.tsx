@@ -1,15 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent as EventoPuntero } from 'react';
+import type { EntradaBlog } from './blogCompartido';
+import HistoriaDetalle from './HistoriaDetalle';
 import './BlogInicio.css';
-
-type EntradaBlog = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  body: string;
-  cover_image_url: string | null;
-  published_at: string | null;
-};
 
 type EstadoBlog =
   | { tipo: 'cargando' }
@@ -23,22 +16,24 @@ async function cargarEntradasBlog(senal: AbortSignal): Promise<EntradaBlog[]> {
   return (await respuesta.json()) as EntradaBlog[];
 }
 
-function formatearFecha(valor: string | null): string {
-  if (!valor) return 'Historia reciente';
-  return new Intl.DateTimeFormat('es-VE', { dateStyle: 'long' }).format(new Date(valor));
-}
-
 /* El blog consume la API pública del backend; si aún no hay entradas publicadas,
  * muestra un estado vacío en lugar de contenido falso. */
 function BlogInicio() {
   const [estado, setEstado] = useState<EstadoBlog>({ tipo: 'cargando' });
+  const [entradaSeleccionada, setEntradaSeleccionada] = useState<EntradaBlog | null>(null);
   const listaRef = useRef<HTMLDivElement>(null);
   const [arrastrando, setArrastrando] = useState(false);
   const arrastreRef = useRef({ inicioScroll: 0, inicioX: 0, activo: false });
 
   /* Arrastre con puntero (ratón y táctil): mueve el scroll horizontal de la lista.
-   * El scroll nativo con scroll-snap sigue disponible para arrastrar en táctil;
-   * con el ratón, arrastrar la lista desplaza el carrusel en lugar de seleccionar. */
+   * El scroll nativo con scroll-snap sigue disponible para arrastrar en táctil.
+   *
+   * Gotcha importante: capturar el puntero en el pointerdown redirigiría el
+   * evento click a la lista y el enlace "Leer historia" nunca se activaría.
+   * Por eso solo se captura el puntero (y se marca arrastre) cuando el
+   * movimiento supera el umbral; un clic quieto o con micro-movimiento deja
+   * el click nativo intacto sobre la tarjeta o su enlace. */
+  const UMBRAL_ARRASTRE = 6;
   function iniciarArrastre(evento: EventoPuntero<HTMLDivElement>) {
     const lista = listaRef.current;
     if (!lista) return;
@@ -46,25 +41,31 @@ function BlogInicio() {
     arrastreRef.current = {
       inicioScroll: lista.scrollLeft,
       inicioX: evento.clientX,
-      activo: true,
+      activo: false,
     };
-    setArrastrando(true);
-    lista.setPointerCapture(evento.pointerId);
   }
 
   function moverArrastre(evento: EventoPuntero<HTMLDivElement>) {
     const lista = listaRef.current;
-    if (!lista || !arrastreRef.current.activo) return;
-    lista.scrollLeft =
-      arrastreRef.current.inicioScroll - (evento.clientX - arrastreRef.current.inicioX);
+    const arrastre = arrastreRef.current;
+    if (!lista || !arrastre) return;
+    if (!arrastre.activo) {
+      if (Math.abs(evento.clientX - arrastre.inicioX) < UMBRAL_ARRASTRE) return;
+      arrastre.activo = true;
+      setArrastrando(true);
+      lista.setPointerCapture(evento.pointerId);
+    }
+    lista.scrollLeft = arrastre.inicioScroll - (evento.clientX - arrastre.inicioX);
   }
 
   function terminarArrastre(evento: EventoPuntero<HTMLDivElement>) {
     const lista = listaRef.current;
-    if (!lista || !arrastreRef.current.activo) return;
-    arrastreRef.current.activo = false;
+    const arrastre = arrastreRef.current;
+    if (!lista || !arrastre) return;
+    const huboArrastre = arrastre.activo;
+    arrastre.activo = false;
     setArrastrando(false);
-    if (lista.hasPointerCapture(evento.pointerId)) {
+    if (huboArrastre && lista.hasPointerCapture(evento.pointerId)) {
       lista.releasePointerCapture(evento.pointerId);
     }
   }
@@ -83,6 +84,25 @@ function BlogInicio() {
       });
     return () => controlador.abort();
   }, []);
+
+  /* El frontend no usa router: el enlace a /blog/:slug se intercepta y se
+   * muestra la vista individual dentro de la misma sección, con scroll al
+   * inicio para que la lectura arranque desde arriba. */
+  function abrirHistoria(entrada: EntradaBlog) {
+    setEntradaSeleccionada(entrada);
+    window.scrollTo({ top: 0 });
+  }
+
+  if (entradaSeleccionada) {
+    return (
+      <section className="blogInicio contenedor" id="blog">
+        <HistoriaDetalle
+          entrada={entradaSeleccionada}
+          alVolver={() => setEntradaSeleccionada(null)}
+        />
+      </section>
+    );
+  }
 
   return (
     <section className="blogInicio contenedor" id="blog">
@@ -131,10 +151,16 @@ function BlogInicio() {
                 />
               )}
               <div className="contenidoBlog">
-                <p className="fechaBlog">{formatearFecha(entrada.published_at)}</p>
                 <h3 className="tituloTarjetaBlog">{entrada.title}</h3>
                 <p className="extractoBlog">{entrada.excerpt}</p>
-                <a className="enlaceLeer" href={`/blog/${entrada.slug}`}>
+                <a
+                  className="enlaceLeer"
+                  href={`/blog/${entrada.slug}`}
+                  onClick={(evento) => {
+                    evento.preventDefault();
+                    abrirHistoria(entrada);
+                  }}
+                >
                   Leer historia
                 </a>
               </div>
