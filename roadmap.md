@@ -33,8 +33,11 @@ Plan: `Agente/planes/plan-frontend-v2-2026-08-12.md`.
 
 - [x] Crear `frontend-v2/` (React + Vite + TS) con scaffold mínimo verificado, sin tocar `frontend/` (referencia).
 - [x] Archivar el bloque de landing (misión, alianzas, llamado a donación) en `src/archivado/landing-v1/` como referencia (2026-08-19).
-- [ ] Construir la landing y páginas del frontend v2 por bloques supervisados.
-  - [ ] Sesión 2 en revisión: bloque de misión verde pastel, tarjetas 50/50 de igual altura, gap compacto y hero centrado.
+- [x] Construir la landing y páginas del frontend v2 por bloques supervisados.
+  - [x] Sesión 2: bloque de misión verde pastel, tarjetas 50/50 de igual altura, gap compacto y hero centrado.
+  - [x] Sesión 3: "Nuestra historia" + galería.
+  - [x] Sesión 4 (2026-08-20): sección de blog con 3 posts de ejemplo (seed en BD, consumido vía `/api/blog`), tarjetas con portada/fecha/extracto y CTA Instagram; responsive 3→1 columna.
+- [ ] Página individual de historia (`/blog/:slug`) en frontend-v2 (los enlaces "Leer historia" aún apuntan a rutas no construidas).
 - [ ] Decidir cuándo `frontend-v2` reemplaza a `frontend/`.
 
 ### 118A-1 — Donaciones, transparencia y panel administrativo

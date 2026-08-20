@@ -1,0 +1,31 @@
+.barraAnuncio {
+  display: grid;
+  min-height: 44px;
+  place-items: center;
+  padding: 8px var(--espacioLateral);
+  background: var(--colorTinta);
+  color: var(--colorBlanco);
+  font-size: var(--textoBase);
+  text-align: center;
+}
+
+.barraAnuncio p {
+  margin: 0;
+}
+
+.barraAnuncio a {
+  margin-left: 10px;
+  font-weight: 500;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .barraAnuncio {
+    font-size: var(--textoEtiqueta);
+  }
+
+  .barraAnuncio a {
+    display: block;
+    margin: 3px 0 0;
+  }
+}

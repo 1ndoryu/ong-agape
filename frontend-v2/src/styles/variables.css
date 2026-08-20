@@ -1,0 +1,47 @@
+:root {
+  /* Paleta oficial del primer front de Ágape. */
+  --colorLienzo: #fffdf8;
+  --colorLino: #f8f5ec;
+  --colorTarjeta: #ffffff;
+  --colorBlanco: #ffffff;
+  --colorTinta: rgb(0 0 0 / 88%);
+  --colorCarbon: rgb(0 0 0 / 68%);
+  --colorAzul: #1d5689;
+  --colorAzulSuave: #dbe8f2;
+  --colorRojo: #e33139;
+  --colorRojoSuave: rgb(227 49 57 / 14%);
+  --colorAmarillo: #f8bf32;
+  --colorAmarilloSuave: #fff4ce;
+  --colorLavanda: #8b94d5;
+  --colorSalvia: #fff4ce;
+  --colorBotanico: #e33139;
+  --colorMisionFondo: #fff4ce;
+  --colorMisionBorde: rgba(21, 62, 106, 0.18);
+  --colorBorde: rgba(21, 62, 106, 0.16);
+
+  /* Pie de página: texto y borde secundarios sobre fondo oscuro. */
+  --colorPieTextoSecundario: rgb(255 255 255 / 78%);
+  --colorBordePie: rgb(255 255 255 / 22%);
+
+  --fuenteEditorial: 'Playfair Display', Georgia, serif;
+  --fuenteCuerpo: 'Rubik', Arial, sans-serif;
+
+  /* Escala fluida: acompaña el ancho de pantalla sin saltos bruscos. */
+  --textoBase: clamp(0.9rem, 0.32vw + 0.82rem, 1rem);
+  --textoEtiqueta: clamp(0.64rem, 0.16vw + 0.6rem, 0.75rem);
+  --textoBoton: clamp(0.87rem, 0.24vw + 0.8rem, 1.06rem);
+  --textoNavegacion: clamp(0.9rem, 0.34vw + 0.82rem, 1.06rem);
+  --textoCuerpo: clamp(0.86rem, 0.28vw + 0.79rem, 1rem);
+  --textoDescripcion: clamp(0.96rem, 0.46vw + 0.84rem, 1.2rem);
+  --textoMarca: clamp(1.05rem, 0.58vw + 0.9rem, 1.5rem);
+  --textoMarcaSimbolo: clamp(1.3rem, 0.8vw + 1.05rem, 1.625rem);
+  --textoMarcaMini: clamp(0.42rem, 0.12vw + 0.39rem, 0.52rem);
+  --tituloTarjeta: clamp(2.2rem, 1.35rem + 3vw, 3.25rem);
+  --tituloHero: clamp(3.15rem, 1.45rem + 5.65vw, 5.4rem);
+
+  --anchoContenido: 1280px;
+  --radioTarjeta: 10px;
+  --radioBoton: 40.5px;
+  --espacioTarjetas: clamp(24px, 3vw, 48px);
+  --espacioLateral: clamp(20px, 4vw, 48px);
+}

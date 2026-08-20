@@ -1,0 +1,29 @@
+.botonEnlace {
+  display: inline-flex;
+  min-height: clamp(42px, 2.7vw + 14px, 48px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(7px, 0.55vw, 10px);
+  padding: clamp(8px, 0.5vw + 6px, 10px) clamp(14px, 0.65vw + 10px, 20px);
+  border: 1px solid var(--colorTinta);
+  border-radius: 30px;
+  font-size: var(--textoBoton);
+  font-weight: 500;
+  text-decoration: none;
+  transition: translate 160ms ease;
+}
+
+.botonEnlace:hover,
+.botonEnlace:focus-visible {
+  translate: 0 -2px;
+}
+
+.botonEnlace--principal {
+  background: var(--colorRojo);
+  color: var(--colorBlanco);
+}
+
+.botonEnlace--contorno {
+  background: transparent;
+  color: var(--colorTinta);
+}
