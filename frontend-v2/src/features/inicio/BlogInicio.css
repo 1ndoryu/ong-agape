@@ -71,12 +71,14 @@
 }
 
 /* Tarjeta grande de carrusel: ocupa el 88% del ancho visible como máximo
- * (la tercera tarjeta asoma por el borde derecho) y mantiene una altura
- * proporcionada en pantallas anchas. */
+ * (la tercera tarjeta asoma por el borde derecho). La altura la iguala el
+ * flex stretch de la lista: todas las tarjetas de la fila miden lo mismo
+ * (la más alta), sin un mínimo exagerado que abra un hueco en blanco cuando
+ * el contenido es corto. */
 .tarjetaBlog {
   flex: 0 0 auto;
   width: min(92vw, 440px);
-  min-height: min(72vh, 560px);
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -129,13 +131,15 @@
   line-height: 1.55;
 }
 
-/* Enlace "Leer historia": pequeño, sin bold ni fondo (texto azul simple con
- * radio redondeado) para que las tarjetas del blog se lean ligeras. */
+/* Enlace "Leer historia": botón outline en negro (borde suave + texto tinta),
+ * sin relleno ni fondo de hover, para que las tarjetas del blog se lean
+ * ligeras. El hover solo cambia el color del texto. */
 .enlaceLeer {
   margin-top: auto;
   align-self: flex-start;
   padding: 6px 14px;
-  color: var(--colorAzul);
+  border: 1px solid var(--colorCarbon);
+  color: var(--colorTinta);
   font-weight: 400;
   font-size: calc(var(--textoBoton) * 0.92);
   text-decoration: none;
@@ -145,7 +149,7 @@
 
 .enlaceLeer:hover,
 .enlaceLeer:focus-visible {
-  background: rgb(29 86 137 / 8%);
+  background: transparent;
   color: var(--colorRojo);
 }
 
