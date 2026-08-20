@@ -10,6 +10,8 @@
 /frontend/node_modules/
 /frontend/dist/
 /frontend/src/api/generated/
+/frontend-v2/node_modules/
+/frontend-v2/dist/
 
 # IDE
 .idea/
@@ -42,6 +44,7 @@ desktop.ini
 !/scripts/self-check.ps1
 /backups/
 /clients/
+/Agente/contexto/
 /frontend/public/legacy-assets/
 /prerendered/
 /node_modules/
@@ -51,4 +54,7 @@ desktop.ini
 frontend/tsconfig.tsbuildinfo
 glory-rust-template.code-workspace
 .sentinel-report.md
+
+# Sentinel y herramientas de calidad
+.sentinel/
 .cargo/config.toml

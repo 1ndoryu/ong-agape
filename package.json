@@ -1,7 +1,7 @@
 {
-  "name": "glory-rs",
+  "name": "ong-agame",
   "private": true,
-  "description": "Comandos unificados para el monorepo Rust + React",
+  "description": "Comandos unificados para ong-agame: Rust + React",
   "scripts": {
     "dev": "node glory-rs/scripts/dev.mjs",
     "check": "npm run check:back && npm run check:front",
@@ -15,6 +15,9 @@
     "codegen": "npm --prefix frontend run codegen",
     "test": "node scripts/run-with-db.mjs test",
     "roadmap": "node scripts/check-roadmap.mjs",
-    "roadmap:watch": "node scripts/check-roadmap.mjs --watch"
+    "roadmap:watch":"node scripts/check-roadmap.mjs --watch",
+    "quality:doctor":"sentinel doctor --json",
+    "quality:lock:check":"sentinel doctor --json",
+    "gate:check":"sentinel check"
   }
 }
