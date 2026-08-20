@@ -119,6 +119,7 @@ function BlogInicio() {
           onPointerMove={moverArrastre}
           onPointerUp={terminarArrastre}
           onPointerCancel={terminarArrastre}
+          onDragStart={(evento) => evento.preventDefault()}
         >
           {estado.entradas.slice(0, 3).map((entrada) => (
             <article className="tarjetaBlog" key={entrada.slug}>
@@ -128,6 +129,7 @@ function BlogInicio() {
                   src={entrada.cover_image_url}
                   alt=""
                   loading="lazy"
+                  draggable={false}
                 />
               )}
               <div className="contenidoBlog">

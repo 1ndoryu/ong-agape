@@ -51,7 +51,6 @@
   overflow-x: auto;
   margin-top: 40px;
   padding: 4px 4px 28px;
-  cursor: grab;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   touch-action: pan-x pan-y;
@@ -64,7 +63,6 @@
 }
 
 .listaBlog.arrastrando {
-  cursor: grabbing;
   scroll-snap-type: none;
   user-select: none;
 }
@@ -78,8 +76,9 @@
  * (la tercera tarjeta asoma por el borde derecho). La altura la iguala el
  * flex stretch de la lista: todas las tarjetas de la fila miden lo mismo
  * (la más alta), sin un mínimo exagerado que abra un hueco en blanco cuando
- * el contenido es corto. Sin hover de movimiento: al pasar el mouse la
- * tarjeta permanece quieta (solo se mantiene el cursor de arrastre). */
+ * el contenido es corto. Sin hover de movimiento ni cursor de mano: al pasar
+ * el mouse la tarjeta permanece quieta y el cursor no cambia (la manita era
+ * incómoda y no aportaba). */
 .tarjetaBlog {
   flex: 0 0 auto;
   width: min(92vw, 440px);
@@ -98,6 +97,10 @@
   margin-right: 4px;
 }
 
+/* La portada no debe iniciar el drag nativo del navegador al arrastrar el
+ * carrusel: arrastrar la imagen fantasma interfería con el scroll manual
+ * (además del draggable={false} en el marcado y del preventDefault de
+ * dragstart en la lista). */
 .portadaBlog {
   width: 100%;
   aspect-ratio: 3 / 2;
@@ -105,6 +108,8 @@
   object-position: center;
   display: block;
   border-bottom: 1px solid var(--colorBorde);
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .contenidoBlog {
