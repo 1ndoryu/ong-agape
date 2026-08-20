@@ -1,6 +1,7 @@
-# Glory RS
+# ong-agame — El Proyecto Ágape
 
-Template para sitios web con **Rust (Axum) + React (TypeScript) + OpenAPI** en un solo repositorio.
+Rama de sitio construida sobre `glory-rs-template`, con **Rust (Axum) + React (TypeScript) + OpenAPI**.
+El producto público es El Proyecto Ágape: una ONG con landing, transparencia de fondos y panel administrativo.
 
 Pensado para máxima velocidad de desarrollo, seguridad por defecto y escalabilidad.
 
@@ -64,6 +65,7 @@ npm run codegen
 ```
 ├── Cargo.toml              # Dependencias del backend
 ├── src/
+│   ├── domain/              # Reglas agnósticas de proveedores y comprobantes
 │   ├── main.rs             # Entry point del servidor
 │   ├── lib.rs              # Re-exports y AppState
 │   ├── config/             # Configuración desde env vars
@@ -76,6 +78,9 @@ npm run codegen
 ├── migrations/             # Migraciones SQL (SQLx)
 ├── frontend/
 │   ├── src/
+│   │   ├── features/admin/  # Panel minimalista y UI reutilizable
+│   │   ├── features/landing/# Sitio público
+│   │   ├── styles/          # Tokens globales + Tailwind
 │   │   ├── api/            # Cliente API generado por Orval
 │   │   ├── App.tsx         # Componente raíz
 │   │   └── main.tsx        # Entry point React
@@ -95,6 +100,13 @@ El backend sigue separación en capas:
 - **models/** → Structs de dominio, DTOs de request/response, schemas OpenAPI
 - **errors/** → Enum de errores que mapean a HTTP status codes
 - **middleware/** → Extractores de Axum (auth JWT)
+- **domain/** → Contratos de negocio que no conocen Axum, SQLx ni Glory RS; aquí viven los conceptos de
+  proveedores y estados de comprobantes.
+
+La UI administrativa usa Tailwind CSS con primitives reutilizables (`StatusPill`, `AdminCard`, `CardHeading`)
+para que futuras ramas puedan compartir el panel sin acoplarse a Glory RS. `/admin` requiere JWT y autorización
+por rol: owner publica y administra proveedores; finance_editor edita borradores; auditor revisa pagos y lee
+auditoría; viewer consulta en modo solo lectura.
 
 ## API de ejemplo
 
@@ -110,6 +122,28 @@ El template incluye un CRUD de notas con autenticación:
 | GET    | /api/notes/:id     | Obtener nota            | Sí   |
 | PUT    | /api/notes/:id     | Actualizar nota         | Sí   |
 | DELETE | /api/notes/:id     | Eliminar nota           | Sí   |
+| GET    | /api/transparency/summary?currency=USD | Resumen público de fondos publicados | No |
+| GET    | /api/transparency/content/:key | Contenido de transparencia publicado | No |
+| GET    | /api/payment-methods | Métodos de aporte habilitados sin secretos | No |
+| GET    | /api/blog | Artículos publicados | No |
+| GET    | /api/blog/:slug | Artículo público | No |
+| GET/POST/PUT | /api/admin/... | Ledger, transparencia, blog, pagos y auditoría | Sí |
+
+## Ágape: transparencia y donaciones
+
+- `/` muestra la landing y el resumen público de transparencia con fallback seguro si la API aún no está disponible.
+- `/admin` muestra el panel lateral para resumen, movimientos, contenido público, campañas, métodos de pago y auditoría.
+- La migración agrega `transparency_entries`, `payment_methods`, `payment_receipts`, `transparency_content` y `audit_events`.
+- Los recibos reservan `provider_event_id` con índice único por método para evitar duplicar webhooks reintentados.
+- PayPal y Stripe están modelados como proveedores automáticos pendientes de credenciales y webhooks firmados.
+- Pago móvil, transferencia y Zelle son métodos manuales: un comprobante queda pendiente hasta revisión humana.
+- Las claves de proveedores nunca deben entrar en React, en `public_config` ni en texto plano de PostgreSQL.
+- Zelle permanece desactivado hasta confirmar que la ONG tenga una cuenta propia y un flujo aprobado.
+- Transparencia y blog se editan como borradores; publicar requiere owner y queda auditado.
+- `/transparency` ofrece la rendición pública detallada: resumen, movimientos publicados y métodos habilitados.
+- PayPal/Stripe todavía no procesan dinero: siguen en `setup_required` hasta conectar secretos, checkout y webhooks firmados.
+- El servidor solo permite activar PayPal/Stripe cuando detecta sus variables de entorno mínimas; las claves nunca viajan a React.
+- “Juega y gana” queda fuera del primer lanzamiento y requiere revisión legal, reglas y auditoría antes de abrirse.
 
 ## Ramas por sitio
 
