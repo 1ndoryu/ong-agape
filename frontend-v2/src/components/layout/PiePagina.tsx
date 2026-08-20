@@ -1,14 +1,15 @@
 import BotonEnlace from '../ui/BotonEnlace';
 import './PiePagina.css';
+import { Link } from 'react-router-dom';
 
 function PiePagina() {
   return (
     <footer className="piePagina">
       <div className="piePaginaContenido contenedor">
         <div className="piePaginaMarca">
-          <a className="piePaginaMarcaEnlace" href="#inicio" aria-label="El Proyecto Ágape, inicio">
+          <Link className="piePaginaMarcaEnlace" to="/#inicio" aria-label="El Proyecto Ágape, inicio">
             <img className="logoAgapePie" src="/imagenes/Logo%20Agape.svg" alt="El Proyecto Ágape" />
-          </a>
+          </Link>
           <p className="piePaginaDescripcion">
             Acompañamos a familias y comunidades para convertir la solidaridad en ayuda cercana,
             digna y transparente.
@@ -17,9 +18,9 @@ function PiePagina() {
 
         <nav className="piePaginaNavegacion" aria-label="Navegación del pie">
           <p className="piePaginaTitulo">Explora</p>
-          <a href="#inicio">Inicio</a>
-          <a href="#mision">Nuestra misión</a>
-          <a href="#blog">Blog</a>
+          <Link to="/#inicio">Inicio</Link>
+          <Link to="/#nosotros">Nuestra misión</Link>
+          <Link to="/#blog">Blog</Link>
           <a href="mailto:hola@elproyectoagape.org">Contacto</a>
         </nav>
 

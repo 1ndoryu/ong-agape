@@ -1,6 +1,7 @@
 import BotonEnlace from '../ui/BotonEnlace';
 import './NavegacionPrincipal.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function NavegacionPrincipal() {
   const [menuAbierto, setMenuAbierto] = useState(false);
@@ -9,9 +10,9 @@ function NavegacionPrincipal() {
   return (
     <header className="encabezadoPrincipal">
       <nav className={`navegacionPrincipal contenedor ${menuAbierto ? 'navegacionPrincipal--abierta' : ''}`} aria-label="Navegación principal">
-        <a className="marcaAgape" href="#inicio" aria-label="El Proyecto Ágape, inicio">
+        <Link className="marcaAgape" to="/#inicio" aria-label="El Proyecto Ágape, inicio" onClick={cerrarMenu}>
           <img className="logoAgape" src="/imagenes/Logo%20Agape.svg" alt="El Proyecto Ágape" />
-        </a>
+        </Link>
 
         <button
           className="botonMenu"
@@ -26,9 +27,9 @@ function NavegacionPrincipal() {
         </button>
 
         <div className="enlacesNavegacion" id="menuPrincipal">
-          <a href="#inicio" onClick={cerrarMenu}>Inicio</a>
-          <a href="#mision" onClick={cerrarMenu}>Nuestra misión</a>
-          <a href="#blog" onClick={cerrarMenu}>Blog</a>
+          <Link to="/#inicio" onClick={cerrarMenu}>Inicio</Link>
+          <Link to="/#nosotros" onClick={cerrarMenu}>Nuestra misión</Link>
+          <Link to="/#blog" onClick={cerrarMenu}>Blog</Link>
           <a href="mailto:hola@elproyectoagape.org" onClick={cerrarMenu}>Contacto</a>
           <BotonEnlace href="mailto:hola@elproyectoagape.org?subject=Quiero%20ayudar" variante="contorno">
             Quiero ayudar

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent as EventoPuntero } from 'react';
+import { Link } from 'react-router-dom';
 import type { EntradaBlog } from './blogCompartido';
-import HistoriaDetalle from './HistoriaDetalle';
 import './BlogInicio.css';
 
 type EstadoBlog =
@@ -20,7 +20,6 @@ async function cargarEntradasBlog(senal: AbortSignal): Promise<EntradaBlog[]> {
  * muestra un estado vacío en lugar de contenido falso. */
 function BlogInicio() {
   const [estado, setEstado] = useState<EstadoBlog>({ tipo: 'cargando' });
-  const [entradaSeleccionada, setEntradaSeleccionada] = useState<EntradaBlog | null>(null);
   const listaRef = useRef<HTMLDivElement>(null);
   const [arrastrando, setArrastrando] = useState(false);
   const arrastreRef = useRef({ inicioScroll: 0, inicioX: 0, activo: false });
@@ -85,25 +84,6 @@ function BlogInicio() {
     return () => controlador.abort();
   }, []);
 
-  /* El frontend no usa router: el enlace a /blog/:slug se intercepta y se
-   * muestra la vista individual dentro de la misma sección, con scroll al
-   * inicio para que la lectura arranque desde arriba. */
-  function abrirHistoria(entrada: EntradaBlog) {
-    setEntradaSeleccionada(entrada);
-    window.scrollTo({ top: 0 });
-  }
-
-  if (entradaSeleccionada) {
-    return (
-      <section className="blogInicio contenedor" id="blog">
-        <HistoriaDetalle
-          entrada={entradaSeleccionada}
-          alVolver={() => setEntradaSeleccionada(null)}
-        />
-      </section>
-    );
-  }
-
   return (
     <section className="blogInicio contenedor" id="blog">
       <p className="etiquetaBlog">Nuestras historias</p>
@@ -153,16 +133,9 @@ function BlogInicio() {
               <div className="contenidoBlog">
                 <h3 className="tituloTarjetaBlog">{entrada.title}</h3>
                 <p className="extractoBlog">{entrada.excerpt}</p>
-                <a
-                  className="enlaceLeer"
-                  href={`/blog/${entrada.slug}`}
-                  onClick={(evento) => {
-                    evento.preventDefault();
-                    abrirHistoria(entrada);
-                  }}
-                >
+                <Link className="enlaceLeer" to={`/blog/${entrada.slug}`}>
                   Leer historia
-                </a>
+                </Link>
               </div>
             </article>
           ))}

@@ -38,7 +38,7 @@ function HeroInicio() {
         <BotonEnlace href="mailto:hola@elproyectoagape.org?subject=Quiero%20ser%20parte">
           Sé parte del cambio
         </BotonEnlace>
-        <BotonEnlace href="#mision" variante="contorno">
+        <BotonEnlace href="/#nosotros" variante="contorno">
           Conoce nuestra misión
         </BotonEnlace>
       </div>

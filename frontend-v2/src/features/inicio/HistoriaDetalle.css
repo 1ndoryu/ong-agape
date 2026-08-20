@@ -1,14 +1,15 @@
 /* Página individual de historia: columna de lectura centrada sobre el fondo
- * de la landing, con portada y cuerpo tipográfico heredados de los tokens. */
+ * de la landing, con portada y cuerpo tipográfico heredados de los tokens.
+ * El ancho de lectura se limita a 760px aunque la ruta use .contenedor. */
 .historiaDetalle {
   width: min(100%, 760px);
   margin: 0 auto;
   text-align: left;
 }
 
-/* Volver: acción de navegación simple, con el mismo patrón del enlace "Leer
+/* Volver: enlace de navegación simple, con el mismo patrón del enlace "Leer
  * historia" (texto azul sin fondo, radio redondeado) para no introducir un
- * botón nativo ajeno al sistema de diseño. */
+ * botón ajeno al sistema de diseño. */
 .historiaDetalle .volverHistoria {
   display: inline-flex;
   align-items: center;
@@ -16,12 +17,11 @@
   margin-bottom: 28px;
   padding: 6px 14px;
   background: transparent;
-  border: 0;
   border-radius: var(--radioBoton);
   color: var(--colorAzul);
   font: inherit;
   font-size: calc(var(--textoBoton) * 0.92);
-  cursor: pointer;
+  text-decoration: none;
   transition: color 0.25s ease, background 0.25s ease;
 }
 
@@ -74,5 +74,32 @@
 }
 
 .cuerpoDetalle p:last-child {
+  margin-bottom: 0;
+}
+
+/* Estados de carga y error de la historia individual, con el mismo patrón
+ * visual que los estados del blog en la lista. */
+.estadoHistoria {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  background: var(--colorLino);
+  border: 1px solid var(--colorBorde);
+  border-radius: 14px;
+  color: var(--colorCarbon);
+}
+
+.estadoHistoria strong {
+  font-family: var(--fuenteEditorial);
+  font-size: clamp(1.2rem, 0.55vw + 1.05rem, 1.5rem);
+  font-weight: 500;
+}
+
+.estadoHistoria p {
+  margin: 10px 0 18px;
+  line-height: 1.6;
+}
+
+.estadoHistoria .volverHistoria {
   margin-bottom: 0;
 }
