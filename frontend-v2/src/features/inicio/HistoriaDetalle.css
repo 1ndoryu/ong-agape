@@ -1,9 +1,12 @@
 /* Página individual de historia: columna de lectura centrada sobre el fondo
  * de la landing, con portada y cuerpo tipográfico heredados de los tokens.
- * El ancho de lectura se limita a 760px aunque la ruta use .contenedor. */
+ * El ancho de lectura se limita a 760px aunque la ruta use .contenedor. El
+ * padding vertical separa el contenido de la navegación y del pie, con el
+ * mismo ritmo que las secciones de la landing. */
 .historiaDetalle {
   width: min(100%, 760px);
   margin: 0 auto;
+  padding-block: clamp(48px, 6vw, 84px);
   text-align: left;
 }
 
