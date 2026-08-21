@@ -1,9 +1,38 @@
 .blogInicio {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 136px);
   text-align: center;
   padding-block: clamp(48px, 6vw, 84px);
+}
+
+/* Fondo de la sección de historias: blanco un poco más oscuro que el lienzo,
+ * extendido a todo el ancho de la ventana aunque .blogInicio sea el contenedor
+ * centrado. Un pseudo-elemento absoluto con el mismo margen negativo que usa
+ * el carrusel cubre ambos bordes (full-bleed). */
+.blogInicio::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inset-block: 0;
+  inset-inline: calc((min(100vw - var(--espacioLateral) * 2, var(--anchoContenido)) - 100vw) / 2);
+  background: var(--colorSeccionHistoria);
+}
+
+@media (max-width: 850px) {
+  .blogInicio {
+    min-height: calc(100vh - 188px);
+  }
+}
+
+@media (max-width: 600px) {
+  .blogInicio {
+    min-height: calc(100vh - 180px);
+  }
 }
 
 .etiquetaBlog {

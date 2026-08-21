@@ -3,6 +3,8 @@
   --colorLienzo: #fffdf8;
   --colorLino: #f8f5ec;
   --colorTarjeta: #ffffff;
+  /* Fondo de la sección de historias: blanco un poco más oscuro que el lienzo. */
+  --colorSeccionHistoria: #f5f5f1;
   --colorBlanco: #ffffff;
   --colorTinta: rgb(0 0 0 / 88%);
   --colorCarbon: rgb(0 0 0 / 68%);
