@@ -106,8 +106,9 @@
   flex-direction: column;
   overflow: hidden;
   background: var(--colorTarjeta);
-  border: 1px solid var(--colorBorde);
   border-radius: 14px;
+  outline: 2px dashed var(--colorBorde);
+  outline-offset: 3px;
   text-align: left;
   scroll-snap-align: start;
 }
