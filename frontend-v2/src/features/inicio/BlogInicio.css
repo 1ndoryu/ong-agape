@@ -1,5 +1,4 @@
 .blogInicio {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,26 +6,6 @@
   min-height: calc(100vh - 136px);
   text-align: center;
   padding-block: clamp(48px, 6vw, 84px);
-}
-
-/* Encabezado de la sección Blog: la etiqueta y el texto introductorio van sobre
- * una banda de fondo blanco ligeramente más oscuro que el lienzo, extendida a
- * todo el ancho de la ventana (full-bleed) con el mismo margen negativo que usa
- * el carrusel. Las tarjetas quedan sobre el fondo normal de la página. */
-.cabeceraBlog {
-  position: relative;
-  width: 100%;
-  padding-bottom: 28px;
-}
-
-.cabeceraBlog::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  pointer-events: none;
-  inset-block: 0;
-  inset-inline: calc((min(100vw - var(--espacioLateral) * 2, var(--anchoContenido)) - 100vw) / 2);
-  background: var(--colorSeccionHistoria);
 }
 
 @media (max-width: 850px) {
