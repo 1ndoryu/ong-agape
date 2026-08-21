@@ -97,11 +97,13 @@ function BlogInicio() {
 
   return (
     <section className="blogInicio contenedor" id="blog">
-      <p className="etiquetaBlog">Nuestras historias</p>
-      <p className="textoBlog">
-        Compartimos avances, aprendizajes y las historias de una comunidad que se
-        organiza para cuidar.
-      </p>
+      <div className="cabeceraBlog">
+        <p className="etiquetaBlog">Blog</p>
+        <p className="textoBlog">
+          Compartimos avances, aprendizajes y las historias de una comunidad que se
+          organiza para cuidar.
+        </p>
+      </div>
 
       {estado.tipo === 'cargando' && <p className="estadoBlog">Cargando historias…</p>}
 

@@ -9,11 +9,17 @@
   padding-block: clamp(48px, 6vw, 84px);
 }
 
-/* Fondo de la sección de historias: blanco un poco más oscuro que el lienzo,
- * extendido a todo el ancho de la ventana aunque .blogInicio sea el contenedor
- * centrado. Un pseudo-elemento absoluto con el mismo margen negativo que usa
- * el carrusel cubre ambos bordes (full-bleed). */
-.blogInicio::before {
+/* Encabezado de la sección Blog: la etiqueta y el texto introductorio van sobre
+ * una banda de fondo blanco ligeramente más oscuro que el lienzo, extendida a
+ * todo el ancho de la ventana (full-bleed) con el mismo margen negativo que usa
+ * el carrusel. Las tarjetas quedan sobre el fondo normal de la página. */
+.cabeceraBlog {
+  position: relative;
+  width: 100%;
+  padding-bottom: 28px;
+}
+
+.cabeceraBlog::before {
   content: '';
   position: absolute;
   z-index: -1;
