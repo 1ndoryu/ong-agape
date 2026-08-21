@@ -80,6 +80,24 @@ function BlogInicio() {
     }
   }
 
+  /* Evita que el texto de las tarjetas se seleccione mientras el botón está
+   * presionado (desde el pointerdown, no solo tras superar el umbral). El
+   * `user-select: none` de .arrastrando solo se aplica cuando el arrastre ya
+   * se activó, y una selección iniciada antes no se deshace sola: preventDefault
+   * en selectstart corta la selección de raíz durante todo el gesto. React no
+   * expone onSelectStart en sus tipos, por eso el listener es nativo. */
+  useEffect(() => {
+    const lista = listaRef.current;
+    if (!lista) return;
+    const alSeleccionar = (evento: Event) => {
+      if (arrastreRef.current.botonPresionado) {
+        evento.preventDefault();
+      }
+    };
+    lista.addEventListener('selectstart', alSeleccionar);
+    return () => lista.removeEventListener('selectstart', alSeleccionar);
+  }, [estado.tipo]);
+
   useEffect(() => {
     const controlador = new AbortController();
     cargarEntradasBlog(controlador.signal)
