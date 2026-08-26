@@ -46,4 +46,9 @@
   --radioBoton: 40.5px;
   --espacioTarjetas: clamp(24px, 3vw, 48px);
   --espacioLateral: clamp(20px, 4vw, 48px);
+
+  /* Alturas fijas del encabezado: el nav y el logo se dimensionan con estos
+   * valores cerrados, no mínimos. El +1px es el borde inferior del
+   * encabezado. */
+  --alturaNav: 88px;
 }

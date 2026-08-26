@@ -1,11 +1,20 @@
 import BotonEnlace from '../ui/BotonEnlace';
 import './NavegacionPrincipal.css';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 function NavegacionPrincipal() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const cerrarMenu = () => setMenuAbierto(false);
+  const { pathname, hash } = useLocation();
+
+  /* El menú móvil es un overlay a pantalla completa: al navegar debe cerrarse
+   * siempre, incluidos los enlaces que no llevan onClick propio (p. ej. el
+   * botón "Quiero ayudar", que es un BotonEnlace). Escuchar el cambio de ruta
+   * cubre todos los casos, incluida la navegación programática. */
+  useEffect(() => {
+    cerrarMenu();
+  }, [pathname, hash]);
 
   return (
     <header className="encabezadoPrincipal">
@@ -30,13 +39,14 @@ function NavegacionPrincipal() {
           <Link to="/#inicio" onClick={cerrarMenu}>Inicio</Link>
           <Link to="/#nosotros" onClick={cerrarMenu}>Nuestra misión</Link>
           <Link to="/#blog" onClick={cerrarMenu}>Blog</Link>
-          <a href="mailto:hola@elproyectoagape.org" onClick={cerrarMenu}>Contacto</a>
-          <BotonEnlace href="mailto:hola@elproyectoagape.org?subject=Quiero%20ayudar" variante="contorno">
+          <Link to="/acciones" onClick={cerrarMenu}>Transparencia</Link>
+          <Link to="/contacto" onClick={cerrarMenu}>Contacto</Link>
+          <BotonEnlace href="/donar" interno variante="contorno" onClick={cerrarMenu}>
             Quiero ayudar
           </BotonEnlace>
         </div>
 
-        <BotonEnlace href="mailto:hola@elproyectoagape.org?subject=Quiero%20ayudar" variante="contorno" className="botonAyudaPrincipal">
+        <BotonEnlace href="/donar" interno variante="contorno" className="botonAyudaPrincipal">
           Quiero ayudar
         </BotonEnlace>
       </nav>

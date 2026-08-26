@@ -15,6 +15,13 @@ export default defineConfig({
         target: backendTarget,
         changeOrigin: true,
       },
+      /* Las capturas de comprobantes se sirven desde el backend (/uploads).
+       * Sin este proxy, el navegador en :5176 no podría cargar proof_url
+       * (/uploads/{uuid}.png) al abrir el modal "Ver comprobante" del panel. */
+      '/uploads': {
+        target: backendTarget,
+        changeOrigin: true,
+      },
     },
   },
 });

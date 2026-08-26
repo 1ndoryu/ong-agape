@@ -21,7 +21,7 @@ function PiePagina() {
           <Link to="/#inicio">Inicio</Link>
           <Link to="/#nosotros">Nuestra misión</Link>
           <Link to="/#blog">Blog</Link>
-          <a href="mailto:hola@elproyectoagape.org">Contacto</a>
+          <Link to="/contacto">Contacto</Link>
         </nav>
 
         <div className="piePaginaContacto">
@@ -29,7 +29,7 @@ function PiePagina() {
           <p className="piePaginaTextoContacto">
             Cada acción abre oportunidades para escuchar y acompañar a más familias.
           </p>
-          <BotonEnlace href="mailto:hola@elproyectoagape.org?subject=Quiero%20ayudar">
+          <BotonEnlace href="/donar" interno>
             Quiero ayudar
           </BotonEnlace>
         </div>

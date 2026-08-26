@@ -1,0 +1,107 @@
+/* Selector de archivo reutilizable (SubirArchivo). El input nativo queda
+ * oculto; la zona visible abre el selector al pulsarla o al soltar un archivo
+ * encima. Los colores y radios usan tokens del sistema de diseño. */
+.subirArchivo {
+  border-radius: 14px;
+}
+
+.subirArchivoEntrada {
+  /* El input se oculta del flujo pero sigue operativo para el click
+   * programático y para el label aria. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.subirArchivoZona {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 22px 16px;
+  border: 2px dashed var(--colorBorde);
+  border-radius: 14px;
+  background: var(--colorLienzo);
+  color: var(--colorCarbon);
+  font-size: var(--textoCuerpo);
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.subirArchivoZona strong {
+  color: var(--colorTinta);
+  font-size: calc(var(--textoCuerpo) * 1.02);
+  font-weight: 600;
+}
+
+.subirArchivoZona > span:last-child {
+  font-size: calc(var(--textoCuerpo) * 0.88);
+}
+
+.subirArchivoZona:hover,
+.subirArchivoZona:focus-visible,
+.subirArchivo--arrastrando .subirArchivoZona {
+  border-color: var(--colorRojo);
+  background: var(--colorRojoSuave);
+}
+
+.subirArchivoIcono {
+  display: inline-flex;
+  color: var(--colorRojo);
+}
+
+.subirArchivoArchivo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 14px;
+  background: var(--colorTarjeta);
+}
+
+.subirArchivoDatos {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  text-align: left;
+}
+
+.subirArchivoDatos strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--colorTinta);
+  font-weight: 600;
+}
+
+.subirArchivoDatos small {
+  color: var(--colorCarbon);
+  font-size: calc(var(--textoCuerpo) * 0.82);
+}
+
+.subirArchivoQuitar {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--colorBorde);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--colorCarbon);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 140ms ease, color 140ms ease, background-color 140ms ease;
+}
+
+.subirArchivoQuitar:hover,
+.subirArchivoQuitar:focus-visible {
+  border-color: var(--colorRojo);
+  background: var(--colorRojoSuave);
+  color: var(--colorRojo);
+}

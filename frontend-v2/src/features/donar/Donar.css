@@ -1,0 +1,725 @@
+/* Página /donar con el sistema de diseño v2: píldora de etiqueta, títulos
+ * Playfair y tarjetas blancas sobre el lienzo cálido. Los estilos siguen los
+ * tokens de variables.css; no se introducen colores ni fuentes nuevos. */
+
+.donar {
+  padding-block: clamp(48px, 6vw, 84px);
+}
+
+/* Cabecera centrada con el mismo ritmo que las secciones de la landing. */
+.donarHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.etiquetaDonar {
+  margin: 0 0 20px;
+  padding: 8px 16px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: var(--colorTarjeta);
+  font-size: var(--textoEtiqueta);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.donarHero h1 {
+  margin: 0;
+  font-family: var(--fuenteCuerpo);
+  font-size: clamp(2.4rem, 1.2rem + 3.6vw, 4rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--colorTinta);
+}
+
+.lineaDonar {
+  display: block;
+  color: var(--colorRojo);
+}
+
+.descripcionDonar {
+  max-width: 620px;
+  margin: 20px auto 0;
+  color: var(--colorCarbon);
+  font-size: var(--textoDescripcion);
+  line-height: 1.62;
+}
+
+/* Meta de recaudación de la campaña activa: título, monto alcanzado frente
+ * al objetivo y barra de progreso. Sustituye al antiguo "recaudados hasta
+ * hoy", que no permitía definir un objetivo. El ancho coincide con el del
+ * formulario (720px) para que la columna quede alineada. */
+.metaDonar {
+  width: min(100%, 720px);
+  margin: 26px auto 0;
+  padding: 16px 20px;
+  background: var(--colorTarjeta);
+  border: 1px solid var(--colorBorde);
+  border-radius: 14px;
+  text-align: left;
+}
+
+.metaDonarCabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 14px;
+}
+
+.metaDonarCabecera strong {
+  font-size: var(--textoCuerpo);
+  font-weight: 600;
+  color: var(--colorTinta);
+}
+
+.metaDonarCabecera span {
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  color: var(--colorCarbon);
+}
+
+/* Barra de progreso: la anchura del relleno la pone el dato del componente
+ * (estilo inline con el porcentaje); aquí solo se define el contenedor. */
+.barraMetaDonar {
+  height: 10px;
+  margin-top: 12px;
+  border-radius: 46px;
+  background: var(--colorLino);
+  overflow: hidden;
+}
+
+.barraMetaDonar span {
+  display: block;
+  height: 100%;
+  border-radius: 46px;
+  background: var(--colorRojo);
+  transition: width 400ms ease;
+}
+
+.porcentajeMetaDonar {
+  margin: 8px 0 0;
+  font-size: calc(var(--textoCuerpo) * 0.82);
+  font-weight: 500;
+  color: var(--colorCarbon);
+}
+
+/* Carrusel infinito de donaciones en vivo. Reutiliza el patrón de la cinta de
+ * Aliados: la pista se divide en dos grupos idénticos y cada grupo repite la
+ * lista (copiaPista) las veces necesarias para cubrir el ancho visible; al
+ * mover -50% el segundo grupo ocupa el lugar del primero y el ciclo se repite
+ * sin salto. Cada tarjeta muestra solo el nombre de pila del donante. */
+.cintaDonaciones {
+  width: min(100%, 720px);
+  margin: 16px auto 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+.pistaDonaciones {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  /* 60s = velocidad relajada: el bucle completo tarda ~1 min en repetirse.
+   * El nombre del keyframe es ÚNICO (desplazarDonaciones): comparte
+   * "desplazarPista" con Aliados.css y en SPA, al inyectarse/retirarse hojas
+   * dinámicas, la definición ganadora era impredecible y el carrusel podía
+   * quedarse sin animación al cambiar de página. */
+  animation: desplazarDonaciones 60s linear infinite;
+}
+
+.grupoDonaciones {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* El padding derecho iguala el gap: sin él, el borde derecho de la última
+   * tarjeta del grupo quedaría pegado a la primera del siguiente grupo, y al
+   * repetir el ciclo el salto de -50% no sería visualmente idéntico. */
+  padding-right: 12px;
+}
+
+/* El contenedor de cada copia no genera caja: las tarjetas pasan a ser hijos
+ * directos del grupo y el gap se reparte igual entre copias consecutivas. */
+.copiaDonaciones {
+  display: contents;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pistaDonaciones {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    row-gap: 12px;
+  }
+
+  /* En modo estático solo se muestra la primera mitad y, dentro de ella,
+   * solo la primera copia: el resto sería contenido repetido sin movimiento. */
+  .grupoDonaciones + .grupoDonaciones {
+    display: none;
+  }
+
+  .copiaDonaciones + .copiaDonaciones {
+    display: none;
+  }
+}
+
+.vivaDonar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--colorTarjeta);
+  border: 1px solid var(--colorBorde);
+  border-radius: 46px;
+  font-size: calc(var(--textoCuerpo) * 0.88);
+  color: var(--colorCarbon);
+}
+
+.avatarVivoDonar {
+  flex: none;
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--colorRojoSuave);
+  color: var(--colorRojo);
+  font-size: var(--textoCuerpo);
+  font-weight: 600;
+}
+
+.vivaDonar strong {
+  color: var(--colorTinta);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Formulario en una tarjeta única para agrupar los tres bloques. */
+.donarFormulario {
+  max-width: 720px;
+  margin-top: clamp(32px, 4vw, 56px);
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--colorTarjeta);
+  border: 1px solid var(--colorBorde);
+  border-radius: 14px;
+}
+
+.donarFormulario form {
+  display: grid;
+  gap: 28px;
+}
+
+.bloqueDonar {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.bloqueDonar legend {
+  margin-bottom: 14px;
+  padding: 0;
+  font-size: var(--textoBase);
+  font-weight: 600;
+  color: var(--colorTinta);
+}
+
+/* Montos sugeridos como píldoras seleccionables. */
+.montosDonar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.montoDonar {
+  min-width: 92px;
+  padding: 10px 18px;
+  border: 1px solid var(--colorBorde);
+  border-radius: var(--radioBoton);
+  background: var(--colorLienzo);
+  cursor: pointer;
+  font-size: var(--textoBoton);
+  font-weight: 500;
+  color: var(--colorTinta);
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.montoDonar:hover,
+.montoDonar:focus-visible,
+.montoDonar--activo {
+  border-color: var(--colorRojo);
+  background: var(--colorRojoSuave);
+}
+
+.montoOtro {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid var(--colorBorde);
+  border-radius: var(--radioBoton);
+  background: var(--colorLienzo);
+}
+
+.montoOtro span {
+  font-size: var(--textoEtiqueta);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--colorCarbon);
+}
+
+.montoOtro input {
+  width: 74px;
+  border: 0;
+  background: transparent;
+  font-size: var(--textoBoton);
+  color: var(--colorTinta);
+  outline: none;
+}
+
+/* Quitar las flechas del input number: el paso lo controla el teclado. */
+.montoOtro input::-webkit-outer-spin-button,
+.montoOtro input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.datosDonar {
+  display: grid;
+  gap: 14px;
+}
+
+.datosDonar label {
+  display: grid;
+  gap: 6px;
+  font-size: var(--textoCuerpo);
+  font-weight: 500;
+  color: var(--colorTinta);
+}
+
+.opcionalDonar {
+  font-weight: 400;
+  color: var(--colorCarbon);
+}
+
+.datosDonar input {
+  padding: 12px 16px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 12px;
+  background: var(--colorLienzo);
+  font-size: var(--textoCuerpo);
+  color: var(--colorTinta);
+}
+
+.datosDonar input:focus-visible {
+  outline: 2px solid var(--colorAzul);
+  outline-offset: 1px;
+}
+
+/* Lista compacta de métodos de pago: cada método es una fila con su logo a
+ * la izquierda y el texto a la derecha. Al ser vertical ocupa menos alto que
+ * la rejilla anterior y se lee como una lista de opciones. */
+.metodosDonar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metodoDonar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 12px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 10px;
+  background: var(--colorLienzo);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.logoMetodoDonar {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 28px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* El texto del método ocupa el resto de la fila y se alinea a la izquierda. */
+.textoMetodoDonar {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.metodoDonar strong {
+  font-size: var(--textoCuerpo);
+  font-weight: 600;
+  color: var(--colorTinta);
+}
+
+.metodoDonar .textoMetodoDonar > span {
+  font-size: calc(var(--textoCuerpo) * 0.82);
+  color: var(--colorCarbon);
+}
+
+.metodoDonar:hover,
+.metodoDonar:focus-visible,
+.metodoDonar--activo {
+  border-color: var(--colorRojo);
+  background: var(--colorRojoSuave);
+}
+
+/* Métodos en simulación (no habilitados aún): se ven igual pero con opacidad
+ * reducida y sin el fondo de selección, para comunicar que no son operativos. */
+.metodoDonar--simulado {
+  opacity: 0.62;
+}
+
+.metodoDonar--simulado.metodoDonar--activo {
+  border-color: var(--colorCarbon);
+  background: var(--colorLienzo);
+}
+
+/* Error de envío (compartido por el formulario y el modal de confirmación). */
+.errorEnvioDonar {
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--colorRojoSuave);
+  color: var(--colorRojo);
+  font-size: var(--textoCuerpo);
+}
+
+/* Estados y acciones del formulario de donación. */
+.estadoDonar {
+  margin: 0;
+  color: var(--colorCarbon);
+  font-size: var(--textoCuerpo);
+}
+
+.accionesDonar {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+.botonDonar {
+  display: inline-flex;
+  min-height: clamp(46px, 2.7vw + 16px, 54px);
+  align-items: center;
+  justify-content: center;
+  padding: 10px clamp(28px, 4vw, 48px);
+  border: 0;
+  border-radius: var(--radioBoton);
+  background: var(--colorRojo);
+  color: var(--colorBlanco);
+  font-size: var(--textoBoton);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: translate 160ms ease;
+}
+
+.botonDonar:hover:not(:disabled),
+.botonDonar:focus-visible {
+  translate: 0 -2px;
+}
+
+.botonDonar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.notaDonar {
+  max-width: 480px;
+  margin: 0;
+  text-align: center;
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  color: var(--colorCarbon);
+}
+
+/* Modal con los datos de pago del método seleccionado: mismo patrón de
+ * overlay y contenido que el panel admin, en la página pública. */
+.modalDatosPago {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgb(0 0 0 / 45%);
+}
+
+.modalDatosPagoContenido {
+  width: min(560px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: clamp(18px, 2vw, 28px);
+  background: var(--colorLienzo);
+  border: 1px solid var(--colorBorde);
+  border-radius: 16px;
+}
+
+.modalDatosPagoCabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.modalDatosPagoCabecera h3 {
+  margin: 0;
+  font-family: var(--fuenteCuerpo);
+  font-size: clamp(1.1rem, 0.5vw + 1rem, 1.3rem);
+  font-weight: 500;
+  color: var(--colorTinta);
+}
+
+.modalDatosPagoCerrar {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.datosPago {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.instruccionesModalPago {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--colorAmarilloSuave);
+  color: var(--colorTinta);
+  font-size: var(--textoCuerpo);
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.filaDatoPago {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 14px;
+  background: var(--colorTarjeta);
+  border: 1px solid var(--colorBorde);
+  border-radius: 10px;
+}
+
+.filaDatoPago dt {
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  color: var(--colorCarbon);
+}
+
+.filaDatoPago dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--colorTinta);
+  text-align: right;
+  word-break: break-word;
+}
+
+/* Comprobante opcional dentro del modal de confirmación de pago. Sustituye al
+ * fieldset del formulario: el donante lo adjunta al confirmar, no antes. El
+ * selector visual (zona de arrastre) vive en SubirArchivo.css. */
+.comprobanteModalPago {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--colorBorde);
+}
+
+.textoComprobanteModalPago {
+  margin: 0;
+  font-size: calc(var(--textoCuerpo) * 0.88);
+  line-height: 1.5;
+  color: var(--colorCarbon);
+}
+
+/* Aviso de método en simulación dentro del modal: se muestra en lugar del
+ * comprobante/confirmación cuando el método aún no es operativo. El botón
+ * permite volver al formulario a elegir otro método. */
+.simulacionModalPago {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 12px;
+  background: var(--colorTarjeta);
+}
+
+.simulacionModalPago p {
+  margin: 0;
+  text-align: center;
+  font-size: calc(var(--textoCuerpo) * 0.92);
+  line-height: 1.5;
+  color: var(--colorCarbon);
+}
+
+.botonSimulacionModal {
+  padding: 9px 18px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: var(--textoCuerpo);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.botonSimulacionModal:hover,
+.botonSimulacionModal:focus-visible {
+  border-color: var(--colorRojo);
+  background: var(--colorRojoSuave);
+}
+
+/* Botón de "Completar pago de prueba" del simulador: usa el estilo primario
+ * (.botonDonar) pero con la anchura del contenedor de simulación. */
+.botonPagoPrueba {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Zona de confirmación del modal: botón principal con el monto y la nota de
+ * rendición de cuentas, separada del resto por una línea. */
+.confirmarModalPago {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--colorBorde);
+}
+
+.botonDonarModal {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Estado de confirmación tras registrar la intención de aporte. */
+.confirmacionDonar {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: clamp(20px, 3vw, 36px);
+  border-radius: 14px;
+  background: var(--colorAmarilloSuave);
+  text-align: center;
+}
+
+.confirmacionDonar strong {
+  font-family: var(--fuenteCuerpo);
+  font-size: clamp(1.5rem, 1vw + 1.2rem, 2.1rem);
+  font-weight: 600;
+  color: var(--colorTinta);
+}
+
+.confirmacionDonar p {
+  max-width: 520px;
+  margin: 0;
+  color: var(--colorCarbon);
+  line-height: 1.6;
+}
+
+.volverDonar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: var(--radioBoton);
+  color: var(--colorTinta);
+  text-decoration: none;
+}
+
+/* Animación del carrusel de donaciones en vivo: el desplazamiento es
+ * exactamente la mitad del ancho de la pista porque esta contiene dos grupos
+ * idénticos; al llegar ahí, el segundo grupo ocupa el lugar del primero y el
+ * ciclo puede repetirse sin salto. Nombre único (desplazarDonaciones) para no
+ * colisionar con el keyframe homónimo de Aliados.css. */
+@keyframes desplazarDonaciones {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Sección "Así se está usando tu ayuda" debajo del formulario de donación:
+ * las 3 acciones más recientes con narrativa y un botón que lleva a la página
+ * /acciones. Reutiliza las tarjetas (tarjetaAccion*) de Acciones.css. */
+.accionesRecientes {
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.accionesRecientesCabecera {
+  text-align: center;
+}
+
+/* Píldora compacta (ancho del contenido), coherente con /acciones. */
+.accionesRecientesCabecera .etiquetaDonar {
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.accionesRecientesCabecera h2 {
+  margin: 0;
+  font-family: var(--fuenteCuerpo);
+  font-size: clamp(1.8rem, 1.1rem + 2vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.14;
+  color: var(--colorTinta);
+}
+
+.accionesRecientesDescripcion {
+  max-width: 560px;
+  margin: 12px auto 0;
+  color: var(--colorCarbon);
+  font-size: var(--textoDescripcion);
+  line-height: 1.6;
+}
+
+.accionesRecientesGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 28px;
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.accionesRecientesPie {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.accionesRecientesBoton {
+  text-decoration: none;
+}

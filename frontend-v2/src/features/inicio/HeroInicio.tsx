@@ -4,7 +4,6 @@ import './HeroInicio.css';
 function HeroInicio() {
   return (
     <section className="heroInicio contenedor" id="inicio">
-      <p className="etiquetaHero">Amor en acción · Venezuela</p>
 
       <h1>
         Cuando nos unimos,
@@ -35,7 +34,7 @@ function HeroInicio() {
       </p>
 
       <div className="accionesHero">
-        <BotonEnlace href="mailto:hola@elproyectoagape.org?subject=Quiero%20ser%20parte">
+        <BotonEnlace href="/donar" interno>
           Sé parte del cambio
         </BotonEnlace>
         <BotonEnlace href="/#nosotros" variante="contorno">

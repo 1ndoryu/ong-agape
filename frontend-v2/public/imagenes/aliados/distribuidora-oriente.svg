@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" aria-label="Distribuidora Oriente">
+  <circle cx="28" cy="36" r="10" fill="#b7791f"/>
+  <path d="M12 36H6m44 0h-6M28 20v-6M16 24l-5-5m37 5l5-5" stroke="#b7791f" stroke-width="4" stroke-linecap="round"/>
+  <text x="58" y="31" font-family="Georgia, serif" font-size="18" fill="#33230c">Distribuidora</text>
+  <text x="59" y="49" font-family="Arial, sans-serif" font-size="12" letter-spacing="3" fill="#b7791f">ORIENTE</text>
+</svg>

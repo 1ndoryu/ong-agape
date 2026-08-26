@@ -1,11 +1,14 @@
+/* El encabezado fluye con la página (sin sticky): al hacer scroll la
+ * navegación se va con el contenido, igual que cualquier otra sección. */
 .encabezadoPrincipal {
+  background: var(--colorLienzo);
   border-bottom: 1px solid var(--colorBorde);
 }
 
 .navegacionPrincipal {
   position: relative;
   display: flex;
-  min-height: 74px;
+  height: var(--alturaNav);
   align-items: center;
   justify-content: space-between;
   gap: clamp(20px, 2.2vw, 32px);
@@ -19,11 +22,13 @@
   text-decoration: none;
 }
 
+/* La altura del logo se deriva de la altura fija del nav: así el encabezado
+ * mide exactamente var(--alturaNav) y las alturas quedan predecibles. */
 .logoAgape {
   display: block;
-  width: clamp(72px, 7vw, 116px);
-  padding: 20px;
-  height: auto;
+  width: auto;
+  height: calc(var(--alturaNav) - 16px);
+  padding: 8px;
 }
 
 .marcaSimbolo {
@@ -33,7 +38,7 @@
   place-items: center;
   border: 1px solid var(--colorTinta);
   border-radius: 50%;
-  font-family: var(--fuenteEditorial);
+  font-family: var(--fuenteCuerpo);
   font-size: var(--textoMarcaSimbolo);
   font-style: italic;
   font-weight: 500;
@@ -54,7 +59,7 @@
 
 .marcaTexto strong {
   margin-top: 5px;
-  font-family: var(--fuenteEditorial);
+  font-family: var(--fuenteCuerpo);
   font-size: var(--textoMarca);
   font-weight: 500;
   text-transform: none;
@@ -113,7 +118,7 @@
   .navegacionPrincipal {
     display: grid;
     grid-template-columns: 1fr auto;
-    min-height: 82px;
+    height: var(--alturaNav);
     padding-block: 12px;
   }
 
@@ -175,11 +180,5 @@
 }
 
 @media (max-width: 600px) {
-  .navegacionPrincipal {
-    min-height: 78px;
-  }
-
   .enlacesNavegacion { font-size: var(--textoNavegacion); }
-
-  .logoAgape { width: 78px; }
 }

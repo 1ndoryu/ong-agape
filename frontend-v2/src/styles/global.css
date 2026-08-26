@@ -38,7 +38,23 @@ a {
 
 .paginaInicio {
   min-height: 100vh;
-  overflow: hidden;
+  /* clip (no hidden): recorta los márgenes negativos full-bleed sin crear un
+   * contenedor de scroll que cortaría las tarjetas horizontales del blog. */
+  overflow-x: clip;
+}
+
+/* Overrides de altura del encabezado por breakpoint: en móvil la barra
+ * apila texto y enlace (dos líneas) y el nav crece con el menú. */
+@media (max-width: 850px) {
+  :root {
+    --alturaNav: 96px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --alturaNav: 88px;
+  }
 }
 
 .contenedor {

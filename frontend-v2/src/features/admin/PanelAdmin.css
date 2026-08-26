@@ -1,0 +1,968 @@
+/* Estilos del panel administrativo v2, construidos con los tokens del sistema
+ * de diseño (variables.css). Reutiliza la píldora .etiquetaDonar de Donar.css
+ * para las etiquetas y define solo lo específico del panel. */
+
+.panelLogin {
+  display: grid;
+  gap: 16px;
+  max-width: 420px;
+  margin: clamp(48px, 8vw, 120px) auto;
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--colorTarjeta);
+  border: 1px solid var(--colorBorde);
+  border-radius: 14px;
+}
+
+.panelLogin label,
+.datosDonar label {
+  display: grid;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.panelLogin input {
+  padding: 12px 16px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 12px;
+  background: var(--colorLienzo);
+  font-size: var(--textoCuerpo);
+  color: var(--colorTinta);
+}
+
+.panelLogin button {
+  justify-self: start;
+  padding: 10px 28px;
+  border: 0;
+  border-radius: var(--radioBoton);
+  background: var(--colorRojo);
+  color: var(--colorBlanco);
+  font-size: var(--textoBoton);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.panelLogin button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.panelAdmin {
+  padding-block: clamp(32px, 4vw, 64px);
+}
+
+.panelCabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.panelCabecera h1 {
+  margin: 0;
+  font-family: var(--fuenteCuerpo);
+  font-size: clamp(1.5rem, 0.8vw + 1.3rem, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.panelSesion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--textoCuerpo);
+  color: var(--colorCarbon);
+}
+
+.panelSesion button {
+  padding: 8px 18px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: var(--radioBoton);
+  background: transparent;
+  cursor: pointer;
+  color: var(--colorTinta);
+  font-size: var(--textoBoton);
+}
+
+.panelPestanas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--colorBorde);
+}
+
+.panelPestanas button,
+.panelPestanas a {
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 46px;
+  background: transparent;
+  color: var(--colorCarbon);
+  /* Fuente menor que el resto de botones para que la barra de pestañas del
+   * panel quede más discreta y quepan más pestañas sin romper línea. */
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.panelPestanas button[aria-current='page'] {
+  border-color: var(--colorCarbon);
+  background: var(--colorTarjeta);
+  color: var(--colorTinta);
+}
+
+.panelContenido {
+  margin-top: 28px;
+}
+
+/* Borde externo punteado, igual que las tarjetas del blog (.tarjetaBlog):
+ * el borde se dibuja fuera de la tabla, sin chocar con el fondo ni con el
+ * redondeo. El interior solo conserva las líneas horizontales entre filas.
+ * El tamaño de fuente es 2px menor que el cuerpo (var(--textoCuerpo)) para
+ * que las tablas densas del panel se lean más compactas. */
+.panelTabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--colorTarjeta);
+  border-radius: 14px;
+  overflow: hidden;
+  outline: 2px dashed var(--colorBorde);
+  outline-offset: 3px;
+  font-size: calc(var(--textoCuerpo) - 2px);
+}
+
+/* Celdas con más aire (14px 18px); el separador horizontal entre filas usa
+ * un borde tenue para que el foco visual siga siendo el borde externo. */
+.panelTabla th,
+.panelTabla td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--colorBorde);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.panelTabla th {
+  font-size: calc(var(--textoEtiqueta) - 2px);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--colorCarbon);
+  background: var(--colorLino);
+}
+
+.panelTabla tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Columna del cuerpo del mensaje de contacto: acota el ancho y recorta con
+ * puntos suspensivos los mensajes largos para que la fila no se estire. El
+ * texto completo se lee con el botón "Ver completo" (un modal), porque el
+ * atributo title no funciona en pantallas táctiles. */
+.panelTabla .panelMensajeCelda {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.panelTabla .panelMensajeTexto {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Botón para leer el mensaje completo en un modal. Estilo enlace (subrayado
+ * al pasar el cursor) para no competir con el botón de eliminar; queda junto
+ * al texto truncado sin ocupar toda la fila. */
+.panelTabla .panelVerMensaje {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: calc(var(--textoCuerpo) * 0.8);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.panelTabla .panelVerMensaje:hover,
+.panelTabla .panelVerMensaje:focus-visible {
+  border-color: var(--colorRojo);
+  background: var(--colorRojoSuave);
+}
+
+/* Dentro de las tablas, chips y botones de acción también son 2px menores
+ * que su variante base para mantener la tabla compacta de forma coherente. */
+.panelTabla .panelEstadoChip {
+  font-size: calc(var(--textoCuerpo) * 0.78 - 2px);
+}
+
+.panelTabla .panelMetodosAcciones button,
+.panelTabla .panelMetodosAcciones a {
+  font-size: calc(var(--textoCuerpo) * 0.85 - 2px);
+}
+
+/* Botón para abrir la captura del comprobante en un modal. Vive dentro de la
+ * tabla (Recibos), por eso hereda la compactación de 2px de las acciones. */
+.panelTabla .botonVerComprobante {
+  padding: 6px 14px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: calc(var(--textoCuerpo) * 0.85 - 2px);
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.panelTabla .botonVerComprobante:hover,
+.panelTabla .botonVerComprobante:focus-visible {
+  border-color: var(--colorRojo);
+  background: var(--colorRojoSuave);
+}
+
+/* Paginación de las tablas del panel: barra centrada con navegación
+ * Anterior/Siguiente y el contador de página actual. Solo aparece cuando
+ * hay más de una página (el componente no se renderiza si totalPaginas<=1). */
+.paginadorTabla {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.paginadorTabla button {
+  padding: 7px 16px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.paginadorTabla button:hover:not(:disabled),
+.paginadorTabla button:focus-visible {
+  border-color: var(--colorRojo);
+  background: var(--colorRojoSuave);
+}
+
+.paginadorTabla button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.paginadorTablaInfo {
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  color: var(--colorCarbon);
+}
+
+.panelEstadoChip {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  font-size: calc(var(--textoCuerpo) * 0.78);
+  color: var(--colorTinta);
+  /* La tabla hereda text-align:left; el chip se centra para que la etiqueta
+   * quede equilibrada dentro de su píldora. */
+  text-align: center;
+}
+
+.panelEstadoChip--published,
+.panelEstadoChip--approved,
+.panelEstadoChip--enabled {
+  background: var(--colorAmarilloSuave);
+  border-color: transparent;
+}
+
+.panelMetodos {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panelMetodos li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--colorTarjeta);
+  border: 1px solid var(--colorBorde);
+  border-radius: 12px;
+}
+
+/* Bloque izquierdo: nombre + chip en la misma fila y detalle debajo. */
+.panelMetodos li > div:first-child {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+}
+
+/* Fila horizontal del método: nombre y estado lado a lado con espacio. */
+.panelMetodosFila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panelMetodos li > div:first-child strong {
+  font-size: var(--textoCuerpo);
+  font-weight: 600;
+}
+
+.panelMetodos .panelEstadoChip {
+  font-size: calc(var(--textoCuerpo) * 0.78);
+  color: var(--colorTinta);
+  white-space: nowrap;
+}
+
+.panelMetodos .detalleMetodo {
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  color: var(--colorCarbon);
+}
+
+.panelMetodosAcciones {
+  display: flex;
+  gap: 8px;
+}
+
+.panelMetodosAcciones button,
+.panelMetodosAcciones a {
+  padding: 7px 16px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Botones de acción como icono (Editar, Publicar, Aprobar, Eliminar…). Se
+ * aplica SOLO a los botones que llevan la clase, dejando intactos los botones
+ * de texto (p. ej. Configurar/Habilitar en Métodos de pago). El icono se
+ * centra con inline-flex y el botón queda cuadrado y compacto. */
+.panelFilaAcciones button.botonIcono,
+.panelMetodosAcciones button.botonIcono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.panelFilaAcciones button.botonIcono svg,
+.panelMetodosAcciones button.botonIcono svg {
+  display: block;
+}
+
+/* Variante de peligro: tinta roja al pasar el ratón, para eliminar/rechazar.
+ * El rojo advierte antes de confirmar una acción destructiva. */
+.panelFilaAcciones button.botonIcono--peligro:hover,
+.panelFilaAcciones button.botonIcono--peligro:focus-visible,
+.panelMetodosAcciones button.botonIcono--peligro:hover,
+.panelMetodosAcciones button.botonIcono--peligro:focus-visible {
+  border-color: var(--colorRojo);
+  color: var(--colorRojo);
+}
+
+/* Miniatura del logo de un aliado en la tabla del panel. Se recorta con un
+ * fondo neutro para que los SVG transparentes se vean consistentes. */
+.panelLogoAliado {
+  display: inline-block;
+  width: 72px;
+  height: 40px;
+  object-fit: contain;
+  background: var(--colorLienzo);
+  border: 1px solid var(--colorBorde);
+  border-radius: 8px;
+  padding: 4px;
+  vertical-align: middle;
+}
+
+/* Texto orientativo bajo el título de una sección (p. ej. cómo se usa la
+ * campaña activa como meta de la página de donar). */
+.panelDescripcionSeccion {
+  margin: -6px 0 14px;
+  font-size: calc(var(--textoCuerpo) * 0.88);
+  color: var(--colorCarbon);
+}
+
+/* Fila con checkbox alineado con su etiqueta (en lugar de apilado vertical
+ * como el resto de campos del formulario). */
+.panelCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 20px;
+  font-size: var(--textoCuerpo);
+  color: var(--colorTinta);
+}
+
+.panelAviso {
+  margin: 0 0 14px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--colorAmarilloSuave);
+  color: var(--colorTinta);
+}
+
+.panelError {
+  margin: 0 0 14px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--colorRojoSuave);
+  color: var(--colorRojoOscuro, var(--colorRojo));
+}
+
+.panelEstado {
+  color: var(--colorCarbon);
+}
+
+/* Formularios del panel (blog, movimientos): campos apilados con etiqueta. */
+.panelFormulario {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding: clamp(18px, 2vw, 28px);
+  background: var(--colorTarjeta);
+  border: 1px solid var(--colorBorde);
+  border-radius: 14px;
+}
+
+.panelFormulario h3 {
+  margin: 0;
+  font-family: var(--fuenteCuerpo);
+  font-size: clamp(1.1rem, 0.5vw + 1rem, 1.3rem);
+  font-weight: 500;
+  color: var(--colorTinta);
+}
+
+.panelFormulario label {
+  display: grid;
+  gap: 6px;
+  font-size: var(--textoCuerpo);
+  font-weight: 500;
+  color: var(--colorTinta);
+}
+
+.panelFormulario input,
+.panelFormulario textarea {
+  padding: 10px 14px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 10px;
+  background: var(--colorLienzo);
+  font-family: var(--fuenteCuerpo);
+  font-size: var(--textoCuerpo);
+  color: var(--colorTinta);
+  resize: vertical;
+}
+
+.panelFormulario input:focus-visible,
+.panelFormulario textarea:focus-visible {
+  outline: 2px solid var(--colorAzul);
+  outline-offset: 1px;
+}
+
+.panelFormularioFila {
+  display: grid;
+  gap: 14px;
+}
+
+@media (min-width: 720px) {
+  .panelFormularioFila {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.panelOpcional {
+  font-weight: 400;
+  color: var(--colorCarbon);
+}
+
+/* Sección de configuración del proveedor (PayPal/Stripe) en el modal de
+ * métodos: agrupa los campos públicos y los secretos del adaptador que el
+ * cliente rellena desde el panel. */
+.panelSeccionProveedor {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 12px;
+  background: var(--colorLienzo);
+}
+
+.panelSeccionProveedor legend {
+  padding: 0 6px;
+  font-size: calc(var(--textoCuerpo) * 0.9);
+  font-weight: 600;
+  color: var(--colorTinta);
+}
+
+.panelAyudaProveedor {
+  margin: 0;
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  color: var(--colorCarbon);
+}
+
+.panelAyudaCampo {
+  font-size: calc(var(--textoCuerpo) * 0.78);
+  font-weight: 400;
+  color: var(--colorCarbon);
+}
+
+/* Fila de un secreto: etiqueta + chip de estado (configurado/pendiente). El
+ * valor nunca se muestra: solo existe el indicador. */
+.panelSecretosProveedor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.panelSecretoTitulo {
+  font-size: calc(var(--textoCuerpo) * 0.9);
+  font-weight: 500;
+  color: var(--colorTinta);
+}
+
+.panelSecretosProveedor + input {
+  margin-top: -6px;
+}
+
+/* Cabecera de acciones sobre la tabla (p. ej. botón "Nuevo artículo"). */
+.panelAccionesTabla {
+  margin-bottom: 14px;
+}
+
+/* Cabecera de sección: el título queda a la izquierda y el botón de acción
+ * (p. ej. "Nuevo artículo") anclado al final de la derecha, en la misma fila. */
+.panelCabeceraSeccion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.panelCabeceraSeccion h2 {
+  margin: 0;
+}
+
+/* El botón de acción de la cabecera usa el mismo estilo que los del resto del
+ * panel (píldora con borde), porque ya no vive dentro de .panelMetodosAcciones. */
+.panelCabeceraSeccion button {
+  padding: 7px 16px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  cursor: pointer;
+}
+
+/* Filtros de las tablas: selects compactos en una fila sobre la tabla. */
+.panelFiltros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.panelFiltros label {
+  display: grid;
+  gap: 4px;
+  font-size: calc(var(--textoCuerpo) * 0.82);
+  font-weight: 500;
+  color: var(--colorCarbon);
+}
+
+.panelFiltros select {
+  padding: 8px 14px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 10px;
+  background: var(--colorLienzo);
+  font-size: var(--textoCuerpo);
+  color: var(--colorTinta);
+}
+
+/* Modal del blog: overlay fijo. Cerrarlo (X, ESC o clic fuera) no descarta
+ * el borrador en memoria; solo "Nuevo artículo" o un guardado lo reinician. */
+.panelModal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgb(0 0 0 / 45%);
+}
+
+.panelModalContenido {
+  width: min(680px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: clamp(18px, 2vw, 28px);
+  background: var(--colorLienzo);
+  border: 1px solid var(--colorBorde);
+  border-radius: 16px;
+}
+
+.panelModalCabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.panelModalCabecera h3 {
+  margin: 0;
+  font-family: var(--fuenteCuerpo);
+  font-size: clamp(1.1rem, 0.5vw + 1rem, 1.3rem);
+  font-weight: 500;
+  color: var(--colorTinta);
+}
+
+.panelModalCerrar {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Dentro del modal el formulario pierde la tarjeta propia: el contenedor
+ * del modal ya aporta fondo y borde. */
+.panelModal .panelFormulario {
+  margin-bottom: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* Selects del formulario usan el mismo lenguaje visual que inputs/textarea. */
+.panelFormulario select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 10px;
+  background: var(--colorLienzo);
+  font-size: var(--textoCuerpo);
+  color: var(--colorTinta);
+}
+
+.panelFormulario select:focus-visible {
+  outline: 2px solid var(--colorRojo);
+  outline-offset: 2px;
+}
+
+/* Acciones inferiores del modal de edición: cancelar a la izquierda,
+ * guardar como acción primaria a la derecha. */
+.panelModalAcciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+/* Datos del remitente dentro del modal de lectura del mensaje: correo (como
+ * enlace) y fecha de recepción en una línea separada del cuerpo. */
+.panelModalMensajeDatos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: calc(var(--textoCuerpo) * 0.9);
+  color: var(--colorCarbon);
+}
+
+.panelModalMensajeDatos a {
+  color: var(--colorAzul);
+}
+
+/* Cuerpo del mensaje completo: conserva los saltos de línea del remitente
+ * (white-space: pre-line) y justifica el texto para una lectura cómoda. */
+.panelModalMensajeCuerpo {
+  margin: 0;
+  font-size: var(--textoCuerpo);
+  line-height: 1.65;
+  color: var(--colorTinta);
+  white-space: pre-line;
+}
+
+.panelModalCancelar,
+.panelModalGuardar {
+  padding: 10px 22px;
+  border-radius: var(--radioBoton);
+  font-size: var(--textoCuerpo);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.panelModalCancelar {
+  border: 1px solid var(--colorCarbon);
+  background: transparent;
+  color: var(--colorTinta);
+}
+
+.panelModalGuardar {
+  border: 1px solid var(--colorRojo);
+  background: var(--colorRojo);
+  color: var(--colorBlanco);
+}
+
+.panelModalGuardar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+  .panelTabla {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Ayuda del editor de fotografías de "Nuestra historia". */
+.panelHistoriaAyuda {
+  margin: 0;
+  color: var(--colorCarbon);
+  font-size: calc(var(--textoCuerpo) * 0.92);
+}
+
+/* Galería del editor: los cuadros imitan la galería de la portada (borde de
+ * color y rotación) para que el administrador vea las fotos guardadas tal
+ * como las verá el visitante. Clic o arrastre cambia la imagen; el icono y la
+ * etiqueta superpuestos invitan a la acción. */
+.panelHistoriaGaleria {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 26px;
+  padding: 10px 6px;
+}
+
+.panelHistoriaCuadro {
+  position: relative;
+  width: 248px;
+  height: 248px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--colorLino);
+  border: 6px solid;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 10%);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.panelHistoriaCuadro:hover {
+  transform: scale(1.04);
+  box-shadow: 0 16px 34px rgb(0 0 0 / 16%);
+}
+
+.panelHistoriaCuadro:focus-visible {
+  outline: 2px solid var(--colorAzul);
+  outline-offset: 3px;
+}
+
+.panelHistoriaCuadro--color1 {
+  border-color: var(--colorAmarillo);
+  rotate: -4deg;
+}
+
+.panelHistoriaCuadro--color2 {
+  border-color: var(--colorAzul);
+  rotate: 3deg;
+}
+
+.panelHistoriaCuadro--color3 {
+  border-color: var(--colorRojo);
+  rotate: -2deg;
+}
+
+.panelHistoriaCuadro--vacia {
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--colorLino),
+    var(--colorLino) 10px,
+    var(--colorTarjeta) 10px,
+    var(--colorTarjeta) 20px
+  );
+}
+
+.panelHistoriaCuadro img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.panelHistoriaCuadroVacia {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  color: var(--colorCarbon);
+  font-size: calc(var(--textoCuerpo) * 0.9);
+  font-weight: 500;
+}
+
+/* Etiqueta "Cambiar / Añadir" superpuesta abajo, visible al pasar el ratón. */
+.panelHistoriaCuadroAccion {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 6px 0 8px;
+  background: rgb(0 0 0 / 55%);
+  color: var(--colorBlanco);
+  font-size: calc(var(--textoCuerpo) * 0.85);
+  font-weight: 600;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.panelHistoriaCuadro:hover .panelHistoriaCuadroAccion,
+.panelHistoriaCuadro:focus-visible .panelHistoriaCuadroAccion {
+  opacity: 1;
+}
+
+/* Botón para vaciar una fotografía: esquina superior derecha del cuadro. */
+.panelHistoriaCuadroQuitar {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--colorBlanco);
+  border-radius: 50%;
+  background: rgb(0 0 0 / 55%);
+  color: var(--colorBlanco);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.panelHistoriaCuadroQuitar:hover {
+  background: rgb(0 0 0 / 75%);
+}
+
+/* Vista "Acciones de transparencia": detalle bajo el concepto de la tabla
+ * (si la entrada ya tiene narrativa/imágenes) y acciones por fila. */
+.panelFilaDetalle {
+  display: block;
+  margin-top: 3px;
+  font-size: calc(var(--textoCuerpo) * 0.8);
+  font-weight: 400;
+  color: var(--colorCarbon);
+}
+
+.panelFilaAcciones {
+  display: flex;
+  gap: 8px;
+}
+
+.panelFilaAcciones button {
+  padding: 6px 12px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: calc(var(--textoCuerpo) * 0.82);
+  cursor: pointer;
+}
+
+.panelFilaAcciones button:hover,
+.panelFilaAcciones button:focus-visible {
+  border-color: var(--colorRojo);
+  color: var(--colorRojo);
+}
+
+.panelFilaAcciones button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Modal de la vista de acciones: usa el patrón común de los demás modales
+ * (.panelModal como overlay + .panelModalContenido como tarjeta). */
+.panelImagenesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+  gap: 12px;
+}
+
+.panelImagenCuadro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.panelImagenCuadro img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--colorBorde);
+  background: var(--colorLino);
+}
+
+.panelImagenVacio {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border: 1px dashed var(--colorBorde);
+  border-radius: 10px;
+  background: var(--colorLino);
+  color: var(--colorCarbon);
+  font-size: calc(var(--textoCuerpo) * 0.85);
+}
+
+.panelImagenAcciones {
+  display: flex;
+  gap: 8px;
+}
+
+.panelImagenAcciones button {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: calc(var(--textoCuerpo) * 0.8);
+  cursor: pointer;
+}
+
+.panelImagenAcciones button:hover,
+.panelImagenAcciones button:focus-visible {
+  border-color: var(--colorRojo);
+  color: var(--colorRojo);
+}

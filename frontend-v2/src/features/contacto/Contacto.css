@@ -1,0 +1,152 @@
+/* Página pública de contacto. Reutiliza el patrón de cabecera de /acciones
+ * (etiqueta + h1 + descripción) y el patrón de formulario en tarjeta de
+ * /donar, con los mismos tokens del sistema de diseño. Toda la página está
+ * centrada en columna, como /acciones. */
+
+.contacto {
+  padding-top: clamp(64px, 8vw, 120px);
+  padding-bottom: clamp(72px, 8vw, 120px);
+}
+
+.contactoCabecera {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* La píldora de etiqueta se muestra compacta (ancho de su contenido), no
+ * estirada a todo el ancho del bloque, como en /acciones. */
+.contactoCabecera .etiquetaDonar {
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.contactoCabecera h1 {
+  margin: 0;
+  font-family: var(--fuenteCuerpo);
+  font-size: clamp(2rem, 1.1rem + 2.8vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  color: var(--colorTinta);
+}
+
+.contactoDescripcion {
+  max-width: 620px;
+  margin: 16px auto 0;
+  font-size: var(--textoDescripcion);
+  color: var(--colorCarbon);
+  line-height: 1.62;
+}
+
+/* Formulario en una tarjeta única, igual que .donarFormulario, centrado. */
+.contactoFormulario {
+  max-width: 720px;
+  margin-top: clamp(32px, 4vw, 56px);
+  margin-inline: auto;
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--colorTarjeta);
+  border: 1px solid var(--colorBorde);
+  border-radius: 14px;
+}
+
+.contactoCampos {
+  display: grid;
+  gap: 18px;
+}
+
+.contactoCampos label {
+  display: grid;
+  gap: 6px;
+  font-size: var(--textoCuerpo);
+  font-weight: 500;
+  color: var(--colorTinta);
+}
+
+.contactoCampos input,
+.contactoCampos textarea {
+  padding: 12px 16px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 12px;
+  /* Sin fondo propio: los campos dejan ver el fondo de la tarjeta. */
+  background: transparent;
+  font-size: var(--textoCuerpo);
+  font-family: var(--fuenteCuerpo);
+  color: var(--colorTinta);
+  resize: vertical;
+}
+
+.contactoCampos input:focus-visible,
+.contactoCampos textarea:focus-visible {
+  outline: 2px solid var(--colorAzul);
+  outline-offset: 1px;
+}
+
+/* Error de envío (mismo estilo que .errorEnvioDonar). */
+.errorEnvioContacto {
+  margin: 18px 0 0;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--colorRojoSuave);
+  color: var(--colorRojo);
+  font-size: var(--textoCuerpo);
+}
+
+.accionesContacto {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.botonContacto {
+  display: inline-flex;
+  min-height: clamp(46px, 2.7vw + 16px, 54px);
+  align-items: center;
+  justify-content: center;
+  padding: 10px clamp(28px, 4vw, 48px);
+  border: 0;
+  border-radius: var(--radioBoton);
+  background: var(--colorRojo);
+  color: #fff;
+  font-size: var(--textoBoton);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, transform 140ms ease;
+}
+
+.botonContacto:hover:not(:disabled),
+.botonContacto:focus-visible {
+  background: var(--colorRojoSuave);
+  color: var(--colorRojo);
+}
+
+.botonContacto:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Estado de éxito tras enviar: reemplaza el formulario, centrado. */
+.contactoExito {
+  display: grid;
+  gap: 6px;
+  max-width: 720px;
+  margin-top: clamp(32px, 4vw, 56px);
+  margin-inline: auto;
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--colorTarjeta);
+  border: 1px solid var(--colorBorde);
+  border-radius: 14px;
+  text-align: center;
+}
+
+.contactoExito strong {
+  font-size: var(--textoCuerpo);
+  color: var(--colorTinta);
+}
+
+.contactoExito span {
+  font-size: var(--textoCuerpo);
+  color: var(--colorCarbon);
+  line-height: 1.6;
+}

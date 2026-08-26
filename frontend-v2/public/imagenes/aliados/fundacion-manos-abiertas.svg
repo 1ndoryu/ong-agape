@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" aria-label="Fundacion Manos Abiertas">
+  <path d="M14 24c0 15 6 24 14 24s14-9 14-24" stroke="#e33139" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M20 18l8 8 8-8" stroke="#e33139" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="52" y="31" font-family="Georgia, serif" font-size="18" fill="#3d1214">Fundación</text>
+  <text x="53" y="49" font-family="Arial, sans-serif" font-size="11" letter-spacing="2" fill="#e33139">MANOS ABIERTAS</text>
+</svg>

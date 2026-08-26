@@ -1,0 +1,118 @@
+.aliados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: clamp(40px, 5vw, 64px);
+}
+
+/* Misma píldora que las etiquetas "Blog" y "Nuestra historia" para mantener
+ * el ritmo visual entre secciones. */
+.etiquetaAliados {
+  margin: 0 0 20px;
+  padding: 8px 16px;
+  border: 1px solid var(--colorCarbon);
+  border-radius: 46px;
+  background: var(--colorTarjeta);
+  font-size: var(--textoEtiqueta);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.textoAliados {
+  max-width: 620px;
+  margin: 0 auto 30px;
+  text-align: center;
+  color: var(--colorCarbon);
+  font-size: var(--textoDescripcion);
+  line-height: 1.55;
+}
+
+/* Carrusel continuo: la pista se desplaza con una animación lineal infinita y
+ * el contenido se divide en dos grupos idénticos. Cada grupo repite la lista
+ * de logos (copiaPista) las veces necesarias para cubrir el ancho visible y
+ * aporta su propio padding-right igual al gap. Así el carrusel ocupa el ancho
+ * completo aunque haya pocos aliados y, al mover -50%, el segundo grupo ocupa
+ * exactamente la posición del primero: el salto al reiniciar el ciclo es
+ * invisible y nunca queda un hueco en blanco. */
+.cintaAliados {
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+.pistaAliados {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  /* 55s (antes 42s): carrusel un poco más pausado para que los logos se
+   * aprecien sin dejar de ser fluido. Nombre de keyframe ÚNICO
+   * (desplazarAliados): "desplazarPista" estaba duplicado con Donar.css y al
+   * navegar en SPA la definición ganadora era impredecible (el carrusel podía
+   * quedarse estático si la hoja que definía el keyframe se retiraba). */
+  animation: desplazarAliados 55s linear infinite;
+}
+
+.grupoPista {
+  display: flex;
+  align-items: center;
+  gap: clamp(72px, 10vw, 160px);
+  /* El padding derecho iguala el gap: sin él, el borde derecho del último logo
+   * del grupo quedaría pegado al primero del siguiente grupo, y al repetir el
+   * ciclo el salto de -50% no sería visualmente idéntico. */
+  padding-right: clamp(72px, 10vw, 160px);
+}
+
+/* El contenedor de cada copia no genera caja: los logos pasan a ser hijos
+ * directos del grupo y el gap se reparte igual entre copias consecutivas. */
+.copiaPista {
+  display: contents;
+}
+
+.logoAliado {
+  flex-shrink: 0;
+  height: 52px;
+  width: auto;
+  opacity: 0.82;
+  filter: grayscale(1);
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+.logoAliado:hover {
+  opacity: 1;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pistaAliados {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    row-gap: 24px;
+  }
+
+  /* En modo estático solo se muestra la primera mitad y, dentro de ella,
+   * solo la primera copia: el resto sería contenido repetido sin movimiento. */
+  .grupoPista + .grupoPista {
+    display: none;
+  }
+
+  .copiaPista + .copiaPista {
+    display: none;
+  }
+}
+
+@keyframes desplazarAliados {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    /* El desplazamiento es exactamente la mitad del ancho de la pista porque
+     * esta contiene dos grupos idénticos: al llegar ahí, el segundo grupo
+     * ocupa el lugar del primero y el ciclo puede repetirse sin salto. */
+    transform: translateX(-50%);
+  }
+}

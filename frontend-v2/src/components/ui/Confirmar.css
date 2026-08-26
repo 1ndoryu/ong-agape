@@ -1,0 +1,9 @@
+/* Diálogo de confirmación del panel. Reutiliza el marcado y los estilos de
+ * .panelModal/.panelModalContenido de PanelAdmin.css (importado por el panel);
+ * aquí solo se añade el mensaje, que no tiene regla propia. */
+.confirmarMensaje {
+  margin: 0 0 6px;
+  font-size: var(--textoCuerpo);
+  color: var(--colorTinta);
+  line-height: 1.5;
+}

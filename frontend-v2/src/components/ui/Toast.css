@@ -1,0 +1,66 @@
+/* Contenedor de notificaciones del panel: fijo arriba a la derecha y apilado.
+ * El contenedor no intercepta clics (pointer-events: none); cada toast sí,
+ * para poder cerrarlo con la ×. Los tokens vienen de variables.css. */
+.toastContenedor {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2000;
+  display: grid;
+  gap: 10px;
+  width: min(360px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--colorBorde);
+  border-radius: 12px;
+  background: var(--colorTarjeta);
+  color: var(--colorTinta);
+  font-size: calc(var(--textoCuerpo) * 0.92);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 14%);
+}
+
+/* Variante de éxito: mismo fondo suave que el aviso del panel, para mantener
+ * el lenguaje visual de las alertas. */
+.toast--exito {
+  background: var(--colorAmarilloSuave);
+}
+
+.toast--error {
+  background: var(--colorRojoSuave);
+  border-color: transparent;
+}
+
+.toast--info {
+  background: var(--colorAzulSuave);
+  border-color: transparent;
+}
+
+.toastMensaje {
+  flex: 1;
+}
+
+.toastCerrar {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--colorTinta);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.toastCerrar:hover,
+.toastCerrar:focus-visible {
+  background: rgb(0 0 0 / 8%);
+}

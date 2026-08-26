@@ -2,9 +2,11 @@
  * de la landing, con portada y cuerpo tipográfico heredados de los tokens.
  * El ancho de lectura se limita a 760px aunque la ruta use .contenedor. El
  * padding vertical separa el contenido de la navegación y del pie, con el
- * mismo ritmo que las secciones de la landing. */
+ * mismo ritmo que las secciones de la landing. El ancho resta el espacio
+ * lateral (igual que .contenedor) para que en móvil el texto no quede pegado
+ * a los bordes de la pantalla. */
 .historiaDetalle {
-  width: min(100%, 760px);
+  width: min(100% - (var(--espacioLateral) * 2), 760px);
   margin: 0 auto;
   padding-block: clamp(48px, 6vw, 84px);
   text-align: left;
@@ -50,7 +52,7 @@
 
 .tituloDetalle {
   margin: 0;
-  font-family: var(--fuenteEditorial);
+  font-family: var(--fuenteCuerpo);
   font-size: clamp(1.6rem, 1vw + 1.3rem, 2.4rem);
   font-weight: 400;
   line-height: 1.15;
@@ -93,7 +95,7 @@
 }
 
 .estadoHistoria strong {
-  font-family: var(--fuenteEditorial);
+  font-family: var(--fuenteCuerpo);
   font-size: clamp(1.2rem, 0.55vw + 1.05rem, 1.5rem);
   font-weight: 500;
 }
