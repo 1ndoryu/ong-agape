@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "stages": [
+    {
+      "name": "sentinel-analyze",
+      "executable": "node",
+      "args": [
+        "scripts/stage-analyze.mjs",
+        "{reportPath}"
+      ],
+      "reportPath": "sentinel-analyze.json",
+      "expectedSchemaVersion": "1",
+      "timeoutMs": 180000,
+      "cwd": "."
+    },
+    {
+      "name": "backend-check",
+      "executable": "node",
+      "args": [
+        "scripts/stage-report.mjs",
+        "{reportPath}",
+        "--",
+        "node",
+        "scripts/run-with-db.mjs",
+        "check"
+      ],
+      "reportPath": "backend-check.json",
+      "expectedSchemaVersion": "1",
+      "timeoutMs": 600000,
+      "cwd": "."
+    },
+    {
+      "name": "backend-clippy",
+      "executable": "node",
+      "args": [
+        "scripts/stage-report.mjs",
+        "{reportPath}",
+        "--",
+        "node",
+        "scripts/run-with-db.mjs",
+        "clippy"
+      ],
+      "reportPath": "backend-clippy.json",
+      "expectedSchemaVersion": "1",
+      "timeoutMs": 600000,
+      "cwd": "."
+    },
+    {
+      "name": "frontend-typecheck",
+      "executable": "node",
+      "args": [
+        "scripts/stage-report.mjs",
+        "{reportPath}",
+        "--",
+        "npm",
+        "--prefix",
+        "frontend-v2",
+        "run",
+        "type-check"
+      ],
+      "reportPath": "frontend-typecheck.json",
+      "expectedSchemaVersion": "1",
+      "timeoutMs": 300000,
+      "cwd": "."
+    }
+  ]
+}
