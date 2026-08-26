@@ -137,6 +137,23 @@ Pedido del cliente: al pasar de una página a otra sin recargar, el carrusel de 
   `/` → `/donar` → `/acciones` (modal) → `/blog/:slug` → `/admin` (tabs) → `/` sin recarga.
 - Detalle: `Agente/completados/tareas-2026-08-26.md`.
 
+### 268A-4 — Despliegue a producción (prueba temporal) en `agape.wandori.us` (planificado, pendiente de autorización)
+
+Pedido del cliente: "commitea todo, y planifica lanzar a produccion para prueba temporal, usaremos
+agape.wandori.us". Los commits ya están hechos (rama `ong-agape`, 3 commits). El plan de despliegue
+está preparado y **BLOQUEADO** pendiente de decisiones/autorización.
+
+Plan: `Agente/planes/plan-despliegue-produccion-2026-08-26.md`.
+
+- [x] Commits de todo el trabajo acumulado (backend, frontend-v2, docs/config del gate).
+- [x] Preflight de despliegue: binario manager localizado, sitios listados, health studio OK,
+  DNS `agape.wandori.us` sin registros, sin remote git, sin sitio `agape` en Coolify.
+- [ ] Decidir repo de origen del código (B1): recomendado crear `1ndoryu/ong-agape` y pushear `ong-agape`.
+- [ ] Decidir estrategia de build/servir frontend (B3/B4): recomendado Dockerfile propio en el repo.
+- [ ] Recompilar el manager (fix 422 `create_stack` para `new --template rust`).
+- [ ] Autorizar escrituras remotas: push, crear servicio, envs, deploy, DNS.
+- [ ] Ejecutar despliegue + verificación (`/api/health`, SPA, CORS, `db-check`).
+
 ### 118A-1 — Donaciones, transparencia y panel administrativo
 
 Plan detallado: `Agente/planes/plan-donaciones-transparencia-2026-08-11.md`.
