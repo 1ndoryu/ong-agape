@@ -22,7 +22,9 @@ pub struct Ally {
 pub struct AllyRequest {
     #[validate(length(min = 1, max = 160))]
     pub nombre: String,
-    #[validate(url)]
+    /* El logo puede ser una URL absoluta (http/https) o una ruta relativa
+     * del sitio: /uploads/... (imagen subida desde el panel) o /imagenes/...
+     * (recursos del frontend). Replica el criterio de contenidos y acciones. */
     pub logo_url: String,
     pub display_order: Option<i32>,
     pub active: Option<bool>,

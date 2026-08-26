@@ -32,6 +32,25 @@ pub async fn list_public(
     ))
 }
 
+/* Valida el logo de un aliado: URL absoluta (http/https) o ruta relativa del
+ * sitio (/uploads/... o /imagenes/...). Replica el criterio de imágenes de
+ * contenidos y acciones para que el panel pueda subir el archivo y guardar la
+ * URL relativa resultante. */
+fn validate_logo_url(logo_url: &str) -> Result<(), AppError> {
+    if logo_url.len() > 2000 {
+        return Err(AppError::Validation("URL del logo demasiado larga".into()));
+    }
+    if !(logo_url.starts_with('/')
+        || logo_url.starts_with("http://")
+        || logo_url.starts_with("https://"))
+    {
+        return Err(AppError::Validation(
+            "URL del logo inválida (debe ser /uploads/, una ruta del sitio o http(s)".into(),
+        ));
+    }
+    Ok(())
+}
+
 /// Todos los aliados para el panel, incluidos los inactivos.
 #[utoipa::path(
     get,
@@ -63,6 +82,7 @@ pub async fn create_admin(
     request
         .validate()
         .map_err(|error| AppError::Validation(error.to_string()))?;
+    validate_logo_url(&request.logo_url)?;
     let actor =
         AdminService::authorize(&state.pool, auth.user_id, AdminPermission::ManageContent).await?;
     let ally = AllyRepository::create(&state.pool, actor.id, &request).await?;
@@ -96,6 +116,7 @@ pub async fn update_admin(
     request
         .validate()
         .map_err(|error| AppError::Validation(error.to_string()))?;
+    validate_logo_url(&request.logo_url)?;
     let actor =
         AdminService::authorize(&state.pool, auth.user_id, AdminPermission::ManageContent).await?;
     let ally = AllyRepository::update(&state.pool, id, actor.id, &request)

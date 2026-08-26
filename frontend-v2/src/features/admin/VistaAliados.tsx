@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   borrarAliado,
   crearAliado,
   guardarAliado,
   listarAliados,
+  subirImagenContenido,
   type AliadoAdmin,
   type DatosAliado,
 } from './apiAdmin';
@@ -34,6 +35,12 @@ function VistaAliados({ perfil, token }: { perfil: { role: RolAdmin }; token: st
   const [formulario, setFormulario] = useState<DatosAliado>(ALIADO_VACIO);
   const [editandoId, setEditandoId] = useState<string | null>(null);
   const [modalAbierto, setModalAbierto] = useState(false);
+  /* El logo se adjunta como archivo (igual que las evidencias de acciones):
+   * se sube a /api/admin/content/image y la URL relativa resultante se guarda
+   * con el aliado. `archivoNuevo` se limpia tras guardar o cancelar. */
+  const [archivoNuevo, setArchivoNuevo] = useState<File | null>(null);
+  const [vistaPrevia, setVistaPrevia] = useState<string | null>(null);
+  const entradaArchivoRef = useRef<HTMLInputElement | null>(null);
   const { mostrarToast } = useToast();
   const { confirmar } = useConfirmar();
 
@@ -73,21 +80,61 @@ function VistaAliados({ perfil, token }: { perfil: { role: RolAdmin }; token: st
       display_order: aliado.display_order,
       active: aliado.active,
     });
+    setArchivoNuevo(null);
+    setVistaPrevia(null);
     setModalAbierto(true);
   };
 
   const abrirNuevo = () => {
     setEditandoId(null);
     setFormulario(ALIADO_VACIO);
+    setArchivoNuevo(null);
+    setVistaPrevia(null);
     setModalAbierto(true);
   };
+
+  /* Al elegir un archivo se muestra una vista previa local; la subida real se
+   * hace al guardar para no dejar archivos huérfanos si se cancela. */
+  const alElegirArchivo = (archivo: File | null) => {
+    setArchivoNuevo(archivo);
+    setVistaPrevia((anterior) => {
+      if (anterior) URL.revokeObjectURL(anterior);
+      return archivo ? URL.createObjectURL(archivo) : null;
+    });
+  };
+
+  const quitarArchivo = () => {
+    alElegirArchivo(null);
+    setFormulario((anterior) => ({ ...anterior, logo_url: '' }));
+  };
+
+  const abrirSelector = () => entradaArchivoRef.current?.click();
 
   const guardar = async (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault();
     setError(null);
+    /* Si se adjuntó un logo nuevo, primero se sube el archivo y se usa la URL
+     * relativa devuelta; si la subida falla no se persiste nada. */
+    let logoUrl = formulario.logo_url.trim();
+    if (archivoNuevo) {
+      try {
+        logoUrl = await subirImagenContenido(token, archivoNuevo);
+      } catch (motivo) {
+        setError(
+          motivo instanceof Error
+            ? `No se pudo subir el logo: ${motivo.message}`
+            : 'No se pudo subir el logo',
+        );
+        return;
+      }
+    }
+    if (!logoUrl) {
+      setError('Adjunta una imagen para el logo o escribe una URL.');
+      return;
+    }
     const datos: DatosAliado = {
       nombre: formulario.nombre.trim(),
-      logo_url: formulario.logo_url.trim(),
+      logo_url: logoUrl,
       display_order: formulario.display_order,
       active: formulario.active,
     };
@@ -254,13 +301,47 @@ function VistaAliados({ perfil, token }: { perfil: { role: RolAdmin }; token: st
                 />
               </label>
               <label>
-                URL del logo
+                Logo del aliado
+                <div className="panelImagenesGrid">
+                  <div className="panelImagenCuadro">
+                    {(vistaPrevia ?? formulario.logo_url) ? (
+                      <img
+                        src={vistaPrevia ?? formulario.logo_url}
+                        alt={`Logo de ${formulario.nombre || 'aliado'}`}
+                      />
+                    ) : (
+                      <span className="panelImagenVacio">Sin logo</span>
+                    )}
+                    <div className="panelImagenAcciones">
+                      <button type="button" onClick={abrirSelector}>
+                        {formulario.logo_url || archivoNuevo ? 'Cambiar' : 'Subir'}
+                      </button>
+                      {(formulario.logo_url || archivoNuevo) && (
+                        <button type="button" onClick={quitarArchivo}>
+                          Quitar
+                        </button>
+                      )}
+                    </div>
+                    <input
+                      ref={entradaArchivoRef}
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={(evento) =>
+                        alElegirArchivo(evento.target.files?.[0] ?? null)
+                      }
+                    />
+                  </div>
+                </div>
+                <small className="panelAyudaCampo">
+                  Adjunta una imagen (JPG, PNG o WebP, máx. 5 MB). También puedes escribir una URL
+                  en el campo inferior si prefieres enlazar un logo externo.
+                </small>
                 <input
                   type="url"
-                  required
                   maxLength={2000}
                   value={formulario.logo_url}
-                  placeholder="https://ejemplo.com/logo.svg"
+                  placeholder="https://ejemplo.com/logo.svg (opcional)"
                   onChange={(evento) =>
                     setFormulario({ ...formulario, logo_url: evento.target.value })
                   }
