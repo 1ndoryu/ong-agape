@@ -137,22 +137,31 @@ Pedido del cliente: al pasar de una página a otra sin recargar, el carrusel de 
   `/` → `/donar` → `/acciones` (modal) → `/blog/:slug` → `/admin` (tabs) → `/` sin recarga.
 - Detalle: `Agente/completados/tareas-2026-08-26.md`.
 
-### 268A-4 — Despliegue a producción (prueba temporal) en `agape.wandori.us` (planificado, pendiente de autorización)
+### ~~268A-4~~ — Despliegue a producción en `agape.wandori.us` — **COMPLETADO 2026-08-26**
 
-Pedido del cliente: "commitea todo, y planifica lanzar a produccion para prueba temporal, usaremos
-agape.wandori.us". Los commits ya están hechos (rama `ong-agape`, 3 commits). El plan de despliegue
-está preparado y **BLOQUEADO** pendiente de decisiones/autorización.
+✅ `https://agape.wandori.us` público: DNS (A agape → 66.94.100.241), CORS, cert Let's Encrypt,
+`/api/health` → 200, SPA servida (`<title>El Proyecto Ágape</title>`), `health --all` OK.
+Evidencia completa: `Agente/completados/tareas-2026-08-26.md` y
+`Agente/planes/completados/plan-despliegue-produccion-2026-08-26.md`.
 
-Plan: `Agente/planes/plan-despliegue-produccion-2026-08-26.md`.
+### 268A-6 — Fix post-despliegue: seed de aliados de ejemplo y logo por adjuntar imagen (completada, 2026-08-26)
 
-- [x] Commits de todo el trabajo acumulado (backend, frontend-v2, docs/config del gate).
-- [x] Preflight de despliegue: binario manager localizado, sitios listados, health studio OK,
-  DNS `agape.wandori.us` sin registros, sin remote git, sin sitio `agape` en Coolify.
-- [ ] Decidir repo de origen del código (B1): recomendado crear `1ndoryu/ong-agape` y pushear `ong-agape`.
-- [ ] Decidir estrategia de build/servir frontend (B3/B4): recomendado Dockerfile propio en el repo.
-- [ ] Recompilar el manager (fix 422 `create_stack` para `new --template rust`).
-- [ ] Autorizar escrituras remotas: push, crear servicio, envs, deploy, DNS.
-- [ ] Ejecutar despliegue + verificación (`/api/health`, SPA, CORS, `db-check`).
+Pedido del cliente: tras el despliegue se detectaron dos problemas: (a) el sitio se desplegó sin
+marcas de ejemplo (carrusel de aliados vacío) y (b) la configuración de logo pedía una URL cuando
+debía permitir adjuntar una imagen.
+
+- [x] Migración `20260831000000_seed_allies_example`: inserta 4 aliados de ejemplo (Fundación Manos
+  Abiertas, Distribuidora Oriente, Farmacias La Salud, Voluntarios Barcelona) con los SVG de
+  `frontend-v2/public/imagenes/aliados/`, rutas relativas `/imagenes/aliados/*.svg`; idempotente
+  por `WHERE NOT EXISTS`.
+- [x] `AllyRequest.logo_url`: se retira el `#[validate(url)]` estricto (rechazaba rutas relativas) y
+  se valida manualmente aceptando `/`, `http://` y `https://` (mismo criterio que contenidos/acciones).
+- [x] `VistaAliados.tsx`: el campo "URL del logo" (obligatorio) se sustituye por un selector de archivo
+  con preview y botones Subir/Cambiar/Quitar (patrón de VistaAcciones); sube la imagen a
+  `/api/admin/content/image` y guarda la URL relativa devuelta; el campo URL queda opcional.
+- [x] Verificado en producción: `GET /api/allies` devuelve los 4 aliados, la sección "Aliados" aparece
+  en la portada con los 4 logos, y el modal del panel permite adjuntar (selector de archivo abre).
+- Detalle: `Agente/completados/tareas-2026-08-26.md`.
 
 ### 118A-1 — Donaciones, transparencia y panel administrativo
 

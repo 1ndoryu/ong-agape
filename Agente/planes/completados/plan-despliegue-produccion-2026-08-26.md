@@ -3,8 +3,14 @@
 **Proyecto:** ong-agame / El Proyecto Ágape
 **ID:** 268A-4
 **Fecha:** 2026-08-26
-**Estado:** Preflight completado — **BLOQUEADO** para ejecutar por pendientes que requieren
-decisión/autorización del usuario. El plan de acción está preparado.
+**Estado (2026-08-26 noche):** ✅ **DESPLIEGUE COMPLETO — `https://agape.wandori.us` PÚBLICO.**
+Servicio `agape` (UUID `zgw440o8kowokcoww8s0csws`) con DNS (A agape → 66.94.100.241 en Cloudflare),
+`CORS_ALLOWED_ORIGINS=https://agape.wandori.us`, cert Let's Encrypt emitido
+(`CN=agape.wandori.us`), `https://agape.wandori.us/api/health` → **HTTP 200**
+`{"status":"ok","version":"0.1.0"}`. `health --all` → todos los sitios saludables.
+Incidentes resueltos durante el cierre: `setup-site-dns` roto (bugs 855c442/234A/6069f3f) y
+regla Traefik `Host()` sin backticks en el template rust-stack (234B). Ver
+`Agente/completados/tareas-2026-08-26.md` (268A-5, entrada final) y roadmap del manager.
 
 ---
 
@@ -19,7 +25,7 @@ decisión/autorización del usuario. El plan de acción está preparado.
 
 | Verificación | Resultado |
 |---|---|
-| Binario manager | `...\coolify-manager-rs\target\release\deps\coolify_manager.exe` (v1.0.0, 26/07/2026) — la ruta documentada `target\release\coolify-manager.exe` NO existe |
+| Binario manager | `C:\tmp\glory-target\coolify-manager\release\coolify-manager.exe` (compilado 26/08, incluye fix 268A-5 ASCII + flags rust) |
 | `--help` del manager | 60+ subcomandos disponibles (new, deploy-service, list, health, sync-env, setup-site-dns, switch-dns, db-migrate, env-toggle, etc.) |
 | Sitios existentes | 8 (guillermo, padel, wandori, nakomi, cap, studio, kamples, glory-rest) + minecraft survival. **NO existe `agape`** |
 | Sitios Rust de referencia | studio (nakomi.studio), kamples, glory-rest (restaurante.wandori.us) — todos `template: rust`, `repoUrl: glory-rs-template.git`, `gloryBranch` propia |
@@ -65,13 +71,17 @@ El proyecto ONG AGAPE **no tiene remoto** y la rama `ong-agape` no existe en nin
 
 **Recomendado: (a)** — repo dedicado, no contamina el template.
 
-### B2 — El binario del manager está desactualizado para `new --template rust` (BLOQUEANTE para crear el servicio)
-- El binario en ejecución devuelve `HTTP 422: docker_compose_raw should be base64 encoded` al
-  ejecutar `new --template rust` (probado). El código fuente (`coolify_api.rs`) **sí** hace base64.
-- El binario compilado (26/07) es anterior al código fuente (11/08) → **hay que recompilar** el manager
-  antes de crear el servicio (o crear el stack por la UI de Coolify como alternativa).
-- Nota: la ayuda del binario no lista `rust` en `--template`, pero el código lo acepta
-  (`StackTemplate::Rust`). Tras recompilar, la capacidad real debe verificarse con `--help` + prueba.
+### B2 — ~~Binario desactualizado~~ RESUELTO (268A-5, 2026-08-26)
+- **Causa raíz real del 422:** Coolify 4.0.0-beta.460 valida el compose decodificado con
+  `mb_detect_encoding($s, 'ASCII', true)` y reporta el MISMO mensaje "should be base64 encoded"
+  ante bytes >127, aunque el base64 sea válido. El template `rust-stack.yaml` tenía un `é` en un
+  comentario → cualquier `new --template rust` devolvía 422.
+- **Fix aplicado en el manager (rama `main`):** `create_stack`/`update_stack_compose` sanean el
+  compose a ASCII puro (`template_engine::to_ascii_safe`, con tests); templates limpios; `new`
+  acepta `--repo-url/--app-bin/--frontend-dir` y resuelve `{{HEALTH_PATH}}`. Verificado con POST de
+  prueba contra la API real: **201 CREATED** (servicio de prueba borrado).
+- El manager vive ahora en `area-trabajo/coolify-manager-rs`; el binario se compila en `C:\tmp`.
+- Nota: la ayuda del binario ya lista `rust` en `--template` y los flags nuevos.
 
 ### B3 — Dockerfile/build del proyecto (BLOQUEANTE)
 El `Dockerfile.rust` estándar del manager asume:
@@ -125,15 +135,16 @@ Fijar en Coolify (env del servicio):
 
 ## 5. ACCIONES (comandos exactos — NO ejecutadas, requieren autorización)
 
-> `$cm = "C:\Users\Owner\OneDrive\Documentos\WP\app\public\wp-content\themes\glorytemplate\.agent\coolify-manager-rs\target\release\deps\coolify_manager.exe"`
+> `$cm = "C:\tmp\glory-target\coolify-manager\release\coolify-manager.exe"`
 
 **Fase 0 — Preparación local (sin escritura remota):**
 ```powershell
-# Recompilar el manager (fix 422 de create_stack)
-cd "C:\Users\Owner\OneDrive\Documentos\WP\app\public\wp-content\themes\glorytemplate\.agent\coolify-manager-rs"
-cargo build --release --target-dir target
+# Compilar el manager (regla: build en C:\tmp; ya incluye el fix 268A-5)
+cd "C:\Users\Owner\OneDrive\Documentos\area-trabajo\coolify-manager-rs"
+$env:CARGO_TARGET_DIR = "C:\tmp\glory-target\coolify-manager"
+cargo build --release
 # Verificar capacidades reales del binario nuevo
-& $cm new --help    # ¿lista rust en --template?
+& $cm new --help    # debe listar rust + --repo-url/--app-bin/--frontend-dir
 & $cm --version
 ```
 
@@ -144,10 +155,13 @@ git remote add origin https://github.com/1ndoryu/<repo>.git
 git push -u origin ong-agape
 ```
 
-**Fase 2 — Crear el servicio (requiere autorización; tras B2 resuelto):**
+**Fase 2 — Crear el servicio (requiere autorización; B2 ya resuelto):**
 ```powershell
-& $cm new --name agape --domain "https://agape.wandori.us" --template rust --glory-branch ong-agape --skip-theme --skip-cache
-# ── Alternativa si el manager sigue sin poder crear Rust: crear el stack en la UI de Coolify ──
+# Con los flags nuevos el sitio queda configurado en settings.json sin edición manual:
+& $cm new --name agape --domain "https://agape.wandori.us" --template rust --glory-branch ong-agape `
+    --repo-url "https://github.com/1ndoryu/ong-agape.git" --app-bin ong-agame-backend --frontend-dir frontend-v2 `
+    --skip-theme --skip-cache
+# ── Alternativa si el manager siguiera sin poder crear Rust: crear el stack en la UI de Coolify ──
 # (compose basado en rust-stack.yaml ajustado al Dockerfile propio, B3-b)
 ```
 
