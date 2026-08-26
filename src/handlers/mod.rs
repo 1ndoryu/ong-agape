@@ -9,6 +9,7 @@ mod contact;
 mod health;
 mod notes;
 mod payments;
+mod spa;
 mod transparency;
 
 use axum::http::HeaderValue;
@@ -191,6 +192,7 @@ pub fn create_router(
         jwt_secret: config.jwt_secret,
         admin_emails: config.admin_emails,
         upload_dir: config.upload_dir.clone(),
+        static_dir: config.static_dir.clone(),
     };
 
     /* CORS: lista explícita; no se acepta cualquier origen. */
@@ -208,7 +210,12 @@ pub fn create_router(
             axum::http::header::CONTENT_TYPE,
         ]);
 
-    Ok(Router::new()
+    /* [268A-4] Servir la SPA compilada bajo `/` cuando STATIC_DIR existe
+     * (producción, un solo contenedor). El fallback a index.html permite que
+     * las rutas de react-router (/, /donar, /acciones, /admin, etc.) funcionen
+     * en recarga directa. `/api`, `/uploads` y `/swagger-ui` matchean antes y
+     * no pasan por aquí. */
+    let router = Router::new()
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()))
         .nest("/api", api_routes())
         /* Los comprobantes subidos desde la página de donar se sirven como
@@ -216,8 +223,15 @@ pub fn create_router(
          * La capa de CORS solo se aplica a la API, no a estos archivos. */
         .nest_service("/uploads", ServeDir::new(state.upload_dir.clone()))
         .layer(TraceLayer::new_for_http())
-        .layer(cors)
-        .with_state(state))
+        .layer(cors);
+
+    Ok(match &state.static_dir {
+        Some(dir) if std::path::Path::new(dir).is_dir() => {
+            router.fallback(spa::spa_handler).with_state(state)
+        }
+        /* Sin STATIC_DIR (dev): solo API. */
+        _ => router.with_state(state),
+    })
 }
 
 fn api_routes() -> Router<AppState> {

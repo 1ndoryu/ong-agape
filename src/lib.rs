@@ -23,4 +23,7 @@ pub struct AppState {
     pub admin_emails: Vec<String>,
     /// Directorio raíz donde se guardan los comprobantes de donación.
     pub upload_dir: String,
+    /// Directorio raíz del frontend compilado (SPA), si se sirve desde este
+    /// binario. `None` cuando solo se expone la API (modo desarrollo).
+    pub static_dir: Option<String>,
 }

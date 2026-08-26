@@ -22,6 +22,10 @@ pub struct AppConfig {
     /// Directorio raíz donde se guardan los comprobantes de donación subidos
     /// desde la página de donar. Se sirve estáticamente bajo `/uploads`.
     pub upload_dir: String,
+    /// Directorio raíz del frontend compilado (SPA). Si existe, se sirve bajo
+    /// `/` con fallback a `index.html` para las rutas que no matchean la API.
+    /// En producción el Dockerfile lo monta en `/app/dist`.
+    pub static_dir: Option<String>,
 }
 
 impl AppConfig {
@@ -61,6 +65,7 @@ impl AppConfig {
             admin_emails,
             cors_origins,
             upload_dir: std::env::var("UPLOAD_DIR").unwrap_or_else(|_| "./uploads".to_string()),
+            static_dir: std::env::var("STATIC_DIR").ok().filter(|dir| !dir.is_empty()),
         })
     }
 }

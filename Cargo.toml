@@ -10,8 +10,10 @@ authors = ["1ndoryu"]
 # Web framework
 axum = { version = "0.7", features = ["macros", "multipart"] }
 tokio = { version = "1", features = ["full"] }
-tower = "0.4"
+tower = { version = "0.4", features = ["util"] }
 tower-http = { version = "0.5", features = ["cors", "trace", "fs"] }
+mime_guess = "2"
+percent-encoding = "2"
 
 # Serialization
 serde = { version = "1", features = ["derive"] }
