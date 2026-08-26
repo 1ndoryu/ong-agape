@@ -178,12 +178,43 @@ pub async fn update_status(
     Ok(Json(post))
 }
 
+/* Elimina un artículo del blog (borrador, publicado o archivado). Requiere
+ * ManageContent y devuelve 204 sin cuerpo; la auditoría conserva el título. */
+#[utoipa::path(
+    delete,
+    path = "/api/admin/blog/posts/{id}",
+    params(("id" = Uuid, Path, description = "Artículo")),
+    responses((status = 204, description = "Artículo eliminado"), (status = 401, body = crate::errors::ErrorResponse), (status = 403, body = crate::errors::ErrorResponse), (status = 404, body = crate::errors::ErrorResponse)),
+    security(("bearer_auth" = []))
+)]
+pub async fn delete_admin(
+    State(state): State<AppState>,
+    auth: AuthUser,
+    Path(id): Path<Uuid>,
+) -> Result<StatusCode, AppError> {
+    let actor =
+        AdminService::authorize(&state.pool, auth.user_id, AdminPermission::ManageContent).await?;
+    let post = BlogRepository::delete(&state.pool, id)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Artículo no encontrado".into()))?;
+    AuditRepository::record(
+        &state.pool,
+        actor.id,
+        "blog_post.deleted",
+        "blog_post",
+        Some(id),
+        json!({ "title": post.title, "slug": post.slug }),
+    )
+    .await?;
+    Ok(StatusCode::NO_CONTENT)
+}
+
 pub fn routes() -> Router<AppState> {
     Router::new()
         .route("/blog", get(list_public))
         .route("/blog/:slug", get(get_public))
         .route("/admin/blog/posts", get(list_admin).post(create_admin))
-        .route("/admin/blog/posts/:id", put(update_admin))
+        .route("/admin/blog/posts/:id", put(update_admin).delete(delete_admin))
         .route("/admin/blog/posts/:id/status", put(update_status))
 }
 

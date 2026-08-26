@@ -8,10 +8,10 @@ authors = ["1ndoryu"]
 
 [dependencies]
 # Web framework
-axum = { version = "0.7", features = ["macros"] }
+axum = { version = "0.7", features = ["macros", "multipart"] }
 tokio = { version = "1", features = ["full"] }
 tower = "0.4"
-tower-http = { version = "0.5", features = ["cors", "trace"] }
+tower-http = { version = "0.5", features = ["cors", "trace", "fs"] }
 
 # Serialization
 serde = { version = "1", features = ["derive"] }
@@ -41,12 +41,18 @@ thiserror = "2"
 jsonwebtoken = "9"
 argon2 = "0.5"
 
+# HTTP (adaptador de proveedores automáticos PayPal/Stripe)
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+# Firma de webhooks (HMAC-SHA256 de Stripe)
+hmac = "0.12"
+sha2 = "0.10"
+
 # Utils
 uuid = { version = "1", features = ["serde", "v4"] }
 chrono = { version = "0.4", features = ["serde"] }
 
 [dev-dependencies]
-reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
 tokio-test = "0.4"
 
 [lints.clippy]

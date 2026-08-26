@@ -17,6 +17,25 @@ pub struct PublicFundEntry {
     pub occurred_on: NaiveDate,
 }
 
+/* Acción publicada de transparencia: un gasto verificado con su narrativa e
+ * imágenes. `images` llega como JSONB de Postgres y SQLx no lo decodifica a
+ * Vec<String> directamente, así que se expone como Value (serializa igual a
+ * un array de strings en la API). La sección pública solo muestra acciones
+ * con description no vacía. */
+#[derive(Debug, Clone, FromRow, Serialize, ToSchema)]
+pub struct PublicAction {
+    pub id: Uuid,
+    pub entry_type: String,
+    pub concept: String,
+    pub campaign: Option<String>,
+    pub amount_minor: i64,
+    pub currency: String,
+    pub occurred_on: NaiveDate,
+    pub description: Option<String>,
+    #[serde(default)]
+    pub images: serde_json::Value,
+}
+
 /// Resumen público reproducible desde los movimientos publicados.
 #[derive(Debug, Serialize, ToSchema)]
 pub struct TransparencySummary {

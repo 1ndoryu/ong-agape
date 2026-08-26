@@ -7,6 +7,7 @@ pub struct ContentRepository;
 
 const CONTENT_COLUMNS: &str = "id, content_key, locale, title, body, status, \
     metadata->>'cta_label' AS cta_label, metadata->>'cta_url' AS cta_url, \
+    COALESCE(metadata->'images', '[]'::jsonb) AS images, \
     updated_by, updated_at";
 
 impl ContentRepository {
@@ -39,6 +40,7 @@ impl ContentRepository {
         let metadata = json!({
             "cta_label": request.cta_label,
             "cta_url": request.cta_url,
+            "images": request.images,
         });
         let query = format!(
             "INSERT INTO transparency_content \

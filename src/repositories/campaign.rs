@@ -79,4 +79,15 @@ impl CampaignRepository {
             .fetch_optional(pool)
             .await
     }
+
+    /* Elimina una campaña. Ninguna tabla tiene FK apuntando a campaigns, así
+     * que el borrado no rompe referencias. Devuelve la fila borrada para
+     * auditar el nombre. */
+    pub async fn delete(pool: &PgPool, id: Uuid) -> Result<Option<Campaign>, sqlx::Error> {
+        let query = format!("DELETE FROM campaigns WHERE id = $1 RETURNING {COLUMNS}");
+        sqlx::query_as::<_, Campaign>(&query)
+            .bind(id)
+            .fetch_optional(pool)
+            .await
+    }
 }

@@ -129,11 +129,42 @@ pub async fn update_status(
     Ok(Json(campaign))
 }
 
+/* Elimina una campaña. Requiere ManageContent y devuelve 204 sin cuerpo; la
+ * auditoría conserva el nombre para trazabilidad. */
+#[utoipa::path(
+    delete,
+    path = "/api/admin/campaigns/{id}",
+    params(("id" = Uuid, Path, description = "Campaña")),
+    responses((status = 204, description = "Campaña eliminada"), (status = 401, body = crate::errors::ErrorResponse), (status = 403, body = crate::errors::ErrorResponse), (status = 404, body = crate::errors::ErrorResponse)),
+    security(("bearer_auth" = []))
+)]
+pub async fn delete_admin(
+    State(state): State<AppState>,
+    auth: AuthUser,
+    Path(id): Path<Uuid>,
+) -> Result<StatusCode, AppError> {
+    let actor =
+        AdminService::authorize(&state.pool, auth.user_id, AdminPermission::ManageContent).await?;
+    let campaign = CampaignRepository::delete(&state.pool, id)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Campaña no encontrada".into()))?;
+    AuditRepository::record(
+        &state.pool,
+        actor.id,
+        "campaign.deleted",
+        "campaign",
+        Some(id),
+        json!({"name": campaign.name, "slug": campaign.slug}),
+    )
+    .await?;
+    Ok(StatusCode::NO_CONTENT)
+}
+
 pub fn routes() -> Router<AppState> {
     Router::new()
         .route("/campaigns", get(list_public))
         .route("/admin/campaigns", get(list_admin).post(create_admin))
-        .route("/admin/campaigns/:id", put(update_admin))
+        .route("/admin/campaigns/:id", put(update_admin).delete(delete_admin))
         .route("/admin/campaigns/:id/status", put(update_status))
 }
 

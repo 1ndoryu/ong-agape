@@ -1,16 +1,20 @@
 #![allow(clippy::needless_for_each)] // Generado por utoipa OpenApi derive
 
 mod admin;
+mod allie;
 mod auth;
 mod blog;
 mod campaign;
+mod contact;
 mod health;
 mod notes;
+mod payments;
 mod transparency;
 
 use axum::http::HeaderValue;
 use axum::Router;
 use tower_http::cors::{AllowOrigin, CorsLayer};
+use tower_http::services::ServeDir;
 use tower_http::trace::TraceLayer;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
@@ -46,9 +50,11 @@ impl utoipa::Modify for SecurityAddon {
         admin::list_entries,
         admin::create_entry,
         admin::update_entry_status,
+        admin::delete_entry,
         admin::get_content,
         admin::upsert_content,
         admin::publish_content,
+        admin::upload_content_image,
         admin::list_payment_methods,
         admin::update_payment_method,
         admin::list_payment_receipts,
@@ -60,20 +66,37 @@ impl utoipa::Modify for SecurityAddon {
         blog::list_admin,
         blog::create_admin,
         blog::update_admin,
+        blog::delete_admin,
         blog::update_status,
+        allie::list_public,
+        allie::list_admin,
+        allie::create_admin,
+        allie::update_admin,
+        allie::delete_admin,
         campaign::list_public,
         campaign::list_admin,
         campaign::create_admin,
         campaign::update_admin,
+        campaign::delete_admin,
         campaign::update_status,
+        contact::send_message,
+        contact::list_messages,
+        contact::delete_message,
         notes::create_note,
         notes::get_note,
         notes::list_notes,
         notes::update_note,
         notes::delete_note,
         transparency::get_summary,
+        transparency::get_actions,
         transparency::get_content,
         transparency::list_public_payment_methods,
+        transparency::list_live_donations,
+        transparency::create_donation,
+        payments::create_checkout,
+        payments::receive_webhook,
+        payments::simulate_payment,
+        payments::checkout_status,
     ),
     components(schemas(
         health::HealthResponse,
@@ -85,6 +108,7 @@ impl utoipa::Modify for SecurityAddon {
         crate::models::UpdateNoteRequest,
         crate::models::PaginatedNotes,
         crate::models::PublicFundEntry,
+        crate::models::PublicAction,
         crate::models::TransparencySummary,
         crate::models::AdminProfile,
         crate::models::AdminFundEntry,
@@ -95,8 +119,10 @@ impl utoipa::Modify for SecurityAddon {
         crate::models::PaymentReceiptRecord,
         crate::models::AuditEventRecord,
         crate::models::CreateFundEntryRequest,
+        crate::models::UpdateFundEntryRequest,
         crate::models::UpdateFundEntryStatusRequest,
         crate::models::TransparencyContentRequest,
+        crate::models::UploadImageResponse,
         crate::models::UpdatePaymentMethodRequest,
         crate::models::CreateManualReceiptRequest,
         crate::models::ReviewReceiptRequest,
@@ -108,6 +134,16 @@ impl utoipa::Modify for SecurityAddon {
         crate::models::CampaignRequest,
         crate::models::CampaignStatusRequest,
         crate::models::PublicCampaign,
+        crate::models::ContactMessage,
+        crate::models::ContactMessageRequest,
+        crate::models::Ally,
+        crate::models::AllyRequest,
+        crate::models::PublicAlly,
+        crate::models::LiveDonation,
+        crate::models::PublicDonationReceipt,
+        crate::models::CreateCheckoutRequest,
+        crate::models::CheckoutResponse,
+        crate::models::CheckoutStatus,
         crate::errors::ErrorResponse,
     )),
     modifiers(&SecurityAddon),
@@ -120,8 +156,12 @@ impl utoipa::Modify for SecurityAddon {
 #[allow(clippy::needless_for_each)]
 pub struct ApiDoc;
 
-/// Crea el router principal con CORS, tracing, Swagger UI y todas las rutas
-pub fn create_router(pool: sqlx::PgPool, config: crate::config::AppConfig) -> Router {
+/// Crea el router principal con CORS, tracing, Swagger UI y todas las rutas.
+/// Devuelve error solo si no se puede preparar el directorio de subidas.
+pub fn create_router(
+    pool: sqlx::PgPool,
+    config: crate::config::AppConfig,
+) -> Result<Router, std::io::Error> {
     let cors_origins = if config.cors_origins.is_empty() {
         vec![
             HeaderValue::from_static("http://localhost:5173"),
@@ -139,10 +179,18 @@ pub fn create_router(pool: sqlx::PgPool, config: crate::config::AppConfig) -> Ro
             .collect()
     };
 
+    /* El directorio de comprobantes se crea al arrancar para que la subida y
+     * el servicio estático no dependan de un paso manual. */
+    std::fs::create_dir_all(&config.upload_dir).map_err(|error| {
+        tracing::error!("No se pudo crear el directorio de subidas: {error}");
+        std::io::Error::other(format!("No se pudo crear el directorio de subidas: {error}"))
+    })?;
+
     let state = AppState {
         pool,
         jwt_secret: config.jwt_secret,
         admin_emails: config.admin_emails,
+        upload_dir: config.upload_dir.clone(),
     };
 
     /* CORS: lista explícita; no se acepta cualquier origen. */
@@ -160,12 +208,16 @@ pub fn create_router(pool: sqlx::PgPool, config: crate::config::AppConfig) -> Ro
             axum::http::header::CONTENT_TYPE,
         ]);
 
-    Router::new()
+    Ok(Router::new()
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()))
         .nest("/api", api_routes())
+        /* Los comprobantes subidos desde la página de donar se sirven como
+         * archivos estáticos bajo /uploads (ruta relativa a la raíz del repo).
+         * La capa de CORS solo se aplica a la API, no a estos archivos. */
+        .nest_service("/uploads", ServeDir::new(state.upload_dir.clone()))
         .layer(TraceLayer::new_for_http())
         .layer(cors)
-        .with_state(state)
+        .with_state(state))
 }
 
 fn api_routes() -> Router<AppState> {
@@ -173,8 +225,11 @@ fn api_routes() -> Router<AppState> {
         .merge(health::routes())
         .merge(auth::routes())
         .merge(admin::routes())
+        .merge(allie::routes())
         .merge(blog::routes())
         .merge(campaign::routes())
+        .merge(contact::routes())
         .merge(notes::routes())
         .merge(transparency::routes())
+        .merge(payments::routes())
 }

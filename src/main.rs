@@ -21,13 +21,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .connect(&config.database_url)
         .await?;
 
+    /* Las migraciones se embeben en compilación (sqlx::migrate!): al añadir
+     * una migración nueva hay que tocar este archivo para forzar recompilación
+     * y que el binario incluya el SQL actualizado. */
     sqlx::migrate!().run(&pool).await?;
 
     let addr = format!("{}:{}", config.host, config.port);
     tracing::info!("Servidor iniciando en {addr}");
     tracing::info!("Swagger UI disponible en http://{addr}/swagger-ui/");
 
-    let app = handlers::create_router(pool, config);
+    let app = handlers::create_router(pool, config)?;
     let listener = tokio::net::TcpListener::bind(&addr).await?;
     axum::serve(listener, app).await?;
 

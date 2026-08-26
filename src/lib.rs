@@ -21,4 +21,6 @@ pub struct AppState {
     pub pool: PgPool,
     pub jwt_secret: String,
     pub admin_emails: Vec<String>,
+    /// Directorio raíz donde se guardan los comprobantes de donación.
+    pub upload_dir: String,
 }

@@ -1,17 +1,22 @@
+mod allie;
 mod audit;
 mod blog;
 mod campaign;
+mod contact;
 mod content;
 mod fund;
 mod note;
 mod payment;
 mod user;
 
+pub use allie::AllyRepository;
 pub use audit::AuditRepository;
 pub use blog::BlogRepository;
 pub use campaign::CampaignRepository;
+pub use contact::ContactRepository;
 pub use content::ContentRepository;
 pub use fund::FundRepository;
 pub use note::NoteRepository;
 pub use payment::PaymentRepository;
+pub use payment::{ApplyAutomaticPaymentParams, UpdateMethodParams};
 pub use user::UserRepository;

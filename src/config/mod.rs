@@ -19,6 +19,9 @@ pub struct AppConfig {
     pub port: u16,
     pub admin_emails: Vec<String>,
     pub cors_origins: Vec<String>,
+    /// Directorio raíz donde se guardan los comprobantes de donación subidos
+    /// desde la página de donar. Se sirve estáticamente bajo `/uploads`.
+    pub upload_dir: String,
 }
 
 impl AppConfig {
@@ -57,6 +60,7 @@ impl AppConfig {
                 .parse()?,
             admin_emails,
             cors_origins,
+            upload_dir: std::env::var("UPLOAD_DIR").unwrap_or_else(|_| "./uploads".to_string()),
         })
     }
 }

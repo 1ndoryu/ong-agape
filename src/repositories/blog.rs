@@ -102,4 +102,18 @@ impl BlogRepository {
         .fetch_optional(pool)
         .await
     }
+
+    /* Elimina un artículo del blog. No hay FK que apunten a blog_posts, así
+     * que el borrado es directo; la portada en disco se conserva. Devuelve la
+     * fila borrada para auditar el título. */
+    pub async fn delete(pool: &PgPool, id: Uuid) -> Result<Option<BlogPost>, sqlx::Error> {
+        sqlx::query_as::<_, BlogPost>(
+            "DELETE FROM blog_posts WHERE id = $1 \
+             RETURNING id, slug, title, excerpt, body, cover_image_url, status, published_at, \
+             created_by, updated_by, created_at, updated_at",
+        )
+        .bind(id)
+        .fetch_optional(pool)
+        .await
+    }
 }
