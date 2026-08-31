@@ -15,9 +15,11 @@
     "codegen": "npm --prefix frontend run codegen",
     "test": "node scripts/run-with-db.mjs test",
     "roadmap": "node scripts/check-roadmap.mjs",
-    "roadmap:watch":"node scripts/check-roadmap.mjs --watch",
-    "quality:doctor":"sentinel doctor --json",
-    "quality:lock:check":"sentinel doctor --json",
-    "gate:check":"sentinel check"
+    "roadmap:watch": "node scripts/check-roadmap.mjs --watch",
+    "quality:doctor": "sentinel doctor --json",
+    "quality:lock:check": "sentinel doctor --json",
+    "gate:check": "sentinel check",
+    "quality:setup": "node scripts/quality/quality-setup.mjs",
+    "quality:lock": "node scripts/quality/lock-generator.mjs"
   }
 }

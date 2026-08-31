@@ -64,3 +64,5 @@ glory-rust-template.code-workspace
 # Reportes del quality gate (artefactos de check)
 .quality-reports/
 
+!/scripts/quality/
+!/scripts/quality/*
