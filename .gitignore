@@ -60,3 +60,7 @@ glory-rust-template.code-workspace
 # Sentinel y herramientas de calidad
 .sentinel/
 .cargo/config.toml
+
+# Reportes del quality gate (artefactos de check)
+.quality-reports/
+
