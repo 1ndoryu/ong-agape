@@ -198,28 +198,29 @@ fn eliminar_comprobante(archivo: Option<&PathBuf>) {
     }
 }
 
-/* Registra una donación manual desde la página de donar. El formulario envía
- * los datos del donante y el comprobante (multipart/form-data). El archivo se
- * guarda en el directorio de subidas con un nombre aleatorio y el recibo nace
- * en pending_verification; el equipo lo revisa desde el panel antes de que el
- * ingreso aparezca en el feed en vivo y en el libro de transparencia.
- *
- * El parseo de campos es deliberadamente secuencial y explícito (siete campos
- * con validación propia); se permite la longitud para no fragmentar la lógica. */
-#[allow(clippy::too_many_lines)]
-#[utoipa::path(
-    post,
-    path = "/api/donations",
-    request_body = String,
-    responses(
-        (status = 201, description = "Donación registrada pendiente de verificación", body = PublicDonationReceipt),
-        (status = 400, description = "Datos o archivo inválidos", body = crate::errors::ErrorResponse)
-    )
-)]
-pub async fn create_donation(
-    State(state): State<AppState>,
+/* Resultado del parseo del formulario multipart de donación: un campo por
+ * dato del formulario, aún sin validación de cruce (los obligatorios se
+ * exigen en create_donation). El comprobante queda guardado en disco y se
+ * elimina si la operación no llega a completarse. */
+struct DatosDonacion {
+    metodo_id: Option<Uuid>,
+    nombre: Option<String>,
+    correo: Option<String>,
+    monto_minor: Option<i64>,
+    moneda: Option<String>,
+    referencia: Option<String>,
+    archivo_guardado: Option<PathBuf>,
+}
+
+/* Parsea y valida cada campo del formulario multipart de donación de forma
+ * secuencial y explícita (siete campos con validación propia). Extraído de
+ * create_donation para mantener el handler por debajo del límite de líneas.
+ * Los campos desconocidos se ignoran; se drenan igual para no bloquear la
+ * petición. */
+async fn parsear_donacion(
     mut multipart: Multipart,
-) -> Result<(StatusCode, Json<PublicDonationReceipt>), AppError> {
+    upload_dir: &str,
+) -> Result<DatosDonacion, AppError> {
     let mut metodo_id: Option<Uuid> = None;
     let mut nombre: Option<String> = None;
     let mut correo: Option<String> = None;
@@ -286,7 +287,7 @@ pub async fn create_donation(
             }
             "proof" => {
                 /* El comprobante es opcional; si viene, se valida y guarda. */
-                archivo_guardado = Some(guardar_comprobante(campo, &state.upload_dir).await?);
+                archivo_guardado = Some(guardar_comprobante(campo, upload_dir).await?);
             }
             _ => {
                 /* Campos desconocidos se ignoran; el formulario controla qué
@@ -295,6 +296,49 @@ pub async fn create_donation(
             }
         }
     }
+
+    Ok(DatosDonacion {
+        metodo_id,
+        nombre,
+        correo,
+        monto_minor,
+        moneda,
+        referencia,
+        archivo_guardado,
+    })
+}
+
+/* Registra una donación manual desde la página de donar. El formulario envía
+ * los datos del donante y el comprobante (multipart/form-data). El archivo se
+ * guarda en el directorio de subidas con un nombre aleatorio y el recibo nace
+ * en pending_verification; el equipo lo revisa desde el panel antes de que el
+ * ingreso aparezca en el feed en vivo y en el libro de transparencia.
+ *
+ * El parseo de campos es deliberadamente secuencial y explícito (siete campos
+ * con validación propia); se permite la longitud para no fragmentar la lógica. */
+#[allow(clippy::too_many_lines)]
+#[utoipa::path(
+    post,
+    path = "/api/donations",
+    request_body = String,
+    responses(
+        (status = 201, description = "Donación registrada pendiente de verificación", body = PublicDonationReceipt),
+        (status = 400, description = "Datos o archivo inválidos", body = crate::errors::ErrorResponse)
+    )
+)]
+pub async fn create_donation(
+    State(state): State<AppState>,
+    multipart: Multipart,
+) -> Result<(StatusCode, Json<PublicDonationReceipt>), AppError> {
+    let DatosDonacion {
+        metodo_id,
+        nombre,
+        correo,
+        monto_minor,
+        moneda,
+        referencia,
+        archivo_guardado,
+    } = parsear_donacion(multipart, &state.upload_dir).await?;
 
     let metodo_id = metodo_id
         .ok_or_else(|| AppError::BadRequest("Falta el método de pago".into()))?;

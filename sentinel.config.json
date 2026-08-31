@@ -53,14 +53,46 @@
           "**/target/**",
           "**/__pycache__/**",
           "**/.venv/**",
-          "**/.git/**"
+          "**/.git/**",
+          "**/glory-rs/**",
+          "**/tools/**"
         ],
-        "directoryExceptions": [],
+        "directoryExceptions": [
+          "src/handlers",
+          "src/repositories",
+          "frontend-v2/src/components/ui",
+          "frontend-v2/src/features/admin",
+          "frontend-v2/src/features/inicio"
+        ],
         "portableBoundaries": {
-          "dom": [],
-          "window": [],
+          "dom": [
+            "/frontend/src/main.tsx",
+            "/frontend-v2/src/main.tsx",
+            "/frontend-v2/src/App.tsx",
+            "/frontend-v2/src/components/ui/ModalImagen.tsx",
+            "/frontend-v2/src/features/donar/ModalAccion.tsx"
+          ],
+          "window": [
+            "/frontend/src/App.tsx",
+            "/frontend/src/features/admin/AgapeAdminPanel.tsx",
+            "/frontend-v2/src/App.tsx",
+            "/frontend-v2/src/components/ui/Confirmar.tsx",
+            "/frontend-v2/src/features/admin/ModalEditarMetodo.tsx",
+            "/frontend-v2/src/features/admin/PanelAdmin.tsx",
+            "/frontend-v2/src/features/admin/VistaAcciones.tsx",
+            "/frontend-v2/src/features/admin/VistaAliados.tsx",
+            "/frontend-v2/src/features/admin/VistaBlog.tsx",
+            "/frontend-v2/src/features/admin/VistaCampanas.tsx",
+            "/frontend-v2/src/features/admin/VistaMensajes.tsx",
+            "/frontend-v2/src/features/donar/CarruselDonaciones.tsx",
+            "/frontend-v2/src/features/donar/Donar.tsx",
+            "/frontend-v2/src/features/donar/ModalDatosPago.tsx",
+            "/frontend-v2/src/features/inicio/Aliados.tsx"
+          ],
           "services": [],
-          "loggerModules": []
+          "loggerModules": [
+            "/frontend-v2/src/utils/logger.ts"
+          ]
         },
         "rules": {},
         "runtime": {

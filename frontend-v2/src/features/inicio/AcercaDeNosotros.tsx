@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ModalImagen from '../../components/ui/ModalImagen';
 import { cargarContenidoAcerca, type ContenidoAcerca } from './acercaApi';
+import { error as logError } from '../../utils/logger';
 import './AcercaDeNosotros.css';
 
 /* Fallbacks usados mientras el panel no haya publicado contenido de "Nuestra
@@ -44,7 +45,7 @@ function AcercaDeNosotros() {
         /* Si el contenido no carga (red, backend caído) se mantienen los
          * fallbacks; la sección no debe romper la portada. */
         if (motivo instanceof Error && motivo.name === 'AbortError') return;
-        console.error('No se pudo cargar "Nuestra historia":', motivo);
+        logError('No se pudo cargar "Nuestra historia":', motivo);
       });
     return () => control.abort();
   }, []);
