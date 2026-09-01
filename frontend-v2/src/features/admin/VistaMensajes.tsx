@@ -141,7 +141,7 @@ function VistaMensajes({ perfil, token }: { perfil: { role: RolAdmin }; token: s
                   <div className="panelMetodosAcciones">
                     <button
                       type="button"
-                      className="botonIcono botonIcono--peligro"
+                      className="botonIcono iconoPeligro"
                       aria-label={`Eliminar mensaje de ${mensaje.name}`}
                       title="Eliminar"
                       onClick={() => eliminar(mensaje)}

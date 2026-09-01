@@ -142,7 +142,7 @@ function ModalDatosPago({
               todavía no aceptamos aportes por él. Elige uno de los métodos
               habilitados.
             </p>
-            <button type="button" className="botonSimulacionModal" onClick={alCerrar}>
+            <button type="button" className="simulacionPago" onClick={alCerrar}>
               Elegir otro método
             </button>
           </div>
@@ -160,7 +160,7 @@ function ModalDatosPago({
             </p>
             <button
               type="button"
-              className="botonDonar botonPagoPrueba"
+              className="accionDonar pagoPrueba"
               onClick={alCompletarSimulado}
               disabled={enviando}
             >
@@ -193,7 +193,7 @@ function ModalDatosPago({
             )}
             <button
               type="button"
-              className="botonDonar botonDonarModal"
+              className="accionDonar accionDonarModal"
               onClick={alConfirmar}
               disabled={enviando || monto === null}
             >

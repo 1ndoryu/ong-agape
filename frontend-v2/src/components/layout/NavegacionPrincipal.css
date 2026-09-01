@@ -94,7 +94,7 @@
 
 .enlacesNavegacion .botonEnlace { display: none; }
 
-.botonMenu {
+.menuMovil {
   display: none;
   width: 42px;
   height: 42px;
@@ -105,7 +105,7 @@
   color: var(--colorTinta);
 }
 
-.botonMenu span {
+.menuMovil span {
   display: block;
   width: 28px;
   height: 3px;
@@ -139,7 +139,7 @@
     background: var(--colorLienzo);
   }
 
-  .botonMenu {
+  .menuMovil {
     display: block;
     grid-column: 2;
     width: 48px;
@@ -174,9 +174,9 @@
 
   .marcaAgape { position: relative; z-index: 30; }
 
-  .botonMenu span { transition: transform 160ms ease, translate 160ms ease; }
-  .navegacionPrincipal--abierta .botonMenu span:first-child { translate: 0 3px; rotate: 45deg; }
-  .navegacionPrincipal--abierta .botonMenu span:last-child { translate: 0 -3px; rotate: -45deg; }
+  .menuMovil span { transition: transform 160ms ease, translate 160ms ease; }
+  .navegacionPrincipal--abierta .menuMovil span:first-child { translate: 0 3px; rotate: 45deg; }
+  .navegacionPrincipal--abierta .menuMovil span:last-child { translate: 0 -3px; rotate: -45deg; }
 }
 
 @media (max-width: 600px) {

@@ -247,7 +247,7 @@ function VistaAliados({ perfil, token }: { perfil: { role: RolAdmin }; token: st
                     </button>
                     <button
                       type="button"
-                      className="botonIcono botonIcono--peligro"
+                      className="botonIcono iconoPeligro"
                       aria-label={`Eliminar ${aliado.nombre}`}
                       title="Eliminar"
                       onClick={() => eliminar(aliado)}

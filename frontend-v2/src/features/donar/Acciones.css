@@ -19,7 +19,7 @@
   margin-inline: auto;
 }
 
-.accionesCabecera h1 {
+:is(.accionesCabecera h1 {)
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(2rem, 1.1rem + 2.8vw, 3.2rem);
@@ -82,7 +82,7 @@
   width: 120px;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLino);
 }
 
@@ -158,7 +158,7 @@
   box-shadow: 0 20px 60px rgb(0 0 0 / 0.3);
 }
 
-.modalAccion h2 {
+:is(.modalAccion h2 {)
   margin: 0;
   padding-right: 40px;
   font-family: var(--fuenteCuerpo);
@@ -193,7 +193,7 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLino);
 }
 

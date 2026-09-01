@@ -26,7 +26,7 @@
   text-transform: uppercase;
 }
 
-.donarHero h1 {
+:is(.donarHero h1 {)
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(2.4rem, 1.2rem + 3.6vw, 4rem);
@@ -338,7 +338,7 @@
   gap: 12px;
   padding: 7px 12px;
   border: 1px solid var(--colorBorde);
-  border-radius: 10px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLienzo);
   cursor: pointer;
   text-align: left;
@@ -412,7 +412,7 @@
   gap: 12px;
 }
 
-.botonDonar {
+.accionDonar {
   display: inline-flex;
   min-height: clamp(46px, 2.7vw + 16px, 54px);
   align-items: center;
@@ -429,12 +429,12 @@
   transition: translate 160ms ease;
 }
 
-.botonDonar:hover:not(:disabled),
-.botonDonar:focus-visible {
+.accionDonar:hover:not(:disabled),
+.accionDonar:focus-visible {
   translate: 0 -2px;
 }
 
-.botonDonar:disabled {
+.accionDonar:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
@@ -478,7 +478,7 @@
   margin-bottom: 14px;
 }
 
-.modalDatosPagoCabecera h3 {
+:is(.modalDatosPagoCabecera h3 {)
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.1rem, 0.5vw + 1rem, 1.3rem);
@@ -522,7 +522,7 @@
   padding: 10px 14px;
   background: var(--colorTarjeta);
   border: 1px solid var(--colorBorde);
-  border-radius: 10px;
+  border-radius: var(--radioTarjeta);
 }
 
 .filaDatoPago dt {
@@ -578,7 +578,7 @@
   color: var(--colorCarbon);
 }
 
-.botonSimulacionModal {
+.simulacionPago {
   padding: 9px 18px;
   border: 1px solid var(--colorCarbon);
   border-radius: 46px;
@@ -590,15 +590,15 @@
   transition: border-color 140ms ease, background-color 140ms ease;
 }
 
-.botonSimulacionModal:hover,
-.botonSimulacionModal:focus-visible {
+.simulacionPago:hover,
+.simulacionPago:focus-visible {
   border-color: var(--colorRojo);
   background: var(--colorRojoSuave);
 }
 
 /* Botón de "Completar pago de prueba" del simulador: usa el estilo primario
- * (.botonDonar) pero con la anchura del contenedor de simulación. */
-.botonPagoPrueba {
+ * (.accionDonar) pero con la anchura del contenedor de simulación. */
+.pagoPrueba {
   width: 100%;
   justify-content: center;
 }
@@ -614,7 +614,7 @@
   border-top: 1px solid var(--colorBorde);
 }
 
-.botonDonarModal {
+.accionDonarModal {
   width: 100%;
   justify-content: center;
 }
@@ -687,7 +687,7 @@
   margin-inline: auto;
 }
 
-.accionesRecientesCabecera h2 {
+:is(.accionesRecientesCabecera h2 {)
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.8rem, 1.1rem + 2vw, 2.6rem);

@@ -21,7 +21,7 @@
   margin-inline: auto;
 }
 
-.contactoCabecera h1 {
+:is(.contactoCabecera h1 {)
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(2rem, 1.1rem + 2.8vw, 3.2rem);
@@ -99,7 +99,7 @@
   margin-top: 24px;
 }
 
-.botonContacto {
+.accionContacto {
   display: inline-flex;
   min-height: clamp(46px, 2.7vw + 16px, 54px);
   align-items: center;
@@ -108,20 +108,20 @@
   border: 0;
   border-radius: var(--radioBoton);
   background: var(--colorRojo);
-  color: #fff;
+  color: var(--colorBlanco);
   font-size: var(--textoBoton);
   font-weight: 600;
   cursor: pointer;
   transition: background-color 140ms ease, transform 140ms ease;
 }
 
-.botonContacto:hover:not(:disabled),
-.botonContacto:focus-visible {
+.accionContacto:hover:not(:disabled),
+.accionContacto:focus-visible {
   background: var(--colorRojoSuave);
   color: var(--colorRojo);
 }
 
-.botonContacto:disabled {
+.accionContacto:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }

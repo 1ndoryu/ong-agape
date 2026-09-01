@@ -180,7 +180,7 @@ function VistaRecibos({ perfil, token }: { perfil: PerfilAdmin; token: string })
                      * ambos se sirven desde el mismo origen. */
                     <button
                       type="button"
-                      className="botonVerComprobante"
+                      className="verComprobante"
                       aria-label="Ver comprobante"
                       title="Ver comprobante"
                       onClick={() =>
@@ -222,7 +222,7 @@ function VistaRecibos({ perfil, token }: { perfil: PerfilAdmin; token: string })
                         </button>
                         <button
                           type="button"
-                          className="botonIcono botonIcono--peligro"
+                          className="botonIcono iconoPeligro"
                           aria-label="Rechazar recibo"
                           title="Rechazar"
                           onClick={() => revisar(recibo, 'rejected')}

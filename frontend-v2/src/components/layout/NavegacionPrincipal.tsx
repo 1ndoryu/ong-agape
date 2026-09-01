@@ -24,7 +24,7 @@ function NavegacionPrincipal() {
         </Link>
 
         <button
-          className="botonMenu"
+          className="menuMovil"
           type="button"
           aria-label={menuAbierto ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={menuAbierto}

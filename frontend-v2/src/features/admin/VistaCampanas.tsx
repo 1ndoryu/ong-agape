@@ -248,7 +248,7 @@ function VistaCampanas({ perfil, token }: { perfil: { role: RolAdmin }; token: s
                     )}
                     <button
                       type="button"
-                      className="botonIcono botonIcono--peligro"
+                      className="botonIcono iconoPeligro"
                       aria-label={`Eliminar ${campana.name}`}
                       title="Eliminar"
                       onClick={() => eliminar(campana)}

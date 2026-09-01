@@ -20,7 +20,7 @@
   text-transform: uppercase;
 }
 
-.heroInicio h1 {
+:is(.heroInicio h1 {)
   position: relative;
   z-index: 1;
   max-width: 1050px;
@@ -79,7 +79,7 @@
 }
 
 @media (max-width: 600px) {
-  .heroInicio h1 {
+  :is(.heroInicio h1 {)
     font-size: clamp(2.45rem, 11.5vw, 3.25rem);
   }
 

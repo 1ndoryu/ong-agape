@@ -14,13 +14,13 @@ interface PropiedadesAlertaPanel {
 function AlertaPanel({ tipo, children }: PropiedadesAlertaPanel) {
   if (tipo === 'error') {
     return (
-      <p className="alertaPanel alertaPanel--error" role="alert">
+      <p className="avisoAlerta avisoAlerta--error" role="alert">
         {children}
       </p>
     );
   }
   return (
-    <p className="alertaPanel alertaPanel--aviso" role="status">
+    <p className="avisoAlerta avisoAlerta--aviso" role="status">
       {children}
     </p>
   );

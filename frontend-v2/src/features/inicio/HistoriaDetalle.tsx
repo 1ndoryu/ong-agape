@@ -89,8 +89,8 @@ function HistoriaDetalle() {
       </header>
 
       <div className="cuerpoDetalle">
-        {parrafos.map((parrafo, indice) => (
-          <p key={indice}>{parrafo}</p>
+        {parrafos.map((parrafo) => (
+          <p key={parrafo}>{parrafo}</p>
         ))}
       </div>
     </article>

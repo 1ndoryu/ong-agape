@@ -103,7 +103,7 @@ function Contacto() {
         <div className="accionesContacto">
           <button
             type="submit"
-            className="botonContacto"
+            className="accionContacto"
             disabled={enviando}
           >
             {enviando ? 'Enviando…' : 'Enviar mensaje'}

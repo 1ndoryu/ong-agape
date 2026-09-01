@@ -299,7 +299,7 @@ function VistaAcciones({ perfil, token }: { perfil: { role: RolAdmin }; token: s
                     </button>
                     <button
                       type="button"
-                      className="botonIcono botonIcono--peligro"
+                      className="botonIcono iconoPeligro"
                       aria-label={`Eliminar ${entrada.concept}`}
                       title="Eliminar"
                       onClick={() => eliminar(entrada)}

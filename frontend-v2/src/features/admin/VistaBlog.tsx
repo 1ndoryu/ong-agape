@@ -310,7 +310,7 @@ function VistaBlog({ perfil, token }: { perfil: { role: RolAdmin }; token: strin
                     )}
                     <button
                       type="button"
-                      className="botonIcono botonIcono--peligro"
+                      className="botonIcono iconoPeligro"
                       aria-label={`Eliminar ${articulo.title}`}
                       title="Eliminar"
                       onClick={() => eliminar(articulo)}

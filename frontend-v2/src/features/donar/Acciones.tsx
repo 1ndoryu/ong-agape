@@ -93,7 +93,7 @@ function Acciones() {
             </div>
           )}
           <div className="accionesPie">
-            <Link className="botonDonar accionesDonar" to="/donar">
+            <Link className="accionDonar accionesDonar" to="/donar">
               Quiero donar
             </Link>
           </div>

@@ -65,7 +65,7 @@ function TransparencyBoard() {
         <div className="fund-progress"><span className={progressClass} /></div>
         <div className="fund-footer"><span>Utilizado: {formatAmount(summary.total_used_minor, summary.currency)}</span><span>Solo registros publicados</span></div>
       </div>
-      <div className="board-promise"><span className="promise-icon">✓</span><p><strong>Lo que prometemos:</strong> compartir avances, resultados y el destino de los fondos de forma sencilla.</p></div>
+      <div className="board-promise"><span className="promise-icon">&#x2713;</span><p><strong>Lo que prometemos:</strong> compartir avances, resultados y el destino de los fondos de forma sencilla.</p></div>
     </div>
   );
 }

@@ -2,19 +2,19 @@
  * componentes) para centralizar la decisión visual: fondo suave y borde
  * redondeado, con variante de aviso (éxito/informativo) y de error. Los
  * tokens de color vienen de variables.css, nunca hex en componentes. */
-.alertaPanel {
+.avisoAlerta {
   margin: 0 0 14px;
   padding: 10px 16px;
   border-radius: 12px;
   font-size: calc(var(--textoCuerpo) * 0.92);
 }
 
-.alertaPanel--aviso {
+.avisoAlerta--aviso {
   background: var(--colorAmarilloSuave);
   color: var(--colorTinta);
 }
 
-.alertaPanel--error {
+.avisoAlerta--error {
   background: var(--colorRojoSuave);
   color: var(--colorRojoOscuro, var(--colorRojo));
 }

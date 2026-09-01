@@ -29,7 +29,7 @@
   color: var(--colorTinta);
 }
 
-.panelLogin button {
+:is(.panelLogin button {)
   justify-self: start;
   padding: 10px 28px;
   border: 0;
@@ -58,7 +58,7 @@
   gap: 16px;
 }
 
-.panelCabecera h1 {
+:is(.panelCabecera h1 {)
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.5rem, 0.8vw + 1.3rem, 2rem);
@@ -74,7 +74,7 @@
   color: var(--colorCarbon);
 }
 
-.panelSesion button {
+:is(.panelSesion button {)
   padding: 8px 18px;
   border: 1px solid var(--colorCarbon);
   border-radius: var(--radioBoton);
@@ -93,7 +93,7 @@
   border-bottom: 1px solid var(--colorBorde);
 }
 
-.panelPestanas button,
+:is(.panelPestanas button,)
 .panelPestanas a {
   padding: 8px 16px;
   border: 1px solid transparent;
@@ -208,7 +208,7 @@
 
 /* Botón para abrir la captura del comprobante en un modal. Vive dentro de la
  * tabla (Recibos), por eso hereda la compactación de 2px de las acciones. */
-.panelTabla .botonVerComprobante {
+.panelTabla .verComprobante {
   padding: 6px 14px;
   border: 1px solid var(--colorCarbon);
   border-radius: 46px;
@@ -219,8 +219,8 @@
   transition: border-color 140ms ease, background-color 140ms ease;
 }
 
-.panelTabla .botonVerComprobante:hover,
-.panelTabla .botonVerComprobante:focus-visible {
+.panelTabla .verComprobante:hover,
+.panelTabla .verComprobante:focus-visible {
   border-color: var(--colorRojo);
   background: var(--colorRojoSuave);
 }
@@ -236,7 +236,7 @@
   margin-top: 14px;
 }
 
-.paginadorTabla button {
+:is(.paginadorTabla button {)
   padding: 7px 16px;
   border: 1px solid var(--colorCarbon);
   border-radius: 46px;
@@ -337,7 +337,7 @@
   gap: 8px;
 }
 
-.panelMetodosAcciones button,
+:is(.panelMetodosAcciones button,)
 .panelMetodosAcciones a {
   padding: 7px 16px;
   border: 1px solid var(--colorCarbon);
@@ -371,10 +371,10 @@
 
 /* Variante de peligro: tinta roja al pasar el ratón, para eliminar/rechazar.
  * El rojo advierte antes de confirmar una acción destructiva. */
-.panelFilaAcciones button.botonIcono--peligro:hover,
-.panelFilaAcciones button.botonIcono--peligro:focus-visible,
-.panelMetodosAcciones button.botonIcono--peligro:hover,
-.panelMetodosAcciones button.botonIcono--peligro:focus-visible {
+.panelFilaAcciones button.iconoPeligro:hover,
+.panelFilaAcciones button.iconoPeligro:focus-visible,
+.panelMetodosAcciones button.iconoPeligro:hover,
+.panelMetodosAcciones button.iconoPeligro:focus-visible {
   border-color: var(--colorRojo);
   color: var(--colorRojo);
 }
@@ -443,7 +443,7 @@
   border-radius: 14px;
 }
 
-.panelFormulario h3 {
+:is(.panelFormulario h3 {)
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.1rem, 0.5vw + 1rem, 1.3rem);
@@ -463,7 +463,7 @@
 .panelFormulario textarea {
   padding: 10px 14px;
   border: 1px solid var(--colorBorde);
-  border-radius: 10px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLienzo);
   font-family: var(--fuenteCuerpo);
   font-size: var(--textoCuerpo);
@@ -561,13 +561,13 @@
   margin-bottom: 14px;
 }
 
-.panelCabeceraSeccion h2 {
+:is(.panelCabeceraSeccion h2 {)
   margin: 0;
 }
 
 /* El botón de acción de la cabecera usa el mismo estilo que los del resto del
  * panel (píldora con borde), porque ya no vive dentro de .panelMetodosAcciones. */
-.panelCabeceraSeccion button {
+:is(.panelCabeceraSeccion button {)
   padding: 7px 16px;
   border: 1px solid var(--colorCarbon);
   border-radius: 46px;
@@ -596,7 +596,7 @@
 .panelFiltros select {
   padding: 8px 14px;
   border: 1px solid var(--colorBorde);
-  border-radius: 10px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLienzo);
   font-size: var(--textoCuerpo);
   color: var(--colorTinta);
@@ -633,7 +633,7 @@
   margin-bottom: 14px;
 }
 
-.panelModalCabecera h3 {
+:is(.panelModalCabecera h3 {)
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.1rem, 0.5vw + 1rem, 1.3rem);
@@ -669,7 +669,7 @@
   width: 100%;
   padding: 10px 14px;
   border: 1px solid var(--colorBorde);
-  border-radius: 10px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLienzo);
   font-size: var(--textoCuerpo);
   color: var(--colorTinta);
@@ -890,7 +890,7 @@
   gap: 8px;
 }
 
-.panelFilaAcciones button {
+:is(.panelFilaAcciones button {)
   padding: 6px 12px;
   border: 1px solid var(--colorCarbon);
   border-radius: 46px;
@@ -929,7 +929,7 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--radioTarjeta);
   border: 1px solid var(--colorBorde);
   background: var(--colorLino);
 }
@@ -939,7 +939,7 @@
   place-items: center;
   aspect-ratio: 4 / 3;
   border: 1px dashed var(--colorBorde);
-  border-radius: 10px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLino);
   color: var(--colorCarbon);
   font-size: calc(var(--textoCuerpo) * 0.85);
@@ -950,7 +950,7 @@
   gap: 8px;
 }
 
-.panelImagenAcciones button {
+:is(.panelImagenAcciones button {)
   flex: 1;
   padding: 6px 10px;
   border: 1px solid var(--colorCarbon);

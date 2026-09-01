@@ -440,7 +440,7 @@ function Donar() {
 
             <div className="accionesDonar">
               <button
-                className="botonDonar"
+                className="accionDonar"
                 type="submit"
                 disabled={!montoValido || !metodoActivo || enviando}
               >
@@ -504,7 +504,7 @@ function Donar() {
             ))}
           </div>
           <div className="accionesRecientesPie">
-            <Link className="botonDonar accionesRecientesBoton" to="/acciones">
+            <Link className="accionDonar accionesRecientesBoton" to="/acciones">
               Ver todas
             </Link>
           </div>
