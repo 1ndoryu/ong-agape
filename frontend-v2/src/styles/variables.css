@@ -37,8 +37,6 @@
   --textoCuerpo: clamp(0.86rem, 0.28vw + 0.79rem, 1rem);
   --textoDescripcion: clamp(0.96rem, 0.46vw + 0.84rem, 1.2rem);
   --textoMarca: clamp(1.05rem, 0.58vw + 0.9rem, 1.5rem);
-  --textoMarcaSimbolo: clamp(1.3rem, 0.8vw + 1.05rem, 1.625rem);
-  --textoMarcaMini: clamp(0.42rem, 0.12vw + 0.39rem, 0.52rem);
   --tituloTarjeta: clamp(2.2rem, 1.35rem + 3vw, 3.25rem);
   --tituloHero: clamp(3.15rem, 1.45rem + 5.65vw, 5.4rem);
 

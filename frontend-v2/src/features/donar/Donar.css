@@ -304,11 +304,6 @@
   color: var(--colorTinta);
 }
 
-.opcionalDonar {
-  font-weight: 400;
-  color: var(--colorCarbon);
-}
-
 .datosDonar input {
   padding: 12px 16px;
   border: 1px solid var(--colorBorde);
