@@ -412,6 +412,22 @@
   color: var(--colorTinta);
 }
 
+.panelAviso {
+  margin: 0 0 14px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--colorAmarilloSuave);
+  color: var(--colorTinta);
+}
+
+.panelError {
+  margin: 0 0 14px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--colorRojoSuave);
+  color: var(--colorRojoOscuro, var(--colorRojo));
+}
+
 .panelEstado {
   color: var(--colorCarbon);
 }
@@ -527,6 +543,11 @@
 
 .panelSecretosProveedor + input {
   margin-top: -6px;
+}
+
+/* Cabecera de acciones sobre la tabla (p. ej. botón "Nuevo artículo"). */
+.panelAccionesTabla {
+  margin-bottom: 14px;
 }
 
 /* Cabecera de sección: el título queda a la izquierda y el botón de acción
