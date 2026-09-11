@@ -15,11 +15,7 @@
   --colorRojoSuave: rgb(227 49 57 / 14%);
   --colorAmarillo: #f8bf32;
   --colorAmarilloSuave: #fff4ce;
-  --colorLavanda: #8b94d5;
-  --colorSalvia: #fff4ce;
-  --colorBotanico: #e33139;
   --colorMisionFondo: #fff4ce;
-  --colorMisionBorde: rgba(21, 62, 106, 0.18);
   --colorBorde: rgba(21, 62, 106, 0.16);
 
   /* Pie de página: texto y borde secundarios sobre fondo oscuro. */
@@ -50,7 +46,6 @@
   --textoDescripcion: clamp(0.96rem, 0.46vw + 0.84rem, 1.2rem);
   --textoMarca: clamp(1.05rem, 0.58vw + 0.9rem, 1.5rem);
   --textoMarcaSimbolo: clamp(1.3rem, 0.8vw + 1.05rem, 1.625rem);
-  --textoMarcaMini: clamp(0.42rem, 0.12vw + 0.39rem, 0.52rem);
   --tituloTarjeta: clamp(2.2rem, 1.35rem + 3vw, 3.25rem);
   --tituloHero: clamp(3.15rem, 1.45rem + 5.65vw, 5.4rem);
 

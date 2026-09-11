@@ -8,18 +8,6 @@
   text-align: center;
 }
 
-.etiquetaHero {
-  margin: 0 0 24px;
-  padding: 8px 16px;
-  border: 1px solid var(--colorCarbon);
-  border-radius: var(--radioEtiqueta);
-  background: var(--colorTarjeta);
-  font-size: var(--textoEtiqueta);
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
 :is(.heroInicio h1 {)
   position: relative;
   z-index: 1;
