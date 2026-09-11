@@ -47,7 +47,7 @@
   padding: clamp(24px, 3vw, 40px);
   background: var(--colorTarjeta);
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
 }
 
 .contactoCampos {
@@ -67,7 +67,7 @@
 .contactoCampos textarea {
   padding: 12px 16px;
   border: 1px solid var(--colorBorde);
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   /* Sin fondo propio: los campos dejan ver el fondo de la tarjeta. */
   background: transparent;
   font-size: var(--textoCuerpo);
@@ -86,7 +86,7 @@
 .errorEnvioContacto {
   margin: 18px 0 0;
   padding: 10px 16px;
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorRojoSuave);
   color: var(--colorRojo);
   font-size: var(--textoCuerpo);
@@ -136,7 +136,7 @@
   padding: clamp(24px, 3vw, 40px);
   background: var(--colorTarjeta);
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
   text-align: center;
 }
 

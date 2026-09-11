@@ -12,7 +12,7 @@
   margin: 0 0 20px;
   padding: 8px 16px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: var(--colorTarjeta);
   font-size: var(--textoEtiqueta);
   font-weight: 500;
@@ -99,7 +99,7 @@
   flex-direction: column;
   overflow: hidden;
   background: var(--colorTarjeta);
-  border-radius: 18px;
+  border-radius: var(--radioTarjetaGrande);
   outline: 2px dashed var(--colorBorde);
   outline-offset: 3px;
   text-align: left;
@@ -175,7 +175,7 @@
   padding: 28px 24px;
   background: var(--colorLino);
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
 }
 
 .estadoBlog strong {

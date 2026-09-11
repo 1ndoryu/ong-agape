@@ -6,7 +6,7 @@
   gap: clamp(7px, 0.55vw, 10px);
   padding: clamp(8px, 0.5vw + 6px, 10px) clamp(14px, 0.65vw + 10px, 20px);
   border: 1px solid var(--colorTinta);
-  border-radius: 30px;
+  border-radius: var(--radioBoton);
   font-size: var(--textoBoton);
   font-weight: 500;
   text-decoration: none;

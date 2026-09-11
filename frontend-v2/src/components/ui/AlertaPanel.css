@@ -5,7 +5,7 @@
 .avisoAlerta {
   margin: 0 0 14px;
   padding: 10px 16px;
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   font-size: calc(var(--textoCuerpo) * 0.92);
 }
 

@@ -10,7 +10,7 @@
   padding: clamp(24px, 3vw, 40px);
   background: var(--colorTarjeta);
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
 }
 
 .panelLogin label,
@@ -23,7 +23,7 @@
 .panelLogin input {
   padding: 12px 16px;
   border: 1px solid var(--colorBorde);
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLienzo);
   font-size: var(--textoCuerpo);
   color: var(--colorTinta);
@@ -97,7 +97,7 @@
 .panelPestanas a {
   padding: 8px 16px;
   border: 1px solid transparent;
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: transparent;
   color: var(--colorCarbon);
   /* Fuente menor que el resto de botones para que la barra de pestañas del
@@ -126,7 +126,7 @@
   width: 100%;
   border-collapse: collapse;
   background: var(--colorTarjeta);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
   overflow: hidden;
   outline: 2px dashed var(--colorBorde);
   outline-offset: 3px;
@@ -180,7 +180,7 @@
   flex-shrink: 0;
   padding: 4px 10px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: transparent;
   color: var(--colorTinta);
   font-size: calc(var(--textoCuerpo) * 0.8);
@@ -211,7 +211,7 @@
 .panelTabla .verComprobante {
   padding: 6px 14px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: transparent;
   color: var(--colorTinta);
   font-size: calc(var(--textoCuerpo) * 0.85 - 2px);
@@ -239,7 +239,7 @@
 :is(.paginadorTabla button {)
   padding: 7px 16px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: transparent;
   color: var(--colorTinta);
   font-size: calc(var(--textoCuerpo) * 0.85);
@@ -267,7 +267,7 @@
   display: inline-block;
   padding: 4px 12px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   font-size: calc(var(--textoCuerpo) * 0.78);
   color: var(--colorTinta);
   /* La tabla hereda text-align:left; el chip se centra para que la etiqueta
@@ -299,7 +299,7 @@
   padding: 14px 18px;
   background: var(--colorTarjeta);
   border: 1px solid var(--colorBorde);
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
 }
 
 /* Bloque izquierdo: nombre + chip en la misma fila y detalle debajo. */
@@ -341,7 +341,7 @@
 .panelMetodosAcciones a {
   padding: 7px 16px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: transparent;
   color: var(--colorTinta);
   font-size: calc(var(--textoCuerpo) * 0.85);
@@ -388,7 +388,7 @@
   object-fit: contain;
   background: var(--colorLienzo);
   border: 1px solid var(--colorBorde);
-  border-radius: 8px;
+  border-radius: var(--radioTarjeta);
   padding: 4px;
   vertical-align: middle;
 }
@@ -415,7 +415,7 @@
 .panelAviso {
   margin: 0 0 14px;
   padding: 10px 16px;
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorAmarilloSuave);
   color: var(--colorTinta);
 }
@@ -423,7 +423,7 @@
 .panelError {
   margin: 0 0 14px;
   padding: 10px 16px;
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorRojoSuave);
   color: var(--colorRojoOscuro, var(--colorRojo));
 }
@@ -440,7 +440,7 @@
   padding: clamp(18px, 2vw, 28px);
   background: var(--colorTarjeta);
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
 }
 
 :is(.panelFormulario h3 {)
@@ -502,7 +502,7 @@
   margin: 0;
   padding: 16px;
   border: 1px solid var(--colorBorde);
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLienzo);
 }
 
@@ -570,7 +570,7 @@
 :is(.panelCabeceraSeccion button {)
   padding: 7px 16px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: transparent;
   color: var(--colorTinta);
   font-size: calc(var(--textoCuerpo) * 0.85);
@@ -612,7 +612,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgb(0 0 0 / 45%);
+  background: var(--colorVeloMedio);
 }
 
 .panelModalContenido {
@@ -622,7 +622,7 @@
   padding: clamp(18px, 2vw, 28px);
   background: var(--colorLienzo);
   border: 1px solid var(--colorBorde);
-  border-radius: 16px;
+  border-radius: var(--radioTarjetaGrande);
 }
 
 .panelModalCabecera {
@@ -649,7 +649,7 @@
   border-radius: 50%;
   background: transparent;
   color: var(--colorTinta);
-  font-size: 1.25rem;
+  font-size: var(--textoBase);
   line-height: 1;
   cursor: pointer;
 }
@@ -772,7 +772,7 @@
   width: 248px;
   height: 248px;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
   background: var(--colorLino);
   border: 6px solid;
   box-shadow: 0 10px 24px rgb(0 0 0 / 10%);
@@ -840,7 +840,7 @@
   right: 0;
   bottom: 0;
   padding: 6px 0 8px;
-  background: rgb(0 0 0 / 55%);
+  background: var(--colorVeloIntenso);
   color: var(--colorBlanco);
   font-size: calc(var(--textoCuerpo) * 0.85);
   font-weight: 600;
@@ -864,15 +864,15 @@
   height: 28px;
   border: 1px solid var(--colorBlanco);
   border-radius: 50%;
-  background: rgb(0 0 0 / 55%);
+  background: var(--colorVeloIntenso);
   color: var(--colorBlanco);
-  font-size: 1rem;
+  font-size: var(--textoBase);
   line-height: 1;
   cursor: pointer;
 }
 
 .panelHistoriaCuadroQuitar:hover {
-  background: rgb(0 0 0 / 75%);
+  background: var(--colorVeloProfundo);
 }
 
 /* Vista "Acciones de transparencia": detalle bajo el concepto de la tabla
@@ -893,7 +893,7 @@
 :is(.panelFilaAcciones button {)
   padding: 6px 12px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: transparent;
   color: var(--colorTinta);
   font-size: calc(var(--textoCuerpo) * 0.82);
@@ -954,7 +954,7 @@
   flex: 1;
   padding: 6px 10px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: transparent;
   color: var(--colorTinta);
   font-size: calc(var(--textoCuerpo) * 0.8);

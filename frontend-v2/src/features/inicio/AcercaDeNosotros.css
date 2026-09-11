@@ -27,7 +27,7 @@
   margin: 0 0 20px;
   padding: 8px 16px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: var(--colorTarjeta);
   font-size: var(--textoEtiqueta);
   font-weight: 500;
@@ -61,7 +61,7 @@
   height: 300px;
   margin: 0;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
   background: var(--colorLino);
   border: 6px solid;
   box-shadow: 0 10px 24px rgb(0 0 0 / 10%);

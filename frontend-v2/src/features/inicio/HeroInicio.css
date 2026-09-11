@@ -12,7 +12,7 @@
   margin: 0 0 24px;
   padding: 8px 16px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: var(--colorTarjeta);
   font-size: var(--textoEtiqueta);
   font-weight: 500;
@@ -46,7 +46,7 @@
     background: var(--colorTarjeta);
     color: var(--colorRojo);
     font-family: var(--fuenteCuerpo);
-    font-size: 0.52em;
+    font-size: var(--textoHero);
     line-height: 1;
     /* vertical-align: 0.08em; */
 }

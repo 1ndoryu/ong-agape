@@ -18,7 +18,7 @@
   margin: 0 0 20px;
   padding: 8px 16px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: var(--colorTarjeta);
   font-size: var(--textoEtiqueta);
   font-weight: 500;
@@ -59,7 +59,7 @@
   padding: 16px 20px;
   background: var(--colorTarjeta);
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
   text-align: left;
 }
 
@@ -87,7 +87,7 @@
 .barraMetaDonar {
   height: 10px;
   margin-top: 12px;
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: var(--colorLino);
   overflow: hidden;
 }
@@ -95,7 +95,7 @@
 .barraMetaDonar span {
   display: block;
   height: 100%;
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: var(--colorRojo);
   transition: width 400ms ease;
 }
@@ -176,7 +176,7 @@
   padding: 10px 14px;
   background: var(--colorTarjeta);
   border: 1px solid var(--colorBorde);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   font-size: calc(var(--textoCuerpo) * 0.88);
   color: var(--colorCarbon);
 }
@@ -208,7 +208,7 @@
   padding: clamp(24px, 3vw, 40px);
   background: var(--colorTarjeta);
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
 }
 
 .donarFormulario form {
@@ -312,7 +312,7 @@
 .datosDonar input {
   padding: 12px 16px;
   border: 1px solid var(--colorBorde);
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorLienzo);
   font-size: var(--textoCuerpo);
   color: var(--colorTinta);
@@ -393,7 +393,7 @@
 .errorEnvioDonar {
   margin: 0;
   padding: 10px 16px;
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorRojoSuave);
   color: var(--colorRojo);
   font-size: var(--textoCuerpo);
@@ -457,7 +457,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgb(0 0 0 / 45%);
+  background: var(--colorVeloMedio);
 }
 
 .modalDatosPagoContenido {
@@ -467,7 +467,7 @@
   padding: clamp(18px, 2vw, 28px);
   background: var(--colorLienzo);
   border: 1px solid var(--colorBorde);
-  border-radius: 16px;
+  border-radius: var(--radioTarjetaGrande);
 }
 
 .modalDatosPagoCabecera {
@@ -494,7 +494,7 @@
   border-radius: 50%;
   background: transparent;
   color: var(--colorTinta);
-  font-size: 1.25rem;
+  font-size: var(--textoBase);
   line-height: 1;
   cursor: pointer;
 }
@@ -507,7 +507,7 @@
 
 .instruccionesModalPago {
   padding: 12px 14px;
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorAmarilloSuave);
   color: var(--colorTinta);
   font-size: var(--textoCuerpo);
@@ -566,7 +566,7 @@
   margin-top: 16px;
   padding: 14px 16px;
   border: 1px solid var(--colorBorde);
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   background: var(--colorTarjeta);
 }
 
@@ -581,7 +581,7 @@
 .simulacionPago {
   padding: 9px 18px;
   border: 1px solid var(--colorCarbon);
-  border-radius: 46px;
+  border-radius: var(--radioEtiqueta);
   background: transparent;
   color: var(--colorTinta);
   font-size: var(--textoCuerpo);
@@ -625,7 +625,7 @@
   justify-items: center;
   gap: 14px;
   padding: clamp(20px, 3vw, 36px);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
   background: var(--colorAmarilloSuave);
   text-align: center;
 }

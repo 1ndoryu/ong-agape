@@ -43,7 +43,7 @@
   object-fit: cover;
   object-position: center;
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
 }
 
 .cabeceraDetalle {
@@ -90,7 +90,7 @@
   padding: 28px 24px;
   background: var(--colorLino);
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
   color: var(--colorCarbon);
 }
 

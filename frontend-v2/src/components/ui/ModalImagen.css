@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgb(0 0 0 / 78%);
+  background: var(--colorVeloOscuro);
   cursor: zoom-out;
   animation: modalAparecer 0.2s ease;
 }
@@ -28,7 +28,7 @@
   border-radius: 50%;
   background: var(--colorBlanco);
   color: var(--colorTinta);
-  font-size: 1.5rem;
+  font-size: var(--textoMarca);
   line-height: 1;
   cursor: pointer;
 }
@@ -37,7 +37,7 @@
   display: block;
   max-width: 100%;
   max-height: 90vh;
-  border-radius: 12px;
+  border-radius: var(--radioTarjeta);
   box-shadow: 0 24px 60px rgb(0 0 0 / 45%);
 }
 

@@ -26,6 +26,15 @@
   --colorPieTextoSecundario: rgb(255 255 255 / 78%);
   --colorBordePie: rgb(255 255 255 / 22%);
 
+  /* Velos negros (decision del usuario en fase final 11-09): overlays y
+   * fondos translúcidos que estaban hardcodeados en 8 reglas. */
+  --colorVeloSuave: rgb(0 0 0 / 8%);
+  --colorVeloMedio: rgb(0 0 0 / 45%);
+  --colorVeloIntenso: rgb(0 0 0 / 55%);
+  --colorVeloProfundo: rgb(0 0 0 / 75%);
+  --colorVeloOscuro: rgb(0 0 0 / 78%);
+  --colorVeloCalido: rgb(20 17 15 / 0.55);
+
   --fuenteEditorial: 'Playfair Display', Georgia, serif;
   --fuenteCuerpo: 'Rubik', Arial, sans-serif;
 
@@ -33,6 +42,9 @@
   --textoBase: clamp(0.9rem, 0.32vw + 0.82rem, 1rem);
   --textoEtiqueta: clamp(0.64rem, 0.16vw + 0.6rem, 0.75rem);
   --textoBoton: clamp(0.87rem, 0.24vw + 0.8rem, 1.06rem);
+  /* [por que] Escala relativa del hero (decision del usuario en fase
+   * final 11-09): 0.52em relativo al contexto de HeroInicio. */
+  --textoHero: 0.52em;
   --textoNavegacion: clamp(0.9rem, 0.34vw + 0.82rem, 1.06rem);
   --textoCuerpo: clamp(0.86rem, 0.28vw + 0.79rem, 1rem);
   --textoDescripcion: clamp(0.96rem, 0.46vw + 0.84rem, 1.2rem);
@@ -44,7 +56,13 @@
 
   --anchoContenido: 1280px;
   --radioTarjeta: 10px;
+  /* [por que] Tarjeta grande (decision del usuario en fase final 11-09):
+   * 14px en ~17 reglas de tarjetas/paneles. */
+  --radioTarjetaGrande: 14px;
   --radioBoton: 40.5px;
+  /* [por que] Pildora grande de etiquetas (decision del usuario en fase
+   * final 11-09): 46px en ~18 reglas (etiquetas, hero, admin). */
+  --radioEtiqueta: 46px;
   --espacioTarjetas: clamp(24px, 3vw, 48px);
   --espacioLateral: clamp(20px, 4vw, 48px);
 

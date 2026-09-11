@@ -62,7 +62,7 @@
   gap: 16px;
   padding: 10px;
   border: 1px solid var(--colorBorde);
-  border-radius: 14px;
+  border-radius: var(--radioTarjetaGrande);
   background: var(--colorTarjeta);
   overflow: hidden;
   cursor: pointer;
@@ -141,7 +141,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgb(20 17 15 / 0.55);
+  background: var(--colorVeloCalido);
   animation: aparecerModal 160ms ease;
 }
 
@@ -154,7 +154,7 @@
   overflow-y: auto;
   padding: clamp(24px, 4vw, 40px);
   background: var(--colorTarjeta);
-  border-radius: 16px;
+  border-radius: var(--radioTarjetaGrande);
   box-shadow: 0 20px 60px rgb(0 0 0 / 0.3);
 }
 
@@ -206,7 +206,7 @@
   border: 1px solid var(--colorBorde);
   border-radius: 50%;
   background: var(--colorLienzo);
-  font-size: 1.4rem;
+  font-size: var(--textoMarcaSimbolo);
   line-height: 1;
   color: var(--colorCarbon);
   cursor: pointer;
