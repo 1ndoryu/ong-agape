@@ -95,7 +95,7 @@ h1 span, h2 span { color: var(--colorRojo); font-style: italic; }
 .blog-card-dot { color: var(--colorRojo); font-size: 20px; }
 .blog-card-content { margin-top: 25px; }
 .blog-date { color: var(--colorRojo); font-size: 9px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
-:is(.blog-card h3 {) margin: 11px 0 10px; color: var(--colorTintaProfunda); font-family: var(--fuenteDisplay); font-size: 27px; font-weight: 400; line-height: 1.05; }
+.blog-card h3 { margin: 11px 0 10px; color: var(--colorTintaProfunda); font-family: var(--fuenteDisplay); font-size: 27px; font-weight: 400; line-height: 1.05; }
 .blog-card p { min-height: 42px; margin-bottom: 20px; color: var(--colorMutado); font-size: 12px; line-height: 1.6; }
 .blog-empty { display: flex; gap: 18px; align-items: center; padding: 27px; background: var(--colorPapel); border: 1px dashed #cbd9d8; }
 .blog-empty-mark { display: grid; flex: 0 0 auto; width: 43px; height: 43px; place-items: center; border-radius: 50%; background: var(--colorAmarillo); color: var(--colorTintaProfunda); }
@@ -105,7 +105,7 @@ h1 span, h2 span { color: var(--colorRojo); font-style: italic; }
 .blog-post-page { min-height: 100vh; padding: 48px 0 100px; background: var(--colorCrema); color: var(--colorTintaProfunda); }
 .blog-post-page > .shell > .arrow-link { margin-bottom: 65px; }
 .blog-post { max-width: 760px; margin: 0 auto; padding: 50px clamp(22px, 6vw, 75px); background: var(--colorPapel); }
-:is(.blog-post h1 {) margin: 15px 0 23px; font-family: var(--fuenteDisplay); font-size: clamp(44px, 7vw, 78px); font-weight: 400; letter-spacing: -.06em; line-height: .98; }
+.blog-post h1 { margin: 15px 0 23px; font-family: var(--fuenteDisplay); font-size: clamp(44px, 7vw, 78px); font-weight: 400; letter-spacing: -.06em; line-height: .98; }
 .blog-post-excerpt { color: var(--colorMutado); font-size: 17px; line-height: 1.7; }
 .blog-post-body { margin-top: 45px; border-top: 1px solid var(--colorLinea); padding-top: 30px; }
 .blog-post-body p { margin: 0 0 22px; color: var(--colorTinta); font-size: 15px; line-height: 1.9; white-space: pre-wrap; }

@@ -26,7 +26,7 @@
   text-transform: uppercase;
 }
 
-:is(.donarHero h1 {)
+.donarHero h1 {
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(2.4rem, 1.2rem + 3.6vw, 4rem);
@@ -473,7 +473,7 @@
   margin-bottom: 14px;
 }
 
-:is(.modalDatosPagoCabecera h3 {)
+.modalDatosPagoCabecera h3 {
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.1rem, 0.5vw + 1rem, 1.3rem);
@@ -682,7 +682,7 @@
   margin-inline: auto;
 }
 
-:is(.accionesRecientesCabecera h2 {)
+.accionesRecientesCabecera h2 {
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.8rem, 1.1rem + 2vw, 2.6rem);

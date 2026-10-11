@@ -21,7 +21,7 @@
   margin-inline: auto;
 }
 
-:is(.contactoCabecera h1 {)
+.contactoCabecera h1 {
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(2rem, 1.1rem + 2.8vw, 3.2rem);

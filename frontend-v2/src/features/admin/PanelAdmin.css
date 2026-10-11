@@ -29,7 +29,7 @@
   color: var(--colorTinta);
 }
 
-:is(.panelLogin button {)
+.panelLogin button {
   justify-self: start;
   padding: 10px 28px;
   border: 0;
@@ -58,7 +58,7 @@
   gap: 16px;
 }
 
-:is(.panelCabecera h1 {)
+.panelCabecera h1 {
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.5rem, 0.8vw + 1.3rem, 2rem);
@@ -74,7 +74,7 @@
   color: var(--colorCarbon);
 }
 
-:is(.panelSesion button {)
+.panelSesion button {
   padding: 8px 18px;
   border: 1px solid var(--colorCarbon);
   border-radius: var(--radioBoton);
@@ -236,7 +236,7 @@
   margin-top: 14px;
 }
 
-:is(.paginadorTabla button {)
+.paginadorTabla button {
   padding: 7px 16px;
   border: 1px solid var(--colorCarbon);
   border-radius: var(--radioEtiqueta);
@@ -427,7 +427,7 @@
   border-radius: var(--radioTarjetaGrande);
 }
 
-:is(.panelFormulario h3 {)
+.panelFormulario h3 {
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.1rem, 0.5vw + 1rem, 1.3rem);
@@ -540,13 +540,13 @@
   margin-bottom: 14px;
 }
 
-:is(.panelCabeceraSeccion h2 {)
+.panelCabeceraSeccion h2 {
   margin: 0;
 }
 
 /* El botón de acción de la cabecera usa el mismo estilo que los del resto del
  * panel (píldora con borde), porque ya no vive dentro de .panelMetodosAcciones. */
-:is(.panelCabeceraSeccion button {)
+.panelCabeceraSeccion button {
   padding: 7px 16px;
   border: 1px solid var(--colorCarbon);
   border-radius: var(--radioEtiqueta);
@@ -612,7 +612,7 @@
   margin-bottom: 14px;
 }
 
-:is(.panelModalCabecera h3 {)
+.panelModalCabecera h3 {
   margin: 0;
   font-family: var(--fuenteCuerpo);
   font-size: clamp(1.1rem, 0.5vw + 1rem, 1.3rem);
@@ -869,7 +869,7 @@
   gap: 8px;
 }
 
-:is(.panelFilaAcciones button {)
+.panelFilaAcciones button {
   padding: 6px 12px;
   border: 1px solid var(--colorCarbon);
   border-radius: var(--radioEtiqueta);
@@ -929,7 +929,7 @@
   gap: 8px;
 }
 
-:is(.panelImagenAcciones button {)
+.panelImagenAcciones button {
   flex: 1;
   padding: 6px 10px;
   border: 1px solid var(--colorCarbon);
