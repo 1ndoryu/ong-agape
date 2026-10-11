@@ -36,6 +36,13 @@ Residuales tras 11AA-1 (`cargo audit` y `npm audit` medidos 2026-10-11):
 
 - [ ] Subir `validator` 0.18 → 0.20 en el backend, adaptar el código que lo use, verificar con `sentinel check 11AA-2` y probar validación de correo/URL en los endpoints afectados.
 
+### 11AA-3 — Alertas Dependabot abiertas (abierta 2026-10-11, prioridad media)
+
+GitHub (`1ndoryu/ong-agape`) tiene 6 alertas abiertas: #105 medium `postcss-selector-parser`; #72 low `rand`; #68 medium `jsonwebtoken`; #67 medium `idna`; #53 y #55 medium `react-router`. Sin verificar si aplican a la rama `ong-agape` o solo a la rama por defecto, ni si #67 es el mismo `idna` que 11AA-2 (cargo).
+- [ ] Por cada alerta: confirmar la versión en el lock de la rama que aplica; corregir si hay parche sin salto mayor, o descartar con motivo.
+- Las de `react-router` y `postcss` pueden depender de `frontend/`, que 11AA-2 reemplaza por `frontend-v2` (128A-1): decidir allí antes de tocar `frontend/`.
+- Gate: `sentinel check 11AA-3`.
+
 ### 128A-1 — Frontend v2 desde cero (construcción por sesiones)
 
 Plan: `Agente/planes/plan-frontend-v2-2026-08-12.md`.
