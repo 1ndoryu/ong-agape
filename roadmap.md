@@ -27,19 +27,14 @@ Ver `Agente/completados/tareas-2026-03-25.md` para detalles.
 
 ## Pendientes
 
-### 11AA-1 — Vulnerabilidades de dependencias (abierta 2026-10-11, prioridad alta)
+### 11AA-2 — Dependencias residuales sin fix de parche (abierta 2026-10-11, prioridad media)
 
-Medido 2026-10-11 (la cifra 91 del plan de flujo es antigua):
-- npm `frontend/`: 37 (1 critical, 17 high, 8 moderate, 11 low). `frontend-v2/`: 4 (3 high, 1 moderate). `glory-rs/`: 0.
-- cargo `Cargo.lock`: 7 (`idna` 0.5.0, `quinn-proto` 0.11.14, `rustls` 0.23.37, `rustls-webpki` 0.103.10 ×3 y `rsa` 0.9.10). `rsa` no tiene fix upstream.
-- `tools/sentinel` y `tools/varsense`: submódulos con repo propio; fuera de esta tarea.
+Residuales tras 11AA-1 (`cargo audit` y `npm audit` medidos 2026-10-11):
+- cargo `idna` 0.5.0 (RUSTSEC-2024-0421) entra por `validator` 0.18.1 (dependencia directa del backend). No tiene parche en la rama 0.5; el fix exige `validator` ≥0.20 (idna 1.x). Es cambio de código, fuera del alcance solo-lockfile de 11AA-1.
+- cargo `rsa` 0.9.10 (RUSTSEC-2023-0071): sin fix upstream; residual aceptado (08AA-1).
+- npm `frontend/`: 9 restantes (5 high, 4 moderate), todos exigen `npm audit fix --force` (cambio mayor). Decidido: se resuelven al reemplazar `frontend/` por `frontend-v2` (128A-1).
 
-- [ ] `cargo update -p` a parche de `idna`, `quinn-proto`, `rustls`, `rustls-webpki` (solo lockfile); verificar build y tests.
-- [ ] `npm audit fix` sin `--force` en `frontend/` y `frontend-v2/`; verificar build.
-- [x] Decidido: `rsa` 0.9.10 queda como residual aceptado (sin fix upstream), igual que en coolify-manager-rs (08AA-1).
-- [x] Decidido: los high/critical de `frontend/` que exijan un major (`--force`) no se fuerzan aquí; se resuelven al reemplazar `frontend/` por `frontend-v2` (128A-1). Si ese reemplazo no llega, se abre sub-tarea con su lista.
-- [ ] Re-análisis en el tablero (`/api/gate/vulnerabilidades`) y `npm audit` / `cargo audit` sin hallazgos nuevos.
-- Ramas Dependabot sin integrar (`origin/dependabot/npm_and_yarn/frontend-v2/multi-64d6452dd2`, `.../frontend/babel/core-7.29.7`, `.../frontend/npm_and_yarn-8253d95fd9`; 1 commit cada una, 2026-08-26): son las mismas subidas que este bloque. Decidido: se integran aquí, no por separado; al ejecutar 11AA-1 se mergea cada una, se verifica build y tests, y se borra la rama remota. Desbloqueo: ejecutar 11AA-1.
+- [ ] Subir `validator` 0.18 → 0.20 en el backend, adaptar el código que lo use, verificar con `sentinel check 11AA-2` y probar validación de correo/URL en los endpoints afectados.
 
 ### 128A-1 — Frontend v2 desde cero (construcción por sesiones)
 

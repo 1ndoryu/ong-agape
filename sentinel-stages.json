@@ -62,6 +62,42 @@
       "expectedSchemaVersion": "1",
       "timeoutMs": 300000,
       "cwd": "."
+    },
+    {
+      "name": "frontend-v2-build",
+      "executable": "node",
+      "args": [
+        "scripts/stage-report.mjs",
+        "{reportPath}",
+        "--",
+        "npm",
+        "--prefix",
+        "frontend-v2",
+        "run",
+        "build"
+      ],
+      "reportPath": "frontend-v2-build.json",
+      "expectedSchemaVersion": "1",
+      "timeoutMs": 600000,
+      "cwd": "."
+    },
+    {
+      "name": "frontend-build",
+      "executable": "node",
+      "args": [
+        "scripts/stage-report.mjs",
+        "{reportPath}",
+        "--",
+        "npm",
+        "--prefix",
+        "frontend",
+        "run",
+        "build"
+      ],
+      "reportPath": "frontend-build.json",
+      "expectedSchemaVersion": "1",
+      "timeoutMs": 600000,
+      "cwd": "."
     }
   ]
 }
