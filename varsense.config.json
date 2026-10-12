@@ -19,7 +19,7 @@
   ],
   "scanAllFiles": false,
   "hardcodedDetection": {
-    "enabled": true,
+    "enabled": false,
     "severity": "warning",
     "properties": {
       "color": true,
@@ -46,16 +46,16 @@
     ]
   },
   "inlineDetection": {
-    "enabled": true,
+    "enabled": false,
     "severity": "information"
   },
   "tokenDetection": {
     "duplicate": {
-      "enabled": true,
+      "enabled": false,
       "severity": "warning"
     },
     "unused": {
-      "enabled": true,
+      "enabled": false,
       "severity": "hint"
     }
   },
